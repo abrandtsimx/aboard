@@ -1,0 +1,47 @@
+<header class="toolbar">
+  <div class="toolbar__brand">
+    <span class="toolbar__logo">Aboard</span>
+    <span class="toolbar__subtitle text-caption">SimX orientation explorer</span>
+  </div>
+
+  <div class="toolbar__history">
+    <button
+      type="button"
+      class="nav-btn"
+      [disabled]="!doc.canGoBack()"
+      (click)="doc.goBack()"
+      aria-label="Go back"
+      title="Back"
+    >
+      ‹
+    </button>
+    <button
+      type="button"
+      class="nav-btn"
+      [disabled]="!doc.canGoForward()"
+      (click)="doc.goForward()"
+      aria-label="Go forward"
+      title="Forward"
+    >
+      ›
+    </button>
+  </div>
+
+  <div class="toolbar__spacer"></div>
+
+  <div class="toolbar__actions">
+    <button type="button" class="btn btn--secondary" (click)="goToDashboard()">All boards</button>
+    <select class="btn btn--secondary toolbar__examples" (change)="loadExample($event)" aria-label="Load example dataset">
+      <option value="" selected>Load example…</option>
+      <option value="/sample-document.json">SimX overview (default)</option>
+      <option value="/examples/pokemon-red.json">Pokemon Red gameplay features</option>
+      <option value="/examples/medium.json">Medium (~36 items)</option>
+      <option value="/examples/xlarge.json">Extra large (~136 items)</option>
+    </select>
+    <label class="btn btn--secondary">
+      Import
+      <input type="file" accept=".board,.json,application/json" hidden (change)="onImport($event)" />
+    </label>
+    <button class="btn btn--primary" (click)="onExport()">Export</button>
+  </div>
+</header>

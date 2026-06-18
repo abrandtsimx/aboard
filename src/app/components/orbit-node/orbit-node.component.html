@@ -1,0 +1,44 @@
+<button type="button" class="orbit" [ngClass]="orbitClasses()" (click)="onClick($event)">
+  <svg
+    class="orbit__shape"
+    viewBox="0 0 100 100"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+    [style.fill]="fillColor()"
+  >
+    @switch (shape()) {
+      @case ('circle') {
+        <ellipse cx="50" cy="50" rx="49" ry="49" />
+      }
+      @case ('square') {
+        <rect x="1" y="1" width="98" height="98" rx="3" ry="3" />
+      }
+      @case ('diamond') {
+        <polygon points="50,1 99,50 50,99 1,50" />
+      }
+      @case ('hexagon') {
+        <polygon points="22,2 78,2 99,50 78,98 22,98 1,50" />
+      }
+      @default {
+        <rect x="1" y="1" width="98" height="98" rx="20" ry="20" />
+      }
+    }
+  </svg>
+
+  <span class="orbit__content" [style.color]="textColor()">
+    <span class="orbit__label" [style.fontSize.px]="labelFontSize()">{{ node().label }}</span>
+
+    @if (showDetails()) {
+      <span class="orbit__details">
+        @if (node().description) {
+          <span class="orbit__desc text-caption">{{ node().description }}</span>
+        }
+        @if (childCount() > 0) {
+          <span class="orbit__meta text-caption">{{ childCount() }} inside</span>
+        }
+      </span>
+    } @else if (subtitle()) {
+      <span class="orbit__subtitle text-caption">{{ subtitle() }}</span>
+    }
+  </span>
+</button>

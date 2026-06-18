@@ -1,0 +1,45 @@
+<article
+  class="node-card"
+  [class.node-card--selected]="selected()"
+  [class.node-card--customer]="node().visibility === 'customer-facing'"
+  [class.node-card--internal]="node().visibility === 'internal'"
+  [class.node-card--both]="node().visibility === 'both'"
+  [attr.tabindex]="0"
+  role="button"
+  [attr.aria-label]="node().label"
+  (click)="onCardClick()"
+  (keydown)="onKeydown($event)"
+>
+  <header class="node-card__header">
+    <span class="node-card__type text-caption">{{ typeLabel(node().type) }}</span>
+    <span
+      class="node-card__visibility text-caption"
+      [attr.data-visibility]="node().visibility"
+    >
+      {{ node().visibility === 'customer-facing' ? 'Customer' : node().visibility === 'internal' ? 'Internal' : 'Both' }}
+    </span>
+  </header>
+
+  <h3 class="node-card__label text-headline-copy">{{ node().label }}</h3>
+
+  @if (node().description) {
+    <p class="node-card__description text-copy">{{ node().description }}</p>
+  }
+
+  <footer class="node-card__footer">
+    <div class="node-card__meta text-caption">
+      @if (relationshipCount() > 0) {
+        <span>{{ relationshipCount() }} relationship{{ relationshipCount() === 1 ? '' : 's' }}</span>
+      }
+      @if (hasChildren()) {
+        <span>{{ childCount() }} nested item{{ childCount() === 1 ? '' : 's' }}</span>
+      }
+    </div>
+
+    @if (hasChildren()) {
+      <button class="node-card__explore" (click)="onExplore($event)">
+        Explore →
+      </button>
+    }
+  </footer>
+</article>

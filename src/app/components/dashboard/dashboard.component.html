@@ -1,0 +1,52 @@
+<div class="dashboard">
+  <header class="dashboard__header">
+    <div class="dashboard__brand">
+      <h1 class="text-big-headline">Aboard</h1>
+      <p class="dashboard__tagline text-copy">Your boards — stored locally in this browser</p>
+    </div>
+
+    <div class="dashboard__actions">
+      <select
+        class="btn btn--secondary"
+        (change)="loadExample($event)"
+        aria-label="Add example board"
+      >
+        <option value="" selected>Add example…</option>
+        <option value="/sample-document.json">SimX overview</option>
+        <option value="/examples/medium.json">Medium (~36 items)</option>
+        <option value="/examples/xlarge.json">Extra large (~136 items)</option>
+      </select>
+      <label class="btn btn--primary">
+        Import board
+        <input type="file" accept=".board,.json,application/json" hidden (change)="onImport($event)" />
+      </label>
+    </div>
+  </header>
+
+  @if (library.library().length === 0) {
+    <div class="dashboard__empty">
+      <p class="text-headline-copy">No boards yet</p>
+      <p class="text-copy">Import a .board file or add an example to get started.</p>
+    </div>
+  } @else {
+    <div class="dashboard__grid">
+      @for (board of library.library(); track board.id) {
+        <button type="button" class="board-card" (click)="openBoard(board)">
+          <span class="board-card__title">{{ board.title }}</span>
+          <span class="board-card__meta text-caption">
+            {{ board.nodeCount }} nodes · Updated {{ formatDate(board.updatedAt) }}
+          </span>
+          <button
+            type="button"
+            class="board-card__delete"
+            aria-label="Remove board"
+            title="Remove from library"
+            (click)="deleteBoard($event, board.id)"
+          >
+            ×
+          </button>
+        </button>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,132 @@
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-shell__body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+app-search-panel {
+  display: block;
+  flex-shrink: 0;
+  height: 100%;
+}
+
+app-workspace {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+app-dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.drop-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgba(9, 29, 60, 0.55);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  // The overlay is purely a visual cue; pointer events stay with the document
+  // so the drag/drop listeners keep firing underneath it.
+  pointer-events: none;
+  animation: drop-overlay-in 120ms ease-out;
+}
+
+.drop-overlay__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2.5rem 3.5rem;
+  border-radius: var(--radius-lg);
+  border: 2px dashed rgba(255, 255, 255, 0.7);
+  background: rgba(15, 45, 91, 0.85);
+  color: var(--color-sterile-white);
+  box-shadow: var(--shadow-elevated);
+  text-align: center;
+}
+
+.drop-overlay__icon {
+  font-size: 2.75rem;
+  line-height: 1;
+}
+
+.drop-overlay__title {
+  margin: 0;
+  font-weight: 900;
+  font-size: var(--text-headline-size);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.drop-overlay__hint {
+  margin: 0;
+  opacity: 0.8;
+  font-size: var(--text-copy-size);
+}
+
+.drop-error {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: min(560px, calc(100vw - 2rem));
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  background: var(--color-vital-red);
+  color: var(--color-sterile-white);
+  box-shadow: var(--shadow-elevated);
+  animation: drop-overlay-in 150ms ease-out;
+}
+
+.drop-error__msg {
+  font-size: var(--text-copy-size);
+}
+
+.drop-error__dismiss {
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-sterile-white);
+  padding: 0.25rem 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: var(--text-caption-size);
+  letter-spacing: 0.05em;
+}
+
+@keyframes drop-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

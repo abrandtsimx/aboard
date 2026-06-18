@@ -1,0 +1,207 @@
+<section
+  class="workspace"
+  [class.workspace--exit]="transition() === 'exit'"
+  [class.workspace--enter]="transition() === 'enter'"
+>
+  @if (doc.mode() === 'immersed' && doc.immersedNode(); as immersed) {
+    <header class="topbar topbar--immersed">
+      <div class="topbar__title">
+        <h1 class="text-headline">{{ immersed.label }}</h1>
+        @if (immersed.description) {
+          <p class="topbar__desc text-caption">{{ immersed.description }}</p>
+        }
+      </div>
+      <div class="topbar__links">
+        @if (immersed.links?.jira) {
+          <a
+            class="brandlink"
+            [href]="immersed.links!.jira"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Open in Jira"
+            aria-label="Open in Jira"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill="#2684FF"
+                d="M11.571 11.513H0a5.218 5.218 0 0 0 5.232 5.215h2.13v2.057A5.215 5.215 0 0 0 12.575 24V12.518a1.005 1.005 0 0 0-1.005-1.005zm5.723-5.756H5.736a5.215 5.215 0 0 0 5.215 5.214h2.129v2.058a5.218 5.218 0 0 0 5.215 5.214V6.758a1.001 1.001 0 0 0-1.001-1.001zM23.013 0H11.455a5.215 5.215 0 0 0 5.215 5.215h2.129v2.057A5.215 5.215 0 0 0 24 12.483V1.005A1.001 1.001 0 0 0 23.013 0z"
+              />
+            </svg>
+          </a>
+        }
+        @if (immersed.links?.confluence) {
+          <a
+            class="brandlink"
+            [href]="immersed.links!.confluence"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Open in Confluence"
+            aria-label="Open in Confluence"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill="#1868DB"
+                d="M.87 18.257c-.248.382-.53.875-.763 1.245a.764.764 0 0 0 .255 1.04l4.965 3.054a.764.764 0 0 0 1.058-.26c.199-.332.454-.763.733-1.221 1.967-3.247 3.945-2.853 7.508-1.146l4.957 2.337a.764.764 0 0 0 1.028-.382l2.364-5.346a.764.764 0 0 0-.382-1.004c-1.046-.49-3.126-1.471-4.998-2.372C10.911 10.97 5.224 11.185.87 18.257zM23.131 5.743c.249-.405.531-.875.764-1.246a.764.764 0 0 0-.256-1.04L18.675.404a.764.764 0 0 0-1.058.26c-.199.332-.454.763-.733 1.221-1.967 3.247-3.945 2.853-7.508 1.146L4.42.694a.764.764 0 0 0-1.028.382L1.028 6.422a.764.764 0 0 0 .382 1.004c1.046.49 3.126 1.471 4.998 2.372 6.643 3.193 12.33 2.978 16.723-4.055z"
+              />
+            </svg>
+          </a>
+        }
+        @if (!immersed.links?.jira && !immersed.links?.confluence) {
+          <span class="topbar__spacer"></span>
+        }
+      </div>
+    </header>
+  } @else {
+    <header class="topbar">
+      @if (doc.focusPathIds().length > 0) {
+        <button
+          type="button"
+          class="chip chip--root-return"
+          (click)="returnToRoot()"
+          aria-label="Back to root overview"
+        >
+          ← Back to root overview
+        </button>
+      }
+      <div class="topbar__title">
+        <h1 class="text-headline">{{ doc.focusedNode()?.label }}</h1>
+        <p class="topbar__desc text-caption">Select a node to reveal its relationships</p>
+      </div>
+    </header>
+  }
+
+  <div
+    #stage
+    class="stage"
+    [class]="doc.mode() === 'immersed' ? immersedBackgroundClass() : ''"
+    [class.stage--immersed]="doc.mode() === 'immersed'"
+    [class.stage--peek]="doc.mode() === 'canvas' && !!doc.peekId()"
+    [class.stage--panning]="panning()"
+    (click)="onStageBackgroundClick()"
+    (wheel)="onWheel($event)"
+    (pointerdown)="onPointerDown($event)"
+    (pointermove)="onPointerMove($event)"
+    (pointerup)="onPointerUp()"
+    (pointerleave)="onPointerUp()"
+  >
+    <div class="stage__viewport" [style.transform]="viewportTransform()">
+      <svg class="stage__links" aria-hidden="true">
+        <defs>
+          <marker
+            id="arrow-active"
+            viewBox="0 0 10 10"
+            refX="8"
+            refY="5"
+            markerWidth="7"
+            markerHeight="7"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 0 L 10 5 L 0 10 z" />
+          </marker>
+        </defs>
+
+        @for (link of graph().links; track link.id) {
+          <path
+            class="stage__link"
+            [class.stage__link--faint]="link.variant === 'faint'"
+            [class.stage__link--active]="link.variant === 'active'"
+            [attr.d]="link.path"
+            fill="none"
+            [attr.marker-end]="link.variant === 'active' ? 'url(#arrow-active)' : null"
+          />
+        }
+      </svg>
+
+      @for (gn of graph().nodes; track gn.id) {
+        <div
+          class="graph-node"
+          [style.left.px]="gn.x"
+          [style.top.px]="gn.y"
+          [style.width.px]="gn.size"
+        >
+          <app-orbit-node
+            [node]="gn.node"
+            [state]="gn.state"
+            [interactive]="gn.interactive"
+            [pxSize]="gn.size"
+            (activated)="onNodeActivated(gn)"
+          />
+          @if (gn.caption) {
+            <span class="graph-node__caption" [ngClass]="'graph-node__caption--' + (gn.captionSide ?? 'bottom')">
+              {{ gn.caption }}
+            </span>
+          }
+        </div>
+      }
+
+      <svg class="stage__labels" aria-hidden="true">
+        @for (link of graph().links; track link.id) {
+          @if (link.label) {
+            <text
+              class="stage__link-label"
+              [attr.x]="link.labelX"
+              [attr.y]="link.labelY"
+              text-anchor="middle"
+              dominant-baseline="central"
+            >
+              {{ link.label }}
+            </text>
+          }
+        }
+      </svg>
+    </div>
+
+    @if (hasInfoPanel()) {
+      <aside
+        class="info-panel"
+        (click)="$event.stopPropagation()"
+        (pointerdown)="$event.stopPropagation()"
+        (wheel)="$event.stopPropagation()"
+      >
+        <div class="info-panel__body markdown" [innerHTML]="immersedContentHtml()"></div>
+      </aside>
+    }
+
+    <div class="stage__zoom" (click)="$event.stopPropagation()" (pointerdown)="$event.stopPropagation()">
+      <button type="button" class="stage__zoom-btn" (click)="zoomBy(1.25)" aria-label="Zoom in">+</button>
+      <button type="button" class="stage__zoom-btn" (click)="zoomBy(0.8)" aria-label="Zoom out">−</button>
+      <button type="button" class="stage__zoom-btn" (click)="resetViewClicked()" aria-label="Reset view">⤢</button>
+    </div>
+
+    @if (graph().nodes.length === 0 && doc.mode() === 'canvas') {
+      <div class="stage__empty">
+        <p class="text-headline-copy">No items to display</p>
+        <p class="text-copy">
+          This level has no child nodes. Check that your JSON nodes use the correct
+          <code>parentId</code>.
+        </p>
+      </div>
+    }
+
+    @if (doc.mode() === 'canvas' && doc.peekNode(); as peek) {
+      <div class="stage__hint text-caption" (click)="$event.stopPropagation()">
+        @if (doc.hasChildren(peek.id) || doc.canNavigateTo(peek)) {
+          Open detail view
+          <button type="button" class="stage__hint-btn" (click)="enterImmersed(peek.id)">
+            {{ peek.label }} →
+          </button>
+        } @else {
+          {{ peek.label }} has no nested view
+        }
+      </div>
+    }
+  </div>
+
+  <footer class="legend">
+    @for (item of legendItems(); track item.label) {
+      <span class="legend__item">
+        <span
+          class="legend__swatch"
+          [ngClass]="'legend__swatch--' + item.shape"
+          [style.background]="item.color"
+        ></span>
+        {{ item.label }}
+      </span>
+    }
+  </footer>
+</section>

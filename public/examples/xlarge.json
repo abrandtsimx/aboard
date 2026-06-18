@@ -1,0 +1,4328 @@
+{
+  "version": "1.0",
+  "title": "Extra-Large Example Platform",
+  "rootId": "env-xlarge",
+  "schema": {
+    "types": [
+      { "id": "environment", "label": "Domain", "shape": "rounded-square", "color": "#091d3c" },
+      { "id": "item-type", "label": "Data type", "shape": "circle", "color": "#e31f2f" },
+      { "id": "system", "label": "Infrastructure", "shape": "hexagon", "color": "#1d4e8a" },
+      { "id": "external", "label": "External tool", "shape": "diamond", "color": "#18171d" }
+    ]
+  },
+  "nodes": [
+    {
+      "id": "env-xlarge",
+      "label": "Extra-Large Example Platform",
+      "description": "Synthetic environment for testing large, diverse graphs.",
+      "type": "environment",
+      "category": "environment",
+      "visibility": "both",
+      "parentId": null
+    },
+    {
+      "id": "dom-0",
+      "label": "Scenario Authoring",
+      "description": "Scenario Authoring domain.",
+      "type": "environment",
+      "category": "environment",
+      "visibility": "both",
+      "parentId": "env-xlarge"
+    },
+    {
+      "id": "app-0-0",
+      "label": "Scenario Editor",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "customer-facing",
+      "parentId": "dom-0",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-0-0/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-0-0/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-0-0-0",
+      "label": "Scenario Mutation",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-0-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-0-0-1",
+      "label": "Voice Clip",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-0-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-0-0-2",
+      "label": "Clinical Case",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-0-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-0-1",
+      "label": "Scenario Composer",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-0",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-0-1/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-0-1/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-0-1-0",
+      "label": "Vitals Snapshot",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-0-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-0-1-1",
+      "label": "Patient Profile",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-0-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-0-1-2",
+      "label": "Drug Order",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-0-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-0-2",
+      "label": "Scenario Studio",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-0",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-0-2/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-0-2/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-0-2-0",
+      "label": "Lab Result",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-0-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-0-2-1",
+      "label": "Imaging Study",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-0-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-0-2-2",
+      "label": "Waveform",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-0-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-0-3",
+      "label": "Scenario Builder",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "customer-facing",
+      "parentId": "dom-0",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-0-3/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-0-3/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-0-3-0",
+      "label": "Annotation",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-0-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-0-3-1",
+      "label": "Rubric",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-0-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-0-3-2",
+      "label": "Assessment",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-0-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-0-4",
+      "label": "Scenario Designer",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-0",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-0-4/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-0-4/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-0-4-0",
+      "label": "Session Log",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-0-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-0-4-1",
+      "label": "Telemetry Event",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-0-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-0-4-2",
+      "label": "Avatar Rig",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-0-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dom-1",
+      "label": "Runtime & Sessions",
+      "description": "Runtime & Sessions domain.",
+      "type": "environment",
+      "category": "environment",
+      "visibility": "both",
+      "parentId": "env-xlarge"
+    },
+    {
+      "id": "app-1-0",
+      "label": "Runtime Console",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "customer-facing",
+      "parentId": "dom-1",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-1-0/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-1-0/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-1-0-0",
+      "label": "Animation Track",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-1-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-1-0-1",
+      "label": "Dialogue Tree",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-1-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-1-0-2",
+      "label": "Care Plan",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-1-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-1-1",
+      "label": "Runtime Portal",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "customer-facing",
+      "parentId": "dom-1",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-1-1/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-1-1/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-1-1-0",
+      "label": "Protocol",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-1-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-1-1-1",
+      "label": "Equipment Config",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-1-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-1-1-2",
+      "label": "Scoring Model",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-1-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-1-2",
+      "label": "Runtime Gateway",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "customer-facing",
+      "parentId": "dom-1",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-1-2/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-1-2/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-1-2-0",
+      "label": "Transcript",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-1-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-1-2-1",
+      "label": "Consent Record",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-1-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-1-2-2",
+      "label": "Checklist",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-1-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-1-3",
+      "label": "Runtime Service",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-1",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-1-3/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-1-3/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-1-3-0",
+      "label": "Debrief Note",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-1-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-1-3-1",
+      "label": "Haptic Profile",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-1-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-1-3-2",
+      "label": "Environment Preset",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-1-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-1-4",
+      "label": "Runtime Engine",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-1",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-1-4/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-1-4/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-1-4-0",
+      "label": "Localization Bundle",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-1-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-1-4-1",
+      "label": "Achievement",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-1-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-1-4-2",
+      "label": "Feedback Form",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-1-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dom-2",
+      "label": "Content Delivery",
+      "description": "Content Delivery domain.",
+      "type": "environment",
+      "category": "environment",
+      "visibility": "both",
+      "parentId": "env-xlarge"
+    },
+    {
+      "id": "app-2-0",
+      "label": "Content Orchestrator",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-2",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-2-0/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-2-0/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-2-0-0",
+      "label": "Scenario Mutation 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-2-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-2-0-1",
+      "label": "Voice Clip 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-2-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-2-0-2",
+      "label": "Clinical Case 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-2-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-2-1",
+      "label": "Content Scheduler",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-2",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-2-1/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-2-1/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-2-1-0",
+      "label": "Vitals Snapshot 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-2-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-2-1-1",
+      "label": "Patient Profile 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-2-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-2-1-2",
+      "label": "Drug Order 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-2-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-2-2",
+      "label": "Content Sync",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-2",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-2-2/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-2-2/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-2-2-0",
+      "label": "Lab Result 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-2-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-2-2-1",
+      "label": "Imaging Study 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-2-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-2-2-2",
+      "label": "Waveform 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-2-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-2-3",
+      "label": "Content Hub",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-2",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-2-3/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-2-3/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-2-3-0",
+      "label": "Annotation 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-2-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-2-3-1",
+      "label": "Rubric 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-2-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-2-3-2",
+      "label": "Assessment 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-2-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-2-4",
+      "label": "Content Manager",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-2",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-2-4/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-2-4/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-2-4-0",
+      "label": "Session Log 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-2-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-2-4-1",
+      "label": "Telemetry Event 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-2-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-2-4-2",
+      "label": "Avatar Rig 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-2-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dom-3",
+      "label": "Clinical Data",
+      "description": "Clinical Data domain.",
+      "type": "environment",
+      "category": "environment",
+      "visibility": "both",
+      "parentId": "env-xlarge"
+    },
+    {
+      "id": "app-3-0",
+      "label": "Clinical Pipeline",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "customer-facing",
+      "parentId": "dom-3",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-3-0/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-3-0/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-3-0-0",
+      "label": "Animation Track 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-3-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-3-0-1",
+      "label": "Dialogue Tree 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-3-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-3-0-2",
+      "label": "Care Plan 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-3-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-3-1",
+      "label": "Clinical Renderer",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-3",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-3-1/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-3-1/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-3-1-0",
+      "label": "Protocol 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-3-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-3-1-1",
+      "label": "Equipment Config 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-3-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-3-1-2",
+      "label": "Scoring Model 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-3-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-3-2",
+      "label": "Clinical Validator",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-3",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-3-2/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-3-2/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-3-2-0",
+      "label": "Transcript 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-3-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-3-2-1",
+      "label": "Consent Record 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-3-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-3-2-2",
+      "label": "Checklist 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-3-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-3-3",
+      "label": "Clinical Importer",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-3",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-3-3/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-3-3/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-3-3-0",
+      "label": "Debrief Note 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-3-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-3-3-1",
+      "label": "Haptic Profile 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-3-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-3-3-2",
+      "label": "Environment Preset 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-3-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-3-4",
+      "label": "Clinical Exporter",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-3",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-3-4/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-3-4/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-3-4-0",
+      "label": "Localization Bundle 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-3-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-3-4-1",
+      "label": "Achievement 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-3-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-3-4-2",
+      "label": "Feedback Form 2",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-3-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dom-4",
+      "label": "Analytics & Reporting",
+      "description": "Analytics & Reporting domain.",
+      "type": "environment",
+      "category": "environment",
+      "visibility": "both",
+      "parentId": "env-xlarge"
+    },
+    {
+      "id": "app-4-0",
+      "label": "Analytics Dashboard",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-4",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-4-0/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-4-0/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-4-0-0",
+      "label": "Scenario Mutation 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-4-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-4-0-1",
+      "label": "Voice Clip 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-4-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-4-0-2",
+      "label": "Clinical Case 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-4-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-4-1",
+      "label": "Analytics Inspector",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-4",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-4-1/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-4-1/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-4-1-0",
+      "label": "Vitals Snapshot 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-4-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-4-1-1",
+      "label": "Patient Profile 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-4-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-4-1-2",
+      "label": "Drug Order 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-4-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-4-2",
+      "label": "Analytics Simulator",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "customer-facing",
+      "parentId": "dom-4",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-4-2/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-4-2/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-4-2-0",
+      "label": "Lab Result 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-4-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-4-2-1",
+      "label": "Imaging Study 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-4-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-4-2-2",
+      "label": "Waveform 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-4-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-4-3",
+      "label": "Analytics Trainer",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "customer-facing",
+      "parentId": "dom-4",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-4-3/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-4-3/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-4-3-0",
+      "label": "Annotation 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-4-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-4-3-1",
+      "label": "Rubric 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-4-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-4-3-2",
+      "label": "Assessment 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-4-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-4-4",
+      "label": "Analytics Recorder",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "customer-facing",
+      "parentId": "dom-4",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-4-4/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-4-4/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-4-4-0",
+      "label": "Session Log 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-4-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-4-4-1",
+      "label": "Telemetry Event 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-4-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-4-4-2",
+      "label": "Avatar Rig 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-4-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dom-5",
+      "label": "Identity & Access",
+      "description": "Identity & Access domain.",
+      "type": "environment",
+      "category": "environment",
+      "visibility": "both",
+      "parentId": "env-xlarge"
+    },
+    {
+      "id": "app-5-0",
+      "label": "Identity Streamer",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-5",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-5-0/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-5-0/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-5-0-0",
+      "label": "Animation Track 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-5-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-5-0-1",
+      "label": "Dialogue Tree 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-5-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-5-0-2",
+      "label": "Care Plan 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-5-0",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-5-1",
+      "label": "Identity Catalog",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-5",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-5-1/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-5-1/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-5-1-0",
+      "label": "Protocol 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-5-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-5-1-1",
+      "label": "Equipment Config 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-5-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-5-1-2",
+      "label": "Scoring Model 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-5-1",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-5-2",
+      "label": "Identity Registry",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-5",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-5-2/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-5-2/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-5-2-0",
+      "label": "Transcript 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-5-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-5-2-1",
+      "label": "Consent Record 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-5-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-5-2-2",
+      "label": "Checklist 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-5-2",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-5-3",
+      "label": "Identity Broker",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "customer-facing",
+      "parentId": "dom-5",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-5-3/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-5-3/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-5-3-0",
+      "label": "Debrief Note 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-5-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-5-3-1",
+      "label": "Haptic Profile 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-5-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-5-3-2",
+      "label": "Environment Preset 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "customer-facing",
+      "parentId": "app-5-3",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "app-5-4",
+      "label": "Identity Connector",
+      "description": "Application node with owned data types and dependencies.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "dom-5",
+      "links": {
+        "jira": "https://simx.atlassian.net/jira/software/projects/APP-5-4/boards/1",
+        "confluence": "https://simx.atlassian.net/wiki/spaces/APP-5-4/overview"
+      },
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-5-4-0",
+      "label": "Localization Bundle 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-5-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-5-4-1",
+      "label": "Achievement 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-5-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dt-5-4-2",
+      "label": "Feedback Form 3",
+      "description": "Data type produced and consumed across the platform.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-5-4",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "dom-infra",
+      "label": "Platform Infrastructure",
+      "description": "Shared infrastructure and managed services.",
+      "type": "environment",
+      "category": "environment",
+      "visibility": "internal",
+      "parentId": "env-xlarge"
+    },
+    {
+      "id": "infra-0",
+      "label": "AWS S3 Bucket",
+      "description": "Managed infrastructure service.",
+      "type": "system",
+      "category": "infrastructure",
+      "visibility": "internal",
+      "parentId": "dom-infra",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "infra-1",
+      "label": "Postgres Cluster",
+      "description": "Managed infrastructure service.",
+      "type": "system",
+      "category": "infrastructure",
+      "visibility": "internal",
+      "parentId": "dom-infra",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "infra-2",
+      "label": "Redis Cache",
+      "description": "Managed infrastructure service.",
+      "type": "system",
+      "category": "infrastructure",
+      "visibility": "internal",
+      "parentId": "dom-infra",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "infra-3",
+      "label": "Kafka Topic",
+      "description": "Managed infrastructure service.",
+      "type": "system",
+      "category": "infrastructure",
+      "visibility": "internal",
+      "parentId": "dom-infra",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "infra-4",
+      "label": "CloudFront CDN",
+      "description": "Managed infrastructure service.",
+      "type": "system",
+      "category": "infrastructure",
+      "visibility": "internal",
+      "parentId": "dom-infra",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "infra-5",
+      "label": "ElasticSearch Index",
+      "description": "Managed infrastructure service.",
+      "type": "system",
+      "category": "infrastructure",
+      "visibility": "internal",
+      "parentId": "dom-infra",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "infra-6",
+      "label": "Cognito Pool",
+      "description": "Managed infrastructure service.",
+      "type": "system",
+      "category": "infrastructure",
+      "visibility": "internal",
+      "parentId": "dom-infra",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "infra-7",
+      "label": "SQS Queue",
+      "description": "Managed infrastructure service.",
+      "type": "system",
+      "category": "infrastructure",
+      "visibility": "internal",
+      "parentId": "dom-infra",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "ext-0",
+      "label": "Eleven Labs",
+      "description": "Third-party SaaS integration.",
+      "type": "external",
+      "category": "external-tool",
+      "visibility": "internal",
+      "parentId": "env-xlarge",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "ext-1",
+      "label": "Jira",
+      "description": "Third-party SaaS integration.",
+      "type": "external",
+      "category": "external-tool",
+      "visibility": "internal",
+      "parentId": "env-xlarge",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "ext-2",
+      "label": "Stripe",
+      "description": "Third-party SaaS integration.",
+      "type": "external",
+      "category": "external-tool",
+      "visibility": "internal",
+      "parentId": "env-xlarge",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "ext-3",
+      "label": "Twilio",
+      "description": "Third-party SaaS integration.",
+      "type": "external",
+      "category": "external-tool",
+      "visibility": "internal",
+      "parentId": "env-xlarge",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "ext-4",
+      "label": "Okta",
+      "description": "Third-party SaaS integration.",
+      "type": "external",
+      "category": "external-tool",
+      "visibility": "internal",
+      "parentId": "env-xlarge",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    },
+    {
+      "id": "ext-5",
+      "label": "Segment",
+      "description": "Third-party SaaS integration.",
+      "type": "external",
+      "category": "external-tool",
+      "visibility": "internal",
+      "parentId": "env-xlarge",
+      "content": "## Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\n\n### Responsibilities\n\n- Duis aute irure dolor in reprehenderit in voluptate\n- Excepteur sint occaecat cupidatat non proident\n- Sunt in culpa qui officia deserunt mollit anim\n\n### Notes\n\nNeque porro quisquam est qui dolorem ipsum quia dolor sit amet."
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rel-0",
+      "sourceId": "app-0-0",
+      "targetId": "dt-0-0-0",
+      "type": "assembles",
+      "label": "Assembles"
+    },
+    {
+      "id": "rel-1",
+      "sourceId": "app-0-0",
+      "targetId": "dt-0-0-1",
+      "type": "builds",
+      "label": "Builds"
+    },
+    {
+      "id": "rel-2",
+      "sourceId": "app-0-0",
+      "targetId": "dt-0-0-2",
+      "type": "fabricates",
+      "label": "Fabricates"
+    },
+    {
+      "id": "rel-3",
+      "sourceId": "app-0-1",
+      "targetId": "dt-0-1-0",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-4",
+      "sourceId": "app-0-1",
+      "targetId": "dt-0-1-1",
+      "type": "fabricates",
+      "label": "Fabricates"
+    },
+    {
+      "id": "rel-5",
+      "sourceId": "app-0-1",
+      "targetId": "dt-0-1-2",
+      "type": "fabricates",
+      "label": "Fabricates"
+    },
+    {
+      "id": "rel-6",
+      "sourceId": "app-0-2",
+      "targetId": "dt-0-2-0",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-7",
+      "sourceId": "app-0-2",
+      "targetId": "dt-0-2-1",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-8",
+      "sourceId": "app-0-2",
+      "targetId": "dt-0-2-2",
+      "type": "fabricates",
+      "label": "Fabricates"
+    },
+    {
+      "id": "rel-9",
+      "sourceId": "app-0-3",
+      "targetId": "dt-0-3-0",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-10",
+      "sourceId": "app-0-3",
+      "targetId": "dt-0-3-1",
+      "type": "fabricates",
+      "label": "Fabricates"
+    },
+    {
+      "id": "rel-11",
+      "sourceId": "app-0-3",
+      "targetId": "dt-0-3-2",
+      "type": "builds",
+      "label": "Builds"
+    },
+    {
+      "id": "rel-12",
+      "sourceId": "app-0-4",
+      "targetId": "dt-0-4-0",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-13",
+      "sourceId": "app-0-4",
+      "targetId": "dt-0-4-1",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-14",
+      "sourceId": "app-0-4",
+      "targetId": "dt-0-4-2",
+      "type": "fabricates",
+      "label": "Fabricates"
+    },
+    {
+      "id": "rel-15",
+      "sourceId": "app-1-0",
+      "targetId": "dt-1-0-0",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-16",
+      "sourceId": "app-1-0",
+      "targetId": "dt-1-0-1",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-17",
+      "sourceId": "app-1-0",
+      "targetId": "dt-1-0-2",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-18",
+      "sourceId": "app-1-1",
+      "targetId": "dt-1-1-0",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-19",
+      "sourceId": "app-1-1",
+      "targetId": "dt-1-1-1",
+      "type": "assembles",
+      "label": "Assembles"
+    },
+    {
+      "id": "rel-20",
+      "sourceId": "app-1-1",
+      "targetId": "dt-1-1-2",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-21",
+      "sourceId": "app-1-2",
+      "targetId": "dt-1-2-0",
+      "type": "assembles",
+      "label": "Assembles"
+    },
+    {
+      "id": "rel-22",
+      "sourceId": "app-1-2",
+      "targetId": "dt-1-2-1",
+      "type": "produces",
+      "label": "Produces"
+    },
+    {
+      "id": "rel-23",
+      "sourceId": "app-1-2",
+      "targetId": "dt-1-2-2",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-24",
+      "sourceId": "app-1-3",
+      "targetId": "dt-1-3-0",
+      "type": "builds",
+      "label": "Builds"
+    },
+    {
+      "id": "rel-25",
+      "sourceId": "app-1-3",
+      "targetId": "dt-1-3-1",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-26",
+      "sourceId": "app-1-3",
+      "targetId": "dt-1-3-2",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-27",
+      "sourceId": "app-1-4",
+      "targetId": "dt-1-4-0",
+      "type": "assembles",
+      "label": "Assembles"
+    },
+    {
+      "id": "rel-28",
+      "sourceId": "app-1-4",
+      "targetId": "dt-1-4-1",
+      "type": "assembles",
+      "label": "Assembles"
+    },
+    {
+      "id": "rel-29",
+      "sourceId": "app-1-4",
+      "targetId": "dt-1-4-2",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-30",
+      "sourceId": "app-2-0",
+      "targetId": "dt-2-0-0",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-31",
+      "sourceId": "app-2-0",
+      "targetId": "dt-2-0-1",
+      "type": "assembles",
+      "label": "Assembles"
+    },
+    {
+      "id": "rel-32",
+      "sourceId": "app-2-0",
+      "targetId": "dt-2-0-2",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-33",
+      "sourceId": "app-2-1",
+      "targetId": "dt-2-1-0",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-34",
+      "sourceId": "app-2-1",
+      "targetId": "dt-2-1-1",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-35",
+      "sourceId": "app-2-1",
+      "targetId": "dt-2-1-2",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-36",
+      "sourceId": "app-2-2",
+      "targetId": "dt-2-2-0",
+      "type": "produces",
+      "label": "Produces"
+    },
+    {
+      "id": "rel-37",
+      "sourceId": "app-2-2",
+      "targetId": "dt-2-2-1",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-38",
+      "sourceId": "app-2-2",
+      "targetId": "dt-2-2-2",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-39",
+      "sourceId": "app-2-3",
+      "targetId": "dt-2-3-0",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-40",
+      "sourceId": "app-2-3",
+      "targetId": "dt-2-3-1",
+      "type": "produces",
+      "label": "Produces"
+    },
+    {
+      "id": "rel-41",
+      "sourceId": "app-2-3",
+      "targetId": "dt-2-3-2",
+      "type": "produces",
+      "label": "Produces"
+    },
+    {
+      "id": "rel-42",
+      "sourceId": "app-2-4",
+      "targetId": "dt-2-4-0",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-43",
+      "sourceId": "app-2-4",
+      "targetId": "dt-2-4-1",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-44",
+      "sourceId": "app-2-4",
+      "targetId": "dt-2-4-2",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-45",
+      "sourceId": "app-3-0",
+      "targetId": "dt-3-0-0",
+      "type": "assembles",
+      "label": "Assembles"
+    },
+    {
+      "id": "rel-46",
+      "sourceId": "app-3-0",
+      "targetId": "dt-3-0-1",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-47",
+      "sourceId": "app-3-0",
+      "targetId": "dt-3-0-2",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-48",
+      "sourceId": "app-3-1",
+      "targetId": "dt-3-1-0",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-49",
+      "sourceId": "app-3-1",
+      "targetId": "dt-3-1-1",
+      "type": "fabricates",
+      "label": "Fabricates"
+    },
+    {
+      "id": "rel-50",
+      "sourceId": "app-3-1",
+      "targetId": "dt-3-1-2",
+      "type": "builds",
+      "label": "Builds"
+    },
+    {
+      "id": "rel-51",
+      "sourceId": "app-3-2",
+      "targetId": "dt-3-2-0",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-52",
+      "sourceId": "app-3-2",
+      "targetId": "dt-3-2-1",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-53",
+      "sourceId": "app-3-2",
+      "targetId": "dt-3-2-2",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-54",
+      "sourceId": "app-3-3",
+      "targetId": "dt-3-3-0",
+      "type": "assembles",
+      "label": "Assembles"
+    },
+    {
+      "id": "rel-55",
+      "sourceId": "app-3-3",
+      "targetId": "dt-3-3-1",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-56",
+      "sourceId": "app-3-3",
+      "targetId": "dt-3-3-2",
+      "type": "builds",
+      "label": "Builds"
+    },
+    {
+      "id": "rel-57",
+      "sourceId": "app-3-4",
+      "targetId": "dt-3-4-0",
+      "type": "fabricates",
+      "label": "Fabricates"
+    },
+    {
+      "id": "rel-58",
+      "sourceId": "app-3-4",
+      "targetId": "dt-3-4-1",
+      "type": "fabricates",
+      "label": "Fabricates"
+    },
+    {
+      "id": "rel-59",
+      "sourceId": "app-3-4",
+      "targetId": "dt-3-4-2",
+      "type": "assembles",
+      "label": "Assembles"
+    },
+    {
+      "id": "rel-60",
+      "sourceId": "app-4-0",
+      "targetId": "dt-4-0-0",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-61",
+      "sourceId": "app-4-0",
+      "targetId": "dt-4-0-1",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-62",
+      "sourceId": "app-4-0",
+      "targetId": "dt-4-0-2",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-63",
+      "sourceId": "app-4-1",
+      "targetId": "dt-4-1-0",
+      "type": "fabricates",
+      "label": "Fabricates"
+    },
+    {
+      "id": "rel-64",
+      "sourceId": "app-4-1",
+      "targetId": "dt-4-1-1",
+      "type": "builds",
+      "label": "Builds"
+    },
+    {
+      "id": "rel-65",
+      "sourceId": "app-4-1",
+      "targetId": "dt-4-1-2",
+      "type": "fabricates",
+      "label": "Fabricates"
+    },
+    {
+      "id": "rel-66",
+      "sourceId": "app-4-2",
+      "targetId": "dt-4-2-0",
+      "type": "fabricates",
+      "label": "Fabricates"
+    },
+    {
+      "id": "rel-67",
+      "sourceId": "app-4-2",
+      "targetId": "dt-4-2-1",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-68",
+      "sourceId": "app-4-2",
+      "targetId": "dt-4-2-2",
+      "type": "fabricates",
+      "label": "Fabricates"
+    },
+    {
+      "id": "rel-69",
+      "sourceId": "app-4-3",
+      "targetId": "dt-4-3-0",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-70",
+      "sourceId": "app-4-3",
+      "targetId": "dt-4-3-1",
+      "type": "produces",
+      "label": "Produces"
+    },
+    {
+      "id": "rel-71",
+      "sourceId": "app-4-3",
+      "targetId": "dt-4-3-2",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-72",
+      "sourceId": "app-4-4",
+      "targetId": "dt-4-4-0",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-73",
+      "sourceId": "app-4-4",
+      "targetId": "dt-4-4-1",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-74",
+      "sourceId": "app-4-4",
+      "targetId": "dt-4-4-2",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-75",
+      "sourceId": "app-5-0",
+      "targetId": "dt-5-0-0",
+      "type": "fabricates",
+      "label": "Fabricates"
+    },
+    {
+      "id": "rel-76",
+      "sourceId": "app-5-0",
+      "targetId": "dt-5-0-1",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-77",
+      "sourceId": "app-5-0",
+      "targetId": "dt-5-0-2",
+      "type": "builds",
+      "label": "Builds"
+    },
+    {
+      "id": "rel-78",
+      "sourceId": "app-5-1",
+      "targetId": "dt-5-1-0",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-79",
+      "sourceId": "app-5-1",
+      "targetId": "dt-5-1-1",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-80",
+      "sourceId": "app-5-1",
+      "targetId": "dt-5-1-2",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-81",
+      "sourceId": "app-5-2",
+      "targetId": "dt-5-2-0",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-82",
+      "sourceId": "app-5-2",
+      "targetId": "dt-5-2-1",
+      "type": "builds",
+      "label": "Builds"
+    },
+    {
+      "id": "rel-83",
+      "sourceId": "app-5-2",
+      "targetId": "dt-5-2-2",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-84",
+      "sourceId": "app-5-3",
+      "targetId": "dt-5-3-0",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-85",
+      "sourceId": "app-5-3",
+      "targetId": "dt-5-3-1",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-86",
+      "sourceId": "app-5-3",
+      "targetId": "dt-5-3-2",
+      "type": "produces",
+      "label": "Produces"
+    },
+    {
+      "id": "rel-87",
+      "sourceId": "app-5-4",
+      "targetId": "dt-5-4-0",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-88",
+      "sourceId": "app-5-4",
+      "targetId": "dt-5-4-1",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-89",
+      "sourceId": "app-5-4",
+      "targetId": "dt-5-4-2",
+      "type": "produces",
+      "label": "Produces"
+    },
+    {
+      "id": "rel-90",
+      "sourceId": "app-3-3",
+      "targetId": "dt-0-0-0",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-91",
+      "sourceId": "app-3-1",
+      "targetId": "dt-0-0-1",
+      "type": "produces",
+      "label": "Produces"
+    },
+    {
+      "id": "rel-92",
+      "sourceId": "app-1-3",
+      "targetId": "dt-0-2-1",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-93",
+      "sourceId": "app-1-0",
+      "targetId": "dt-0-3-2",
+      "type": "builds",
+      "label": "Builds"
+    },
+    {
+      "id": "rel-94",
+      "sourceId": "app-1-1",
+      "targetId": "dt-0-4-1",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-95",
+      "sourceId": "app-4-1",
+      "targetId": "dt-0-4-2",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-96",
+      "sourceId": "app-4-1",
+      "targetId": "dt-1-0-1",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-97",
+      "sourceId": "app-0-4",
+      "targetId": "dt-1-1-0",
+      "type": "produces",
+      "label": "Produces"
+    },
+    {
+      "id": "rel-98",
+      "sourceId": "app-2-3",
+      "targetId": "dt-1-1-2",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-99",
+      "sourceId": "app-0-3",
+      "targetId": "dt-1-2-0",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-100",
+      "sourceId": "app-1-4",
+      "targetId": "dt-1-2-1",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-101",
+      "sourceId": "app-2-2",
+      "targetId": "dt-1-3-0",
+      "type": "assembles",
+      "label": "Assembles"
+    },
+    {
+      "id": "rel-102",
+      "sourceId": "app-4-2",
+      "targetId": "dt-1-3-1",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-103",
+      "sourceId": "app-5-3",
+      "targetId": "dt-1-3-2",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-104",
+      "sourceId": "app-2-1",
+      "targetId": "dt-1-4-0",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-105",
+      "sourceId": "app-3-0",
+      "targetId": "dt-1-4-1",
+      "type": "fabricates",
+      "label": "Fabricates"
+    },
+    {
+      "id": "rel-106",
+      "sourceId": "app-2-3",
+      "targetId": "dt-1-4-2",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-107",
+      "sourceId": "app-3-0",
+      "targetId": "dt-2-0-0",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-108",
+      "sourceId": "app-3-1",
+      "targetId": "dt-2-0-1",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-109",
+      "sourceId": "app-1-2",
+      "targetId": "dt-2-0-2",
+      "type": "assembles",
+      "label": "Assembles"
+    },
+    {
+      "id": "rel-110",
+      "sourceId": "app-1-2",
+      "targetId": "dt-2-2-0",
+      "type": "produces",
+      "label": "Produces"
+    },
+    {
+      "id": "rel-111",
+      "sourceId": "app-4-4",
+      "targetId": "dt-2-2-1",
+      "type": "builds",
+      "label": "Builds"
+    },
+    {
+      "id": "rel-112",
+      "sourceId": "app-2-3",
+      "targetId": "dt-2-2-2",
+      "type": "produces",
+      "label": "Produces"
+    },
+    {
+      "id": "rel-113",
+      "sourceId": "app-2-0",
+      "targetId": "dt-2-3-1",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-114",
+      "sourceId": "app-3-2",
+      "targetId": "dt-2-4-0",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-115",
+      "sourceId": "app-4-0",
+      "targetId": "dt-3-1-2",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-116",
+      "sourceId": "app-1-4",
+      "targetId": "dt-3-4-2",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-117",
+      "sourceId": "app-3-0",
+      "targetId": "dt-4-2-1",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-118",
+      "sourceId": "app-4-3",
+      "targetId": "dt-4-2-2",
+      "type": "produces",
+      "label": "Produces"
+    },
+    {
+      "id": "rel-119",
+      "sourceId": "app-2-1",
+      "targetId": "dt-4-3-1",
+      "type": "produces",
+      "label": "Produces"
+    },
+    {
+      "id": "rel-120",
+      "sourceId": "app-3-0",
+      "targetId": "dt-4-3-2",
+      "type": "fabricates",
+      "label": "Fabricates"
+    },
+    {
+      "id": "rel-121",
+      "sourceId": "app-0-1",
+      "targetId": "dt-5-2-1",
+      "type": "produces",
+      "label": "Produces"
+    },
+    {
+      "id": "rel-122",
+      "sourceId": "app-0-2",
+      "targetId": "dt-5-3-1",
+      "type": "builds",
+      "label": "Builds"
+    },
+    {
+      "id": "rel-123",
+      "sourceId": "app-3-4",
+      "targetId": "dt-5-3-2",
+      "type": "forges",
+      "label": "Forges"
+    },
+    {
+      "id": "rel-124",
+      "sourceId": "app-4-2",
+      "targetId": "dt-5-4-1",
+      "type": "assembles",
+      "label": "Assembles"
+    },
+    {
+      "id": "rel-125",
+      "sourceId": "app-5-2",
+      "targetId": "dt-5-4-2",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-126",
+      "sourceId": "dt-0-0-0",
+      "targetId": "infra-1",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-127",
+      "sourceId": "dt-0-0-0",
+      "targetId": "app-2-4",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-128",
+      "sourceId": "dt-0-0-1",
+      "targetId": "infra-5",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-129",
+      "sourceId": "dt-0-0-1",
+      "targetId": "app-1-3",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-130",
+      "sourceId": "dt-0-0-2",
+      "targetId": "infra-6",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-131",
+      "sourceId": "dt-0-0-2",
+      "targetId": "app-2-4",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-132",
+      "sourceId": "dt-0-1-0",
+      "targetId": "infra-7",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-133",
+      "sourceId": "dt-0-1-0",
+      "targetId": "app-3-0",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-134",
+      "sourceId": "dt-0-1-1",
+      "targetId": "infra-1",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-135",
+      "sourceId": "dt-0-1-1",
+      "targetId": "app-1-4",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-136",
+      "sourceId": "dt-0-1-2",
+      "targetId": "infra-6",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-137",
+      "sourceId": "dt-0-1-2",
+      "targetId": "app-2-4",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-138",
+      "sourceId": "dt-0-2-0",
+      "targetId": "infra-5",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-139",
+      "sourceId": "dt-0-2-0",
+      "targetId": "app-3-0",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-140",
+      "sourceId": "dt-0-2-1",
+      "targetId": "infra-0",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-141",
+      "sourceId": "dt-0-2-1",
+      "targetId": "app-0-1",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-142",
+      "sourceId": "dt-0-2-2",
+      "targetId": "infra-0",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-143",
+      "sourceId": "dt-0-2-2",
+      "targetId": "app-5-3",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-144",
+      "sourceId": "dt-0-3-0",
+      "targetId": "infra-4",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-145",
+      "sourceId": "dt-0-3-0",
+      "targetId": "app-3-3",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-146",
+      "sourceId": "dt-0-3-1",
+      "targetId": "infra-4",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-147",
+      "sourceId": "dt-0-3-1",
+      "targetId": "app-0-2",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-148",
+      "sourceId": "dt-0-3-2",
+      "targetId": "infra-0",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-149",
+      "sourceId": "dt-0-3-2",
+      "targetId": "app-5-3",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-150",
+      "sourceId": "dt-0-4-0",
+      "targetId": "infra-1",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-151",
+      "sourceId": "dt-0-4-0",
+      "targetId": "app-4-1",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-152",
+      "sourceId": "dt-0-4-1",
+      "targetId": "infra-4",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-153",
+      "sourceId": "dt-0-4-1",
+      "targetId": "app-3-1",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-154",
+      "sourceId": "dt-0-4-2",
+      "targetId": "infra-3",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-155",
+      "sourceId": "dt-0-4-2",
+      "targetId": "app-0-1",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-156",
+      "sourceId": "dt-1-0-0",
+      "targetId": "infra-5",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-157",
+      "sourceId": "dt-1-0-0",
+      "targetId": "app-2-4",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-158",
+      "sourceId": "dt-1-0-1",
+      "targetId": "infra-3",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-159",
+      "sourceId": "dt-1-0-1",
+      "targetId": "app-5-3",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-160",
+      "sourceId": "dt-1-0-2",
+      "targetId": "infra-7",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-161",
+      "sourceId": "dt-1-0-2",
+      "targetId": "app-3-2",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-162",
+      "sourceId": "dt-1-1-0",
+      "targetId": "infra-2",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-163",
+      "sourceId": "dt-1-1-0",
+      "targetId": "app-2-4",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-164",
+      "sourceId": "dt-1-1-1",
+      "targetId": "infra-0",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-165",
+      "sourceId": "dt-1-1-1",
+      "targetId": "app-4-0",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-166",
+      "sourceId": "dt-1-1-2",
+      "targetId": "infra-7",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-167",
+      "sourceId": "dt-1-1-2",
+      "targetId": "app-5-2",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-168",
+      "sourceId": "dt-1-2-0",
+      "targetId": "infra-5",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-169",
+      "sourceId": "dt-1-2-0",
+      "targetId": "app-3-2",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-170",
+      "sourceId": "dt-1-2-1",
+      "targetId": "infra-4",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-171",
+      "sourceId": "dt-1-2-1",
+      "targetId": "app-2-4",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-172",
+      "sourceId": "dt-1-2-2",
+      "targetId": "infra-5",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-173",
+      "sourceId": "dt-1-2-2",
+      "targetId": "app-3-0",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-174",
+      "sourceId": "dt-1-3-0",
+      "targetId": "infra-2",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-175",
+      "sourceId": "dt-1-3-0",
+      "targetId": "app-5-2",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-176",
+      "sourceId": "dt-1-3-1",
+      "targetId": "infra-4",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-177",
+      "sourceId": "dt-1-3-1",
+      "targetId": "app-5-2",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-178",
+      "sourceId": "dt-1-3-2",
+      "targetId": "infra-6",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-179",
+      "sourceId": "dt-1-3-2",
+      "targetId": "app-2-0",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-180",
+      "sourceId": "dt-1-4-0",
+      "targetId": "infra-2",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-181",
+      "sourceId": "dt-1-4-0",
+      "targetId": "app-5-4",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-182",
+      "sourceId": "dt-1-4-1",
+      "targetId": "infra-2",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-183",
+      "sourceId": "dt-1-4-1",
+      "targetId": "app-2-4",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-184",
+      "sourceId": "dt-1-4-2",
+      "targetId": "infra-3",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-185",
+      "sourceId": "dt-1-4-2",
+      "targetId": "app-5-4",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-186",
+      "sourceId": "dt-2-0-0",
+      "targetId": "infra-6",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-187",
+      "sourceId": "dt-2-0-0",
+      "targetId": "app-0-2",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-188",
+      "sourceId": "dt-2-0-1",
+      "targetId": "infra-7",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-189",
+      "sourceId": "dt-2-0-1",
+      "targetId": "app-1-4",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-190",
+      "sourceId": "dt-2-0-2",
+      "targetId": "infra-3",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-191",
+      "sourceId": "dt-2-0-2",
+      "targetId": "app-1-3",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-192",
+      "sourceId": "dt-2-1-0",
+      "targetId": "infra-3",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-193",
+      "sourceId": "dt-2-1-0",
+      "targetId": "app-4-3",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-194",
+      "sourceId": "dt-2-1-1",
+      "targetId": "infra-6",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-195",
+      "sourceId": "dt-2-1-1",
+      "targetId": "app-2-3",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-196",
+      "sourceId": "dt-2-1-2",
+      "targetId": "infra-7",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-197",
+      "sourceId": "dt-2-1-2",
+      "targetId": "app-1-1",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-198",
+      "sourceId": "dt-2-2-0",
+      "targetId": "infra-7",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-199",
+      "sourceId": "dt-2-2-0",
+      "targetId": "app-2-1",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-200",
+      "sourceId": "dt-2-2-1",
+      "targetId": "infra-0",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-201",
+      "sourceId": "dt-2-2-1",
+      "targetId": "app-4-3",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-202",
+      "sourceId": "dt-2-2-2",
+      "targetId": "infra-2",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-203",
+      "sourceId": "dt-2-2-2",
+      "targetId": "app-5-3",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-204",
+      "sourceId": "dt-2-3-0",
+      "targetId": "infra-2",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-205",
+      "sourceId": "dt-2-3-0",
+      "targetId": "app-0-3",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-206",
+      "sourceId": "dt-2-3-1",
+      "targetId": "infra-7",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-207",
+      "sourceId": "dt-2-3-2",
+      "targetId": "infra-6",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-208",
+      "sourceId": "dt-2-3-2",
+      "targetId": "app-1-1",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-209",
+      "sourceId": "dt-2-4-0",
+      "targetId": "infra-4",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-210",
+      "sourceId": "dt-2-4-0",
+      "targetId": "app-3-0",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-211",
+      "sourceId": "dt-2-4-1",
+      "targetId": "infra-4",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-212",
+      "sourceId": "dt-2-4-1",
+      "targetId": "app-2-2",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-213",
+      "sourceId": "dt-2-4-2",
+      "targetId": "infra-1",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-214",
+      "sourceId": "dt-2-4-2",
+      "targetId": "app-1-0",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-215",
+      "sourceId": "dt-3-0-0",
+      "targetId": "infra-4",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-216",
+      "sourceId": "dt-3-0-0",
+      "targetId": "app-0-1",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-217",
+      "sourceId": "dt-3-0-1",
+      "targetId": "infra-5",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-218",
+      "sourceId": "dt-3-0-1",
+      "targetId": "app-0-1",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-219",
+      "sourceId": "dt-3-0-2",
+      "targetId": "infra-5",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-220",
+      "sourceId": "dt-3-0-2",
+      "targetId": "app-5-4",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-221",
+      "sourceId": "dt-3-1-0",
+      "targetId": "infra-4",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-222",
+      "sourceId": "dt-3-1-0",
+      "targetId": "app-2-1",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-223",
+      "sourceId": "dt-3-1-1",
+      "targetId": "infra-1",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-224",
+      "sourceId": "dt-3-1-1",
+      "targetId": "app-5-1",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-225",
+      "sourceId": "dt-3-1-2",
+      "targetId": "infra-1",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-226",
+      "sourceId": "dt-3-1-2",
+      "targetId": "app-5-4",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-227",
+      "sourceId": "dt-3-2-0",
+      "targetId": "infra-7",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-228",
+      "sourceId": "dt-3-2-0",
+      "targetId": "app-1-2",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-229",
+      "sourceId": "dt-3-2-1",
+      "targetId": "infra-3",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-230",
+      "sourceId": "dt-3-2-1",
+      "targetId": "app-0-3",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-231",
+      "sourceId": "dt-3-2-2",
+      "targetId": "infra-2",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-232",
+      "sourceId": "dt-3-2-2",
+      "targetId": "app-4-4",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-233",
+      "sourceId": "dt-3-3-0",
+      "targetId": "infra-1",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-234",
+      "sourceId": "dt-3-3-0",
+      "targetId": "app-3-4",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-235",
+      "sourceId": "dt-3-3-1",
+      "targetId": "infra-5",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-236",
+      "sourceId": "dt-3-3-2",
+      "targetId": "infra-6",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-237",
+      "sourceId": "dt-3-3-2",
+      "targetId": "app-3-4",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-238",
+      "sourceId": "dt-3-4-0",
+      "targetId": "infra-0",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-239",
+      "sourceId": "dt-3-4-0",
+      "targetId": "app-2-3",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-240",
+      "sourceId": "dt-3-4-1",
+      "targetId": "infra-7",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-241",
+      "sourceId": "dt-3-4-1",
+      "targetId": "app-2-1",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-242",
+      "sourceId": "dt-3-4-2",
+      "targetId": "infra-3",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-243",
+      "sourceId": "dt-3-4-2",
+      "targetId": "app-1-1",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-244",
+      "sourceId": "dt-4-0-0",
+      "targetId": "infra-0",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-245",
+      "sourceId": "dt-4-0-0",
+      "targetId": "app-2-2",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-246",
+      "sourceId": "dt-4-0-1",
+      "targetId": "infra-1",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-247",
+      "sourceId": "dt-4-0-1",
+      "targetId": "app-3-3",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-248",
+      "sourceId": "dt-4-0-2",
+      "targetId": "infra-2",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-249",
+      "sourceId": "dt-4-0-2",
+      "targetId": "app-1-1",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-250",
+      "sourceId": "dt-4-1-0",
+      "targetId": "infra-4",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-251",
+      "sourceId": "dt-4-1-0",
+      "targetId": "app-0-3",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-252",
+      "sourceId": "dt-4-1-1",
+      "targetId": "infra-6",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-253",
+      "sourceId": "dt-4-1-1",
+      "targetId": "app-5-4",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-254",
+      "sourceId": "dt-4-1-2",
+      "targetId": "infra-5",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-255",
+      "sourceId": "dt-4-1-2",
+      "targetId": "app-5-1",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-256",
+      "sourceId": "dt-4-2-0",
+      "targetId": "infra-7",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-257",
+      "sourceId": "dt-4-2-0",
+      "targetId": "app-3-0",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-258",
+      "sourceId": "dt-4-2-1",
+      "targetId": "infra-2",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-259",
+      "sourceId": "dt-4-2-1",
+      "targetId": "app-1-1",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-260",
+      "sourceId": "dt-4-2-2",
+      "targetId": "infra-1",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-261",
+      "sourceId": "dt-4-2-2",
+      "targetId": "app-1-0",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-262",
+      "sourceId": "dt-4-3-0",
+      "targetId": "infra-6",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-263",
+      "sourceId": "dt-4-3-0",
+      "targetId": "app-4-0",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-264",
+      "sourceId": "dt-4-3-1",
+      "targetId": "infra-7",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-265",
+      "sourceId": "dt-4-3-1",
+      "targetId": "app-4-2",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-266",
+      "sourceId": "dt-4-3-2",
+      "targetId": "infra-2",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-267",
+      "sourceId": "dt-4-3-2",
+      "targetId": "app-2-3",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-268",
+      "sourceId": "dt-4-4-0",
+      "targetId": "infra-5",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-269",
+      "sourceId": "dt-4-4-0",
+      "targetId": "app-2-2",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-270",
+      "sourceId": "dt-4-4-1",
+      "targetId": "infra-3",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-271",
+      "sourceId": "dt-4-4-1",
+      "targetId": "app-5-3",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-272",
+      "sourceId": "dt-4-4-2",
+      "targetId": "infra-4",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-273",
+      "sourceId": "dt-4-4-2",
+      "targetId": "app-1-1",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-274",
+      "sourceId": "dt-5-0-0",
+      "targetId": "infra-2",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-275",
+      "sourceId": "dt-5-0-0",
+      "targetId": "app-0-1",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-276",
+      "sourceId": "dt-5-0-1",
+      "targetId": "infra-2",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-277",
+      "sourceId": "dt-5-0-1",
+      "targetId": "app-3-1",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-278",
+      "sourceId": "dt-5-0-2",
+      "targetId": "infra-3",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-279",
+      "sourceId": "dt-5-0-2",
+      "targetId": "app-4-3",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-280",
+      "sourceId": "dt-5-1-0",
+      "targetId": "infra-7",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-281",
+      "sourceId": "dt-5-1-0",
+      "targetId": "app-3-1",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-282",
+      "sourceId": "dt-5-1-1",
+      "targetId": "infra-7",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-283",
+      "sourceId": "dt-5-1-1",
+      "targetId": "app-5-0",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-284",
+      "sourceId": "dt-5-1-2",
+      "targetId": "infra-4",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-285",
+      "sourceId": "dt-5-2-0",
+      "targetId": "infra-3",
+      "type": "indexed-by",
+      "label": "Indexed by"
+    },
+    {
+      "id": "rel-286",
+      "sourceId": "dt-5-2-0",
+      "targetId": "app-4-3",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-287",
+      "sourceId": "dt-5-2-1",
+      "targetId": "infra-7",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-288",
+      "sourceId": "dt-5-2-1",
+      "targetId": "app-0-4",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-289",
+      "sourceId": "dt-5-2-2",
+      "targetId": "infra-6",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-290",
+      "sourceId": "dt-5-2-2",
+      "targetId": "app-4-0",
+      "type": "parsed-by",
+      "label": "Parsed by"
+    },
+    {
+      "id": "rel-291",
+      "sourceId": "dt-5-3-0",
+      "targetId": "infra-5",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-292",
+      "sourceId": "dt-5-3-0",
+      "targetId": "app-0-2",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-293",
+      "sourceId": "dt-5-3-1",
+      "targetId": "infra-0",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-294",
+      "sourceId": "dt-5-3-2",
+      "targetId": "infra-2",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-295",
+      "sourceId": "dt-5-3-2",
+      "targetId": "app-0-1",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-296",
+      "sourceId": "dt-5-4-0",
+      "targetId": "infra-1",
+      "type": "stored-in",
+      "label": "Stored in"
+    },
+    {
+      "id": "rel-297",
+      "sourceId": "dt-5-4-0",
+      "targetId": "app-3-2",
+      "type": "rendered-by",
+      "label": "Rendered by"
+    },
+    {
+      "id": "rel-298",
+      "sourceId": "dt-5-4-1",
+      "targetId": "infra-5",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-299",
+      "sourceId": "dt-5-4-1",
+      "targetId": "app-5-2",
+      "type": "consumed-by",
+      "label": "Consumed by"
+    },
+    {
+      "id": "rel-300",
+      "sourceId": "dt-5-4-2",
+      "targetId": "infra-0",
+      "type": "cached-in",
+      "label": "Cached in"
+    },
+    {
+      "id": "rel-301",
+      "sourceId": "dt-5-4-2",
+      "targetId": "app-4-0",
+      "type": "validated-by",
+      "label": "Validated by"
+    },
+    {
+      "id": "rel-302",
+      "sourceId": "app-0-0",
+      "targetId": "app-3-3",
+      "type": "streams-to",
+      "label": "Streams to"
+    },
+    {
+      "id": "rel-303",
+      "sourceId": "app-0-1",
+      "targetId": "app-5-1",
+      "type": "retrieves-from",
+      "label": "Retrieves from"
+    },
+    {
+      "id": "rel-304",
+      "sourceId": "app-0-1",
+      "targetId": "app-1-1",
+      "type": "publishes-to",
+      "label": "Publishes to"
+    },
+    {
+      "id": "rel-305",
+      "sourceId": "app-0-2",
+      "targetId": "app-5-3",
+      "type": "calls",
+      "label": "Calls"
+    },
+    {
+      "id": "rel-306",
+      "sourceId": "app-0-2",
+      "targetId": "app-3-2",
+      "type": "syncs-with",
+      "label": "Syncs with"
+    },
+    {
+      "id": "rel-307",
+      "sourceId": "app-0-3",
+      "targetId": "app-5-4",
+      "type": "publishes-to",
+      "label": "Publishes to"
+    },
+    {
+      "id": "rel-308",
+      "sourceId": "app-0-4",
+      "targetId": "app-5-4",
+      "type": "publishes-to",
+      "label": "Publishes to"
+    },
+    {
+      "id": "rel-309",
+      "sourceId": "app-0-4",
+      "targetId": "app-3-4",
+      "type": "publishes-to",
+      "label": "Publishes to"
+    },
+    {
+      "id": "rel-310",
+      "sourceId": "app-1-0",
+      "targetId": "app-1-4",
+      "type": "syncs-with",
+      "label": "Syncs with"
+    },
+    {
+      "id": "rel-311",
+      "sourceId": "app-1-0",
+      "targetId": "app-2-4",
+      "type": "publishes-to",
+      "label": "Publishes to"
+    },
+    {
+      "id": "rel-312",
+      "sourceId": "app-1-1",
+      "targetId": "app-0-3",
+      "type": "streams-to",
+      "label": "Streams to"
+    },
+    {
+      "id": "rel-313",
+      "sourceId": "app-1-1",
+      "targetId": "app-2-0",
+      "type": "retrieves-from",
+      "label": "Retrieves from"
+    },
+    {
+      "id": "rel-314",
+      "sourceId": "app-1-2",
+      "targetId": "app-4-0",
+      "type": "retrieves-from",
+      "label": "Retrieves from"
+    },
+    {
+      "id": "rel-315",
+      "sourceId": "app-1-2",
+      "targetId": "app-0-4",
+      "type": "streams-to",
+      "label": "Streams to"
+    },
+    {
+      "id": "rel-316",
+      "sourceId": "app-1-3",
+      "targetId": "app-5-1",
+      "type": "streams-to",
+      "label": "Streams to"
+    },
+    {
+      "id": "rel-317",
+      "sourceId": "app-1-3",
+      "targetId": "app-4-4",
+      "type": "retrieves-from",
+      "label": "Retrieves from"
+    },
+    {
+      "id": "rel-318",
+      "sourceId": "app-1-4",
+      "targetId": "app-0-0",
+      "type": "calls",
+      "label": "Calls"
+    },
+    {
+      "id": "rel-319",
+      "sourceId": "app-1-4",
+      "targetId": "app-2-0",
+      "type": "retrieves-from",
+      "label": "Retrieves from"
+    },
+    {
+      "id": "rel-320",
+      "sourceId": "app-2-0",
+      "targetId": "app-4-1",
+      "type": "publishes-to",
+      "label": "Publishes to"
+    },
+    {
+      "id": "rel-321",
+      "sourceId": "app-2-0",
+      "targetId": "app-3-4",
+      "type": "authenticates-via",
+      "label": "Authenticates via"
+    },
+    {
+      "id": "rel-322",
+      "sourceId": "app-2-1",
+      "targetId": "app-4-2",
+      "type": "syncs-with",
+      "label": "Syncs with"
+    },
+    {
+      "id": "rel-323",
+      "sourceId": "app-2-1",
+      "targetId": "app-5-1",
+      "type": "publishes-to",
+      "label": "Publishes to"
+    },
+    {
+      "id": "rel-324",
+      "sourceId": "app-2-2",
+      "targetId": "app-4-3",
+      "type": "streams-to",
+      "label": "Streams to"
+    },
+    {
+      "id": "rel-325",
+      "sourceId": "app-2-3",
+      "targetId": "app-4-1",
+      "type": "publishes-to",
+      "label": "Publishes to"
+    },
+    {
+      "id": "rel-326",
+      "sourceId": "app-2-4",
+      "targetId": "app-5-3",
+      "type": "retrieves-from",
+      "label": "Retrieves from"
+    },
+    {
+      "id": "rel-327",
+      "sourceId": "app-3-0",
+      "targetId": "app-4-2",
+      "type": "syncs-with",
+      "label": "Syncs with"
+    },
+    {
+      "id": "rel-328",
+      "sourceId": "app-3-0",
+      "targetId": "app-5-3",
+      "type": "authenticates-via",
+      "label": "Authenticates via"
+    },
+    {
+      "id": "rel-329",
+      "sourceId": "app-3-1",
+      "targetId": "app-0-0",
+      "type": "streams-to",
+      "label": "Streams to"
+    },
+    {
+      "id": "rel-330",
+      "sourceId": "app-3-2",
+      "targetId": "app-2-4",
+      "type": "publishes-to",
+      "label": "Publishes to"
+    },
+    {
+      "id": "rel-331",
+      "sourceId": "app-3-2",
+      "targetId": "app-3-4",
+      "type": "syncs-with",
+      "label": "Syncs with"
+    },
+    {
+      "id": "rel-332",
+      "sourceId": "app-3-3",
+      "targetId": "app-4-3",
+      "type": "calls",
+      "label": "Calls"
+    },
+    {
+      "id": "rel-333",
+      "sourceId": "app-3-4",
+      "targetId": "app-5-1",
+      "type": "depends-on",
+      "label": "Depends on"
+    },
+    {
+      "id": "rel-334",
+      "sourceId": "app-3-4",
+      "targetId": "app-4-1",
+      "type": "retrieves-from",
+      "label": "Retrieves from"
+    },
+    {
+      "id": "rel-335",
+      "sourceId": "app-4-0",
+      "targetId": "app-4-1",
+      "type": "publishes-to",
+      "label": "Publishes to"
+    },
+    {
+      "id": "rel-336",
+      "sourceId": "app-4-1",
+      "targetId": "app-1-4",
+      "type": "publishes-to",
+      "label": "Publishes to"
+    },
+    {
+      "id": "rel-337",
+      "sourceId": "app-4-2",
+      "targetId": "app-1-0",
+      "type": "calls",
+      "label": "Calls"
+    },
+    {
+      "id": "rel-338",
+      "sourceId": "app-4-3",
+      "targetId": "app-2-1",
+      "type": "retrieves-from",
+      "label": "Retrieves from"
+    },
+    {
+      "id": "rel-339",
+      "sourceId": "app-4-4",
+      "targetId": "app-0-1",
+      "type": "streams-to",
+      "label": "Streams to"
+    },
+    {
+      "id": "rel-340",
+      "sourceId": "app-4-4",
+      "targetId": "app-3-0",
+      "type": "authenticates-via",
+      "label": "Authenticates via"
+    },
+    {
+      "id": "rel-341",
+      "sourceId": "app-5-0",
+      "targetId": "app-5-2",
+      "type": "streams-to",
+      "label": "Streams to"
+    },
+    {
+      "id": "rel-342",
+      "sourceId": "app-5-1",
+      "targetId": "app-0-3",
+      "type": "depends-on",
+      "label": "Depends on"
+    },
+    {
+      "id": "rel-343",
+      "sourceId": "app-5-2",
+      "targetId": "app-2-3",
+      "type": "calls",
+      "label": "Calls"
+    },
+    {
+      "id": "rel-344",
+      "sourceId": "app-5-3",
+      "targetId": "app-0-1",
+      "type": "depends-on",
+      "label": "Depends on"
+    },
+    {
+      "id": "rel-345",
+      "sourceId": "app-5-4",
+      "targetId": "app-2-1",
+      "type": "authenticates-via",
+      "label": "Authenticates via"
+    },
+    {
+      "id": "rel-346",
+      "sourceId": "app-5-4",
+      "targetId": "app-2-2",
+      "type": "streams-to",
+      "label": "Streams to"
+    },
+    {
+      "id": "rel-347",
+      "sourceId": "app-0-0",
+      "targetId": "infra-2",
+      "type": "hosted-on",
+      "label": "Hosted on"
+    },
+    {
+      "id": "rel-348",
+      "sourceId": "app-0-1",
+      "targetId": "infra-4",
+      "type": "monitored-by",
+      "label": "Monitored by"
+    },
+    {
+      "id": "rel-349",
+      "sourceId": "app-0-2",
+      "targetId": "infra-1",
+      "type": "monitored-by",
+      "label": "Monitored by"
+    },
+    {
+      "id": "rel-350",
+      "sourceId": "app-0-3",
+      "targetId": "infra-0",
+      "type": "hosted-on",
+      "label": "Hosted on"
+    },
+    {
+      "id": "rel-351",
+      "sourceId": "app-0-4",
+      "targetId": "infra-3",
+      "type": "monitored-by",
+      "label": "Monitored by"
+    },
+    {
+      "id": "rel-352",
+      "sourceId": "app-1-0",
+      "targetId": "infra-6",
+      "type": "hosted-on",
+      "label": "Hosted on"
+    },
+    {
+      "id": "rel-353",
+      "sourceId": "app-1-1",
+      "targetId": "infra-6",
+      "type": "deploys-to",
+      "label": "Deploys to"
+    },
+    {
+      "id": "rel-354",
+      "sourceId": "app-1-2",
+      "targetId": "infra-2",
+      "type": "deploys-to",
+      "label": "Deploys to"
+    },
+    {
+      "id": "rel-355",
+      "sourceId": "app-1-3",
+      "targetId": "infra-7",
+      "type": "monitored-by",
+      "label": "Monitored by"
+    },
+    {
+      "id": "rel-356",
+      "sourceId": "app-1-4",
+      "targetId": "infra-6",
+      "type": "deploys-to",
+      "label": "Deploys to"
+    },
+    {
+      "id": "rel-357",
+      "sourceId": "app-2-0",
+      "targetId": "infra-2",
+      "type": "monitored-by",
+      "label": "Monitored by"
+    },
+    {
+      "id": "rel-358",
+      "sourceId": "app-2-1",
+      "targetId": "infra-4",
+      "type": "hosted-on",
+      "label": "Hosted on"
+    },
+    {
+      "id": "rel-359",
+      "sourceId": "app-2-2",
+      "targetId": "infra-3",
+      "type": "hosted-on",
+      "label": "Hosted on"
+    },
+    {
+      "id": "rel-360",
+      "sourceId": "app-2-3",
+      "targetId": "infra-2",
+      "type": "hosted-on",
+      "label": "Hosted on"
+    },
+    {
+      "id": "rel-361",
+      "sourceId": "app-2-4",
+      "targetId": "infra-3",
+      "type": "hosted-on",
+      "label": "Hosted on"
+    },
+    {
+      "id": "rel-362",
+      "sourceId": "app-3-0",
+      "targetId": "infra-5",
+      "type": "monitored-by",
+      "label": "Monitored by"
+    },
+    {
+      "id": "rel-363",
+      "sourceId": "app-3-1",
+      "targetId": "infra-0",
+      "type": "monitored-by",
+      "label": "Monitored by"
+    },
+    {
+      "id": "rel-364",
+      "sourceId": "app-3-2",
+      "targetId": "infra-1",
+      "type": "hosted-on",
+      "label": "Hosted on"
+    },
+    {
+      "id": "rel-365",
+      "sourceId": "app-3-3",
+      "targetId": "infra-4",
+      "type": "hosted-on",
+      "label": "Hosted on"
+    },
+    {
+      "id": "rel-366",
+      "sourceId": "app-3-4",
+      "targetId": "infra-6",
+      "type": "deploys-to",
+      "label": "Deploys to"
+    },
+    {
+      "id": "rel-367",
+      "sourceId": "app-4-0",
+      "targetId": "infra-1",
+      "type": "hosted-on",
+      "label": "Hosted on"
+    },
+    {
+      "id": "rel-368",
+      "sourceId": "app-4-1",
+      "targetId": "infra-7",
+      "type": "hosted-on",
+      "label": "Hosted on"
+    },
+    {
+      "id": "rel-369",
+      "sourceId": "app-4-2",
+      "targetId": "infra-7",
+      "type": "monitored-by",
+      "label": "Monitored by"
+    },
+    {
+      "id": "rel-370",
+      "sourceId": "app-4-3",
+      "targetId": "infra-4",
+      "type": "hosted-on",
+      "label": "Hosted on"
+    },
+    {
+      "id": "rel-371",
+      "sourceId": "app-4-4",
+      "targetId": "infra-6",
+      "type": "hosted-on",
+      "label": "Hosted on"
+    },
+    {
+      "id": "rel-372",
+      "sourceId": "app-5-0",
+      "targetId": "infra-6",
+      "type": "deploys-to",
+      "label": "Deploys to"
+    },
+    {
+      "id": "rel-373",
+      "sourceId": "app-5-1",
+      "targetId": "infra-1",
+      "type": "monitored-by",
+      "label": "Monitored by"
+    },
+    {
+      "id": "rel-374",
+      "sourceId": "app-5-2",
+      "targetId": "infra-7",
+      "type": "monitored-by",
+      "label": "Monitored by"
+    },
+    {
+      "id": "rel-375",
+      "sourceId": "app-5-3",
+      "targetId": "infra-0",
+      "type": "monitored-by",
+      "label": "Monitored by"
+    },
+    {
+      "id": "rel-376",
+      "sourceId": "app-5-4",
+      "targetId": "infra-2",
+      "type": "deploys-to",
+      "label": "Deploys to"
+    },
+    {
+      "id": "rel-377",
+      "sourceId": "app-0-0",
+      "targetId": "ext-1",
+      "type": "syncs-with",
+      "label": "Syncs with"
+    },
+    {
+      "id": "rel-378",
+      "sourceId": "app-1-0",
+      "targetId": "ext-2",
+      "type": "tracks-in",
+      "label": "Tracks work in"
+    },
+    {
+      "id": "rel-379",
+      "sourceId": "app-2-0",
+      "targetId": "ext-5",
+      "type": "authenticates-via",
+      "label": "Authenticates via"
+    },
+    {
+      "id": "rel-380",
+      "sourceId": "app-2-4",
+      "targetId": "ext-1",
+      "type": "syncs-with",
+      "label": "Syncs with"
+    },
+    {
+      "id": "rel-381",
+      "sourceId": "app-3-0",
+      "targetId": "ext-1",
+      "type": "authenticates-via",
+      "label": "Authenticates via"
+    },
+    {
+      "id": "rel-382",
+      "sourceId": "app-4-2",
+      "targetId": "ext-5",
+      "type": "integrates-with",
+      "label": "Integrates with"
+    },
+    {
+      "id": "rel-383",
+      "sourceId": "app-5-0",
+      "targetId": "ext-2",
+      "type": "integrates-with",
+      "label": "Integrates with"
+    },
+    {
+      "id": "rel-384",
+      "sourceId": "app-5-2",
+      "targetId": "ext-4",
+      "type": "integrates-with",
+      "label": "Integrates with"
+    },
+    {
+      "id": "rel-385",
+      "sourceId": "ext-5",
+      "targetId": "dt-0-0-1",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-386",
+      "sourceId": "ext-2",
+      "targetId": "dt-0-2-0",
+      "type": "generates",
+      "label": "Generates"
+    },
+    {
+      "id": "rel-387",
+      "sourceId": "ext-2",
+      "targetId": "dt-1-1-2",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-388",
+      "sourceId": "ext-5",
+      "targetId": "dt-1-2-2",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-389",
+      "sourceId": "ext-1",
+      "targetId": "dt-1-3-1",
+      "type": "builds",
+      "label": "Builds"
+    },
+    {
+      "id": "rel-390",
+      "sourceId": "ext-4",
+      "targetId": "dt-1-3-2",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-391",
+      "sourceId": "ext-3",
+      "targetId": "dt-2-0-2",
+      "type": "builds",
+      "label": "Builds"
+    },
+    {
+      "id": "rel-392",
+      "sourceId": "ext-4",
+      "targetId": "dt-4-0-2",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-393",
+      "sourceId": "ext-3",
+      "targetId": "dt-5-1-1",
+      "type": "authors",
+      "label": "Authors"
+    },
+    {
+      "id": "rel-394",
+      "sourceId": "ext-1",
+      "targetId": "dt-5-2-1",
+      "type": "builds",
+      "label": "Builds"
+    },
+    {
+      "id": "rel-395",
+      "sourceId": "ext-5",
+      "targetId": "dt-5-3-0",
+      "type": "builds",
+      "label": "Builds"
+    },
+    {
+      "id": "rel-396",
+      "sourceId": "ext-1",
+      "targetId": "dt-5-4-2",
+      "type": "assembles",
+      "label": "Assembles"
+    }
+  ]
+}

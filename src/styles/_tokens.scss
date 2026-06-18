@@ -1,0 +1,59 @@
+// SimX brand palette
+$midnight-scrub: #091d3c;
+$vital-red: #e31f2f;
+$clinical-indigo: #0f2d5b;
+$procedure-blue: #007cc0;
+$simx-purple: #463858;
+$sterile-white: #ffffff;
+$instrument-grey: #f0f2f4;
+$black-dusk: #18171d;
+// Mid navy used for infrastructure nodes — distinct from the near-black
+// external-tool fill and brighter than the dark immersion backdrops so
+// infrastructure never blends into either.
+$steel-navy: #1d4e8a;
+
+// Typography scale (pt → rem at 16px base: pt * 1.333 / 16)
+$font-family: 'Lato', system-ui, -apple-system, sans-serif;
+
+$text-big-headline-size: 2rem;       // 30pt
+$text-big-headline-leading: 2.27rem; // 34pt
+$text-headline-size: 1.33rem;        // 20pt
+$text-headline-leading: 1.33rem;
+$text-headline-copy-size: 0.93rem;   // 14pt
+$text-headline-copy-leading: 1.07rem;
+$text-copy-size: 0.8rem;             // 12pt
+$text-copy-leading: 0.93rem;
+$text-caption-size: 0.6rem;          // 9pt
+$text-caption-leading: 0.73rem;
+
+:root {
+  --color-midnight-scrub: #{$midnight-scrub};
+  --color-vital-red: #{$vital-red};
+  --color-clinical-indigo: #{$clinical-indigo};
+  --color-procedure-blue: #{$procedure-blue};
+  --color-simx-purple: #{$simx-purple};
+  --color-sterile-white: #{$sterile-white};
+  --color-instrument-grey: #{$instrument-grey};
+  --color-black-dusk: #{$black-dusk};
+  --color-steel-navy: #{$steel-navy};
+
+  --font-family: #{$font-family};
+
+  --text-big-headline-size: #{$text-big-headline-size};
+  --text-big-headline-leading: #{$text-big-headline-leading};
+  --text-headline-size: #{$text-headline-size};
+  --text-headline-leading: #{$text-headline-leading};
+  --text-headline-copy-size: #{$text-headline-copy-size};
+  --text-headline-copy-leading: #{$text-headline-copy-leading};
+  --text-copy-size: #{$text-copy-size};
+  --text-copy-leading: #{$text-copy-leading};
+  --text-caption-size: #{$text-caption-size};
+  --text-caption-leading: #{$text-caption-leading};
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-card: 0 2px 12px rgba(9, 29, 60, 0.12);
+  --shadow-elevated: 0 8px 32px rgba(9, 29, 60, 0.18);
+  --transition-zoom: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}

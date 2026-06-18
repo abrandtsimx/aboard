@@ -1,0 +1,61 @@
+@if (doc.selectedNode(); as node) {
+  <aside class="detail-panel" aria-label="Node details">
+    <header class="detail-panel__header">
+      <div>
+        <span class="detail-panel__type text-caption">{{ node.type }}</span>
+        <h2 class="detail-panel__title text-headline">{{ node.label }}</h2>
+      </div>
+      <button class="detail-panel__close" (click)="close()" aria-label="Close panel">✕</button>
+    </header>
+
+    @if (node.description) {
+      <p class="detail-panel__description text-copy">{{ node.description }}</p>
+    }
+
+    <div class="detail-panel__badges">
+      <span
+        class="badge"
+        [class.badge--customer]="node.visibility === 'customer-facing'"
+        [class.badge--internal]="node.visibility === 'internal'"
+        [class.badge--both]="node.visibility === 'both'"
+      >
+        {{ node.visibility }}
+      </span>
+      <span class="badge badge--type">{{ node.type }}</span>
+    </div>
+
+    @if (doc.hasChildren(node.id)) {
+      <button class="detail-panel__zoom-btn" (click)="doc.zoomInto(node.id)">
+        Zoom into {{ doc.getChildren(node.id).length }} nested items →
+      </button>
+    }
+
+    @if (doc.selectedRelationships().length > 0) {
+      <section class="detail-panel__section">
+        <h3 class="text-headline-copy">Relationships</h3>
+        <ul class="relationship-list">
+          @for (rel of doc.selectedRelationships(); track rel.id) {
+            <li class="relationship-list__item text-copy">
+              <span class="relationship-list__type text-caption">{{ rel.type }}</span>
+              {{ relationshipText(rel) }}
+            </li>
+          }
+        </ul>
+      </section>
+    }
+
+    @if (node.metadata && (node.metadata | keyvalue).length > 0) {
+      <section class="detail-panel__section">
+        <h3 class="text-headline-copy">Metadata</h3>
+        <dl class="metadata-list">
+          @for (entry of node.metadata | keyvalue; track entry.key) {
+            <div class="metadata-list__row">
+              <dt class="text-caption">{{ entry.key }}</dt>
+              <dd class="text-copy">{{ entry.value }}</dd>
+            </div>
+          }
+        </dl>
+      </section>
+    }
+  </aside>
+}

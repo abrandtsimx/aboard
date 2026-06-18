@@ -1,0 +1,62 @@
+@use 'styles/tokens';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--text-copy-size);
+  line-height: var(--text-copy-leading);
+  color: var(--color-black-dusk);
+  background: var(--color-instrument-grey);
+  -webkit-font-smoothing: antialiased;
+}
+
+.text-big-headline {
+  font-weight: 900;
+  font-size: var(--text-big-headline-size);
+  line-height: var(--text-big-headline-leading);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.text-headline {
+  font-weight: 900;
+  font-size: var(--text-headline-size);
+  line-height: var(--text-headline-leading);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.text-headline-copy {
+  font-weight: 700;
+  font-size: var(--text-headline-copy-size);
+  line-height: var(--text-headline-copy-leading);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.text-copy {
+  font-size: var(--text-copy-size);
+  line-height: var(--text-copy-leading);
+}
+
+.text-caption {
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-leading);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}

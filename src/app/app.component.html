@@ -1,0 +1,28 @@
+@if (library.inExplorer()) {
+  <div class="app-shell">
+    <app-toolbar />
+    <div class="app-shell__body">
+      <app-search-panel />
+      <app-workspace />
+    </div>
+  </div>
+} @else {
+  <app-dashboard />
+}
+
+@if (isDragging()) {
+  <div class="drop-overlay">
+    <div class="drop-overlay__card">
+      <span class="drop-overlay__icon" aria-hidden="true">⤓</span>
+      <p class="drop-overlay__title">Drop your .board file</p>
+      <p class="drop-overlay__hint">Release anywhere to add it to your library</p>
+    </div>
+  </div>
+}
+
+@if (dropError()) {
+  <div class="drop-error" role="alert">
+    <span class="drop-error__msg">{{ dropError() }}</span>
+    <button type="button" class="drop-error__dismiss" (click)="clearError()">Dismiss</button>
+  </div>
+}
