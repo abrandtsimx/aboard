@@ -5,6 +5,14 @@
 >
   @if (doc.mode() === 'immersed' && doc.immersedNode(); as immersed) {
     <header class="topbar topbar--immersed">
+      <button
+        type="button"
+        class="chip chip--root-return"
+        (click)="returnToRoot()"
+        aria-label="Back to root overview"
+      >
+        Home
+      </button>
       <div class="topbar__title">
         <h1 class="text-headline">{{ immersed.label }}</h1>
         @if (immersed.description) {
@@ -73,7 +81,7 @@
   <div
     #stage
     class="stage"
-    [class]="doc.mode() === 'immersed' ? immersedBackgroundClass() : ''"
+    [style]="doc.mode() === 'immersed' ? immersedBackgroundStyle() : null"
     [class.stage--immersed]="doc.mode() === 'immersed'"
     [class.stage--peek]="doc.mode() === 'canvas' && !!doc.peekId()"
     [class.stage--panning]="panning()"
@@ -115,9 +123,15 @@
       @for (gn of graph().nodes; track gn.id) {
         <div
           class="graph-node"
+          [class.graph-node--draggable]="doc.mode() === 'immersed'"
+          [class.graph-node--dragging]="draggingNodeId() === gn.id"
           [style.left.px]="gn.x"
           [style.top.px]="gn.y"
           [style.width.px]="gn.size"
+          (pointerdown)="onGraphNodePointerDown($event, gn)"
+          (pointermove)="onGraphNodePointerMove($event)"
+          (pointerup)="onGraphNodePointerUp($event, gn)"
+          (pointercancel)="onGraphNodePointerCancel($event)"
         >
           <app-orbit-node
             [node]="gn.node"

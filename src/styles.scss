@@ -60,3 +60,12 @@ button {
   font-family: inherit;
   cursor: pointer;
 }
+
+app-workspace .stage__link {
+  shape-rendering: geometricPrecision;
+}
+
+app-workspace .stage__link-label,
+app-workspace .graph-node {
+  text-rendering: geometricPrecision;
+}

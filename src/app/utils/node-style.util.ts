@@ -1,10 +1,12 @@
 import {
+  AboardDocument,
   AboardNode,
   AboardSchema,
   NodeShape,
   SchemaType,
 } from '../models/aboard.models';
 import { getNodeCategory } from './category.util';
+import { resolveApplicationFill } from './tag.util';
 
 export interface ResolvedNodeStyle {
   shape: NodeShape;
@@ -33,15 +35,21 @@ export function findSchemaType(
  */
 export function resolveNodeStyle(
   node: AboardNode,
-  schema: AboardSchema | null | undefined
+  schema: AboardSchema | null | undefined,
+  doc?: AboardDocument | null
 ): ResolvedNodeStyle {
   const def = findSchemaType(node, schema);
   if (def) {
     return { shape: def.shape, fill: def.color, textColor: def.textColor ?? null };
   }
+
+  const category = getNodeCategory(node);
+  const tagFill =
+    doc && category === 'application' ? resolveApplicationFill(node, doc) : null;
+
   return {
-    shape: defaultShapeForCategory(getNodeCategory(node)),
-    fill: null,
+    shape: defaultShapeForCategory(category),
+    fill: tagFill,
     textColor: null,
   };
 }

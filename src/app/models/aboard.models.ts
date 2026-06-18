@@ -19,7 +19,17 @@ export type NodeType =
   | 'custom'
   | (string & {});
 
+/** @deprecated Legacy audience field — prefer board tags on nodes. */
 export type Visibility = 'customer-facing' | 'internal' | 'both';
+
+/** Board-defined label used to classify items (e.g. audience, team, lifecycle). */
+export interface BoardTag {
+  /** Unique slug referenced by `AboardNode.tags`. */
+  id: string;
+  label: string;
+  /** Optional accent color for application nodes and immersed backdrops. */
+  color?: string;
+}
 
 /** Shapes a node can render as. */
 export type NodeShape =
@@ -57,7 +67,10 @@ export interface AboardNode {
   type: NodeType;
   /** Semantic category for styling and immersed layout (defaults from type if omitted) */
   category?: NodeCategory;
-  visibility: Visibility;
+  /** @deprecated Use `tags` — kept for imported legacy boards. */
+  visibility?: Visibility;
+  /** References `AboardDocument.tags` ids. */
+  tags?: string[];
   parentId: string | null;
   /** Canvas position as percentage (0–100) of the viewport */
   position?: { x: number; y: number };
@@ -89,6 +102,8 @@ export interface AboardDocument {
   rootId: string;
   /** Optional custom type/shape/color definitions; falls back to built-ins. */
   schema?: AboardSchema;
+  /** Board-level tag catalog for classifying items where it makes sense. */
+  tags?: BoardTag[];
   nodes: AboardNode[];
   relationships: AboardRelationship[];
 }

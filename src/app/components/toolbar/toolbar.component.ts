@@ -1,6 +1,9 @@
 import { Component, inject, NgZone } from '@angular/core';
 import { DocumentService } from '../../services/document.service';
 import { BoardLibraryService } from '../../services/board-library.service';
+import { BoardEditorUiService } from '../../services/board-editor-ui.service';
+import { EXAMPLE_BOARDS } from '../../data/example-boards';
+import { publicAssetUrl } from '../../utils/public-asset.util';
 
 @Component({
   selector: 'app-toolbar',
@@ -11,6 +14,8 @@ import { BoardLibraryService } from '../../services/board-library.service';
 export class ToolbarComponent {
   protected readonly doc = inject(DocumentService);
   protected readonly library = inject(BoardLibraryService);
+  protected readonly editorUi = inject(BoardEditorUiService);
+  protected readonly examples = EXAMPLE_BOARDS;
   private readonly zone = inject(NgZone);
 
   protected goToDashboard(): void {
@@ -50,7 +55,7 @@ export class ToolbarComponent {
     if (!path) return;
     select.value = '';
 
-    fetch(path)
+    fetch(publicAssetUrl(path))
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.text();

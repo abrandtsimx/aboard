@@ -53,12 +53,6 @@
   }
 
   &--immersed {
-    &::before {
-      content: '';
-      width: 92px;
-      flex-shrink: 0;
-    }
-
     .topbar__title {
       text-align: center;
     }
@@ -153,7 +147,6 @@
   position: absolute;
   inset: 0;
   transform-origin: 0 0;
-  will-change: transform;
 }
 
 .info-panel {
@@ -400,6 +393,16 @@
   transition: left 360ms cubic-bezier(0.16, 1, 0.3, 1),
     top 360ms cubic-bezier(0.16, 1, 0.3, 1),
     width 320ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  &--draggable {
+    cursor: grab;
+  }
+
+  &--dragging {
+    z-index: 4;
+    cursor: grabbing;
+    transition: none;
+  }
 }
 
 .graph-node__caption {

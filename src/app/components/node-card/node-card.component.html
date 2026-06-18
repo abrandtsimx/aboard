@@ -1,9 +1,7 @@
 <article
   class="node-card"
   [class.node-card--selected]="selected()"
-  [class.node-card--customer]="node().visibility === 'customer-facing'"
-  [class.node-card--internal]="node().visibility === 'internal'"
-  [class.node-card--both]="node().visibility === 'both'"
+  [style.--tag-accent]="nodeTags()[0]?.color ?? null"
   [attr.tabindex]="0"
   role="button"
   [attr.aria-label]="node().label"
@@ -12,12 +10,15 @@
 >
   <header class="node-card__header">
     <span class="node-card__type text-caption">{{ typeLabel(node().type) }}</span>
-    <span
-      class="node-card__visibility text-caption"
-      [attr.data-visibility]="node().visibility"
-    >
-      {{ node().visibility === 'customer-facing' ? 'Customer' : node().visibility === 'internal' ? 'Internal' : 'Both' }}
-    </span>
+    @if (nodeTags().length > 0) {
+      <div class="node-card__tags">
+        @for (tag of nodeTags(); track tag.id) {
+          <span class="node-card__tag text-caption" [style.--tag-color]="tag.color ?? null">
+            {{ tagLabel(tag) }}
+          </span>
+        }
+      </div>
+    }
   </header>
 
   <h3 class="node-card__label text-headline-copy">{{ node().label }}</h3>

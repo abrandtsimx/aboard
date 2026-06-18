@@ -1,6 +1,7 @@
 import { Component, input, output, inject, computed } from '@angular/core';
 import { AboardNode } from '../../models/aboard.models';
 import { DocumentService } from '../../services/document.service';
+import { getNodeTags, tagLabel } from '../../utils/tag.util';
 
 @Component({
   selector: 'app-node-card',
@@ -27,6 +28,12 @@ export class NodeCardComponent {
   protected readonly relationshipCount = computed(() =>
     this.doc.getRelationshipsFor(this.node().id).length
   );
+
+  protected readonly nodeTags = computed(() =>
+    getNodeTags(this.node(), this.doc.currentDocument())
+  );
+
+  protected tagLabel = tagLabel;
 
   protected typeLabel(type: string): string {
     return type.replace(/-/g, ' ');

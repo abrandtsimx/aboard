@@ -3,12 +3,19 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { SearchPanelComponent } from './components/search-panel/search-panel.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { BoardEditorComponent } from './components/board-editor/board-editor.component';
 import { DocumentService } from './services/document.service';
 import { BoardLibraryService } from './services/board-library.service';
 
 @Component({
   selector: 'app-root',
-  imports: [ToolbarComponent, WorkspaceComponent, SearchPanelComponent, DashboardComponent],
+  imports: [
+    ToolbarComponent,
+    WorkspaceComponent,
+    SearchPanelComponent,
+    DashboardComponent,
+    BoardEditorComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

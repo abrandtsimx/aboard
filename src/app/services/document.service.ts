@@ -5,6 +5,7 @@ import {
   AboardRelationship,
   ABOARD_DOCUMENT_VERSION,
 } from '../models/aboard.models';
+import { normalizeDocumentTags } from '../utils/tag.util';
 import { SAMPLE_DOCUMENT } from '../data/sample-document';
 import { getNodeCategory, isNavigableCategory } from '../utils/category.util';
 import { isCreationRelationship } from '../utils/relationship.util';
@@ -34,7 +35,7 @@ export interface ImmersedBranchRow {
   kind: 'branch';
   source: AboardNode;
   entryLabel?: string;
-  branches: { relationship: AboardRelationship; target: AboardNode }[];
+  branches: { relationship: AboardRelationship; target: AboardNode; incoming?: boolean }[];
 }
 
 export type ImmersedRow = ImmersedOutboundRow | ImmersedBranchRow;
@@ -151,13 +152,20 @@ export class DocumentService {
 
     for (const child of this.getChildren(focused.id)) {
       const entryRel = rels.find((r) => r.sourceId === focused.id && r.targetId === child.id);
-      const branches: { relationship: AboardRelationship; target: AboardNode }[] = [];
+      const branches: { relationship: AboardRelationship; target: AboardNode; incoming?: boolean }[] = [];
 
       for (const rel of rels) {
         if (rel.sourceId !== child.id) continue;
         const target = this.findNode(rel.targetId);
         if (!target || target.id === focused.id) continue;
         branches.push({ relationship: rel, target });
+      }
+
+      for (const rel of rels) {
+        if (rel.targetId !== child.id) continue;
+        const source = this.findNode(rel.sourceId);
+        if (!source || source.id === focused.id) continue;
+        branches.push({ relationship: rel, target: source, incoming: true });
       }
 
       if (branches.length > 0) {
@@ -167,6 +175,8 @@ export class DocumentService {
           entryLabel: entryRel?.label,
           branches,
         });
+      } else if (entryRel) {
+        rows.push({ kind: 'outbound', relationship: entryRel, target: child });
       }
     }
 
@@ -388,12 +398,18 @@ export class DocumentService {
     );
   }
 
+  /** Apply an in-place mutation to the current document (cloned before write). */
+  mutateDocument(mutator: (doc: AboardDocument) => void): void {
+    const next = structuredClone(this.document());
+    mutator(next);
+    this.normalizeDocument(next);
+    this.document.set(next);
+  }
+
   loadDocument(doc: AboardDocument): void {
-    this.validateDocument(doc);
-    if (!doc.relationships) {
-      doc.relationships = [];
-    }
-    this.document.set(structuredClone(doc));
+    const next = structuredClone(doc);
+    this.normalizeDocument(next);
+    this.document.set(next);
     this.focusPath.set([]);
     this.navTrail.set([]);
     this.peekNodeId.set(null);
@@ -440,5 +456,11 @@ export class DocumentService {
     if (!doc.version) {
       doc.version = ABOARD_DOCUMENT_VERSION;
     }
+  }
+
+  private normalizeDocument(doc: AboardDocument): void {
+    this.validateDocument(doc);
+    if (!doc.relationships) doc.relationships = [];
+    normalizeDocumentTags(doc);
   }
 }

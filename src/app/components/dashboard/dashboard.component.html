@@ -6,15 +6,16 @@
     </div>
 
     <div class="dashboard__actions">
+      <button type="button" class="btn btn--secondary" (click)="createBlankBoard()">New board</button>
       <select
         class="btn btn--secondary"
         (change)="loadExample($event)"
         aria-label="Add example board"
       >
         <option value="" selected>Add example…</option>
-        <option value="/sample-document.json">SimX overview</option>
-        <option value="/examples/medium.json">Medium (~36 items)</option>
-        <option value="/examples/xlarge.json">Extra large (~136 items)</option>
+        @for (example of examples; track example.path) {
+          <option [value]="example.path">{{ example.label }}</option>
+        }
       </select>
       <label class="btn btn--primary">
         Import board
@@ -29,13 +30,42 @@
       <p class="text-copy">Import a .board file or add an example to get started.</p>
     </div>
   } @else {
+    <div class="dashboard__bulk">
+      <label class="dashboard__select-all text-caption">
+        <input
+          type="checkbox"
+          [checked]="allBoardsSelected()"
+          (change)="toggleAllBoards($event)"
+        />
+        Select all
+      </label>
+      <button
+        type="button"
+        class="btn btn--danger"
+        [disabled]="selectedCount() === 0"
+        (click)="deleteSelectedBoards()"
+      >
+        Delete selected@if (selectedCount() > 0) { ({{ selectedCount() }}) }
+      </button>
+    </div>
+
     <div class="dashboard__grid">
       @for (board of library.library(); track board.id) {
-        <button type="button" class="board-card" (click)="openBoard(board)">
-          <span class="board-card__title">{{ board.title }}</span>
-          <span class="board-card__meta text-caption">
-            {{ board.nodeCount }} nodes · Updated {{ formatDate(board.updatedAt) }}
-          </span>
+        <article class="board-card" [class.board-card--selected]="selectedBoardIds().has(board.id)">
+          <label class="board-card__select" (click)="$event.stopPropagation()">
+            <input
+              type="checkbox"
+              [checked]="selectedBoardIds().has(board.id)"
+              (change)="toggleBoardSelection($event, board.id)"
+              [attr.aria-label]="'Select ' + board.title"
+            />
+          </label>
+          <button type="button" class="board-card__open" (click)="openBoard(board)">
+            <span class="board-card__title">{{ board.title }}</span>
+            <span class="board-card__meta text-caption">
+              {{ board.nodeCount }} nodes · Updated {{ formatDate(board.updatedAt) }}
+            </span>
+          </button>
           <button
             type="button"
             class="board-card__delete"
@@ -45,7 +75,7 @@
           >
             ×
           </button>
-        </button>
+        </article>
       }
     </div>
   }

@@ -13,6 +13,7 @@
 import { NgClass } from '@angular/common';
 import { marked } from 'marked';
 import { DocumentService } from '../../services/document.service';
+import { resolveImmersedBackdrop } from '../../utils/tag.util';
 import { OrbitNodeComponent, OrbitState } from '../orbit-node/orbit-node.component';
 import { AboardNode, NodeShape } from '../../models/aboard.models';
 import {
@@ -72,6 +73,14 @@ interface GraphModel {
   links: GraphLink[];
 }
 
+interface NodeDragState {
+  id: string;
+  pointerId: number;
+  startClient: Pt;
+  startPosition: Pt;
+  moved: boolean;
+}
+
 interface LegendItem {
   label: string;
   shape: NodeShape;
@@ -110,7 +119,10 @@ export class WorkspaceComponent {
   protected readonly pan = signal<Pt>({ x: 0, y: 0 });
   protected readonly viewportTransform = computed(() => {
     const p = this.pan();
-    return `translate(${p.x}px, ${p.y}px) scale(${this.scale()})`;
+    const dpr = window.devicePixelRatio || 1;
+    const x = Math.round(p.x * dpr) / dpr;
+    const y = Math.round(p.y * dpr) / dpr;
+    return `translate(${x}px, ${y}px) scale(${this.scale()})`;
   });
 
   private readonly MIN_SCALE = 0.45;
@@ -122,6 +134,10 @@ export class WorkspaceComponent {
   private didPan = false;
   private panStart = { x: 0, y: 0 };
   private panOrigin = { x: 0, y: 0 };
+
+  protected readonly draggingNodeId = signal<string | null>(null);
+  private readonly temporaryNodePositions = signal<Record<string, Pt>>({});
+  private nodeDrag: NodeDragState | null = null;
 
   protected readonly graph = computed<GraphModel>(() => {
     const rect = this.rect();
@@ -205,6 +221,9 @@ export class WorkspaceComponent {
       this.doc.focusedNode();
       this.doc.immersedNode();
       untracked(() => {
+        this.temporaryNodePositions.set({});
+        this.nodeDrag = null;
+        this.draggingNodeId.set(null);
         queueMicrotask(() => this.resetView());
       });
     });
@@ -234,6 +253,62 @@ export class WorkspaceComponent {
     if (this.doc.mode() === 'canvas') {
       this.doc.peekNodeById(null);
     }
+  }
+
+  protected onGraphNodePointerDown(event: PointerEvent, gn: GraphNode): void {
+    if (this.doc.mode() !== 'immersed' || event.button !== 0) return;
+    event.stopPropagation();
+    (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    this.nodeDrag = {
+      id: gn.id,
+      pointerId: event.pointerId,
+      startClient: { x: event.clientX, y: event.clientY },
+      startPosition: { x: gn.x, y: gn.y },
+      moved: false,
+    };
+    this.draggingNodeId.set(gn.id);
+  }
+
+  protected onGraphNodePointerMove(event: PointerEvent): void {
+    const drag = this.nodeDrag;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    event.stopPropagation();
+    const screenDx = event.clientX - drag.startClient.x;
+    const screenDy = event.clientY - drag.startClient.y;
+    if (!drag.moved && Math.hypot(screenDx, screenDy) < 4) return;
+
+    drag.moved = true;
+    this.didPan = true;
+    const scale = this.scale() || 1;
+    this.temporaryNodePositions.update((positions) => ({
+      ...positions,
+      [drag.id]: {
+        x: drag.startPosition.x + screenDx / scale,
+        y: drag.startPosition.y + screenDy / scale,
+      },
+    }));
+  }
+
+  protected onGraphNodePointerUp(event: PointerEvent, gn: GraphNode): void {
+    const drag = this.nodeDrag;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    event.stopPropagation();
+    (event.currentTarget as HTMLElement).releasePointerCapture(event.pointerId);
+    this.nodeDrag = null;
+    this.draggingNodeId.set(null);
+    if (drag.moved) {
+      setTimeout(() => (this.didPan = false));
+    } else {
+      this.onNodeActivated(gn);
+    }
+  }
+
+  protected onGraphNodePointerCancel(event: PointerEvent): void {
+    const drag = this.nodeDrag;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    event.stopPropagation();
+    this.nodeDrag = null;
+    this.draggingNodeId.set(null);
   }
 
   // ---- pan / zoom ---------------------------------------------------------
@@ -373,10 +448,10 @@ export class WorkspaceComponent {
     this.runTransition(() => this.doc.navigateTo(this.doc.currentDocument().rootId));
   }
 
-  protected immersedBackgroundClass(): string {
+  protected immersedBackgroundStyle(): Record<string, string> | null {
     const node = this.doc.immersedNode();
-    if (!node) return 'stage--immersed-both';
-    return `stage--immersed-${node.visibility}`;
+    if (!node) return null;
+    return { background: resolveImmersedBackdrop(node, this.doc.currentDocument()) };
   }
 
   private runTransition(action: () => void): void {
@@ -607,6 +682,7 @@ export class WorkspaceComponent {
             relLabel: b.relationship.label,
             relId: b.relationship.id,
             groupIdx: gi,
+            incoming: b.incoming,
           })
         );
       }
@@ -753,16 +829,6 @@ export class WorkspaceComponent {
         id: inter.id,
         body: { x: inter.x, y: inter.y, size: this.collisionSize(inter), weight: 12 },
       });
-      links.push(
-        this.makeLink(
-          `e-${row.source.id}`,
-          focusGn,
-          inter,
-          'active',
-          showLinkLabels ? row.entryLabel : undefined,
-          { center, routing: 'straight' }
-        )
-      );
     });
 
     leaves.forEach((leaf, i) => {
@@ -841,12 +907,31 @@ export class WorkspaceComponent {
       }
     }
 
+    this.applyTemporaryNodePositions(nodes, center);
+
+    rows.forEach((row, gi) => {
+      if (row.kind !== 'branch') return;
+      const inter = intermediates.get(gi);
+      if (!inter) return;
+      links.push(
+        this.makeLink(
+          `e-${row.source.id}`,
+          focusGn,
+          inter,
+          'active',
+          showLinkLabels ? row.entryLabel : undefined,
+          { center, routing: 'straight' }
+        )
+      );
+    });
+
     leaves.forEach((leaf, i) => {
       const gn = nodes.find((n) => n.id === leaf.target.id)!;
       const label = showLinkLabels ? leaf.relLabel : undefined;
       if (leaf.incoming) {
+        const to = leaf.groupIdx >= 0 ? intermediates.get(leaf.groupIdx)! : focusGn;
         links.push(
-          this.makeLink(`c-${leaf.relId}`, gn, focusGn, 'active', label, {
+          this.makeLink(`c-${leaf.relId}`, gn, to, 'active', label, {
             center,
             routing: 'straight',
           })
@@ -871,6 +956,17 @@ export class WorkspaceComponent {
   // data types), so no per-category size correction is needed.
   private renderSize(_category: string, base: number): number {
     return base;
+  }
+
+  private applyTemporaryNodePositions(nodes: GraphNode[], center: Pt): void {
+    const positions = this.temporaryNodePositions();
+    for (const gn of nodes) {
+      const position = positions[gn.id];
+      if (!position) continue;
+      gn.x = position.x;
+      gn.y = position.y;
+      if (gn.caption) gn.captionSide = this.captionSide(center, gn);
+    }
   }
 
   private collisionSize(gn: GraphNode): number {

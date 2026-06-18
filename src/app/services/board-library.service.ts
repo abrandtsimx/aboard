@@ -28,8 +28,8 @@ export class BoardLibraryService {
   });
 
   constructor() {
-    this.loadFromStorage();
-    if (this.boards().length === 0) {
+    const hasStoredLibrary = this.loadFromStorage();
+    if (!hasStoredLibrary && this.boards().length === 0) {
       this.upsertDocument(structuredClone(SAMPLE_DOCUMENT));
     }
   }
@@ -76,6 +76,18 @@ export class BoardLibraryService {
     this.persist();
   }
 
+  deleteBoards(ids: Iterable<string>): void {
+    const idSet = new Set(ids);
+    if (idSet.size === 0) return;
+
+    this.boards.update((list) => list.filter((b) => !idSet.has(b.id)));
+    const activeId = this.activeId();
+    if (activeId && idSet.has(activeId)) {
+      this.closeExplorer();
+    }
+    this.persist();
+  }
+
   /** Replace the active board's stored document (e.g. after import while open). */
   refreshActive(doc: AboardDocument): void {
     const id = this.activeId();
@@ -92,17 +104,19 @@ export class BoardLibraryService {
     return null;
   }
 
-  private loadFromStorage(): void {
+  private loadFromStorage(): boolean {
     try {
       const raw = localStorage.getItem(LIBRARY_KEY);
-      if (!raw) return;
+      if (!raw) return false;
       const parsed = JSON.parse(raw) as StoredBoard[];
       if (Array.isArray(parsed)) {
         this.boards.set(parsed.filter((b) => b?.id && b?.document?.nodes));
+        return true;
       }
     } catch {
       // Corrupt storage — start fresh on next upsert.
     }
+    return false;
   }
 
   private persist(): void {

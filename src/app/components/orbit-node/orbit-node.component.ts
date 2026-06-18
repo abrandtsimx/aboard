@@ -64,7 +64,7 @@ export class OrbitNodeComponent {
   // Shape/colors come from the board's schema when it defines this node's type;
   // otherwise we fall back to the built-in category styling.
   protected readonly style = computed(() =>
-    resolveNodeStyle(this.node(), this.doc.schema())
+    resolveNodeStyle(this.node(), this.doc.schema(), this.doc.currentDocument())
   );
   protected readonly shape = computed(() => this.style().shape);
   protected readonly fillColor = computed(() => this.style().fill);
@@ -109,13 +109,12 @@ export class OrbitNodeComponent {
 
   protected orbitClasses(): Record<string, boolean> {
     const cat = this.category();
-    const visibility = this.node().visibility;
     return {
       [`orbit--cat-${cat}`]: true,
-      [`orbit--${visibility}`]: cat === 'application',
       [`orbit--shape-${this.shape()}`]: true,
       [`orbit--${this.state()}`]: true,
       'orbit--static': !this.interactive(),
+      'orbit--tagged-application': cat === 'application' && !!this.style().fill,
     };
   }
 

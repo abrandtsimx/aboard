@@ -31,12 +31,12 @@
 
   <div class="toolbar__actions">
     <button type="button" class="btn btn--secondary" (click)="goToDashboard()">All boards</button>
+    <button type="button" class="btn btn--secondary" (click)="editorUi.open()">Curate</button>
     <select class="btn btn--secondary toolbar__examples" (change)="loadExample($event)" aria-label="Load example dataset">
       <option value="" selected>Load example…</option>
-      <option value="/sample-document.json">SimX overview (default)</option>
-      <option value="/examples/pokemon-red.json">Pokemon Red gameplay features</option>
-      <option value="/examples/medium.json">Medium (~36 items)</option>
-      <option value="/examples/xlarge.json">Extra large (~136 items)</option>
+      @for (example of examples; track example.path) {
+        <option [value]="example.path">{{ example.label }}</option>
+      }
     </select>
     <label class="btn btn--secondary">
       Import
