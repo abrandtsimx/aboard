@@ -1,6 +1,5 @@
 @if (isOpen()) {
-  <div class="editor-backdrop" (click)="close()" aria-hidden="true"></div>
-  <aside class="editor" role="dialog" aria-labelledby="board-editor-title" aria-modal="true" (click)="$event.stopPropagation()">
+  <aside class="editor" role="dialog" aria-labelledby="board-editor-title">
     <header class="editor__header">
       <div>
         <h2 id="board-editor-title" class="text-headline-copy">Curate board</h2>
@@ -231,31 +230,12 @@
 
         @case ('nodes') {
           <section class="panel">
-            <div class="panel__toolbar">
-              <div>
-                <h3 class="panel__heading text-headline-copy">Items</h3>
-                <p class="panel__hint">Nodes in the graph — apps, data types, infrastructure, etc.</p>
-              </div>
-              <button type="button" class="btn btn--ghost" (click)="startNewNode()">New item</button>
+            <div class="panel__intro">
+              <h3 class="panel__heading text-headline-copy">Edit item</h3>
+              <p class="panel__hint">
+                Select an item in the list on the left, or choose <strong>New item</strong> there to create one.
+              </p>
             </div>
-
-            <ul class="entity-list entity-list--compact">
-              @for (node of nodes(); track node.id) {
-                <li class="entity-list__row" [class.entity-list__row--active]="editingNodeId() === node.id">
-                  <span class="entity-list__category text-caption">{{ nodeCategoryLabel(node) }}</span>
-                  <button type="button" class="entity-list__body" (click)="editNode(node)">
-                    <span class="entity-list__title">{{ node.label }}</span>
-                    <span class="entity-list__meta text-caption">
-                      {{ node.id }}
-                      @if (nodeTagSummary(node); as tags) { · {{ tags }} }
-                    </span>
-                  </button>
-                  @if (node.id !== doc.currentDocument().rootId) {
-                    <button type="button" class="entity-list__remove" aria-label="Remove item" (click)="removeNode(node.id)">×</button>
-                  }
-                </li>
-              }
-            </ul>
 
             <form class="subform" (submit)="$event.preventDefault(); saveNode()">
               <h4 class="subform__title">{{ editingNodeId() ? 'Edit item' : 'New item' }}</h4>
@@ -280,10 +260,13 @@
                   <label class="field">
                     <span class="field__label">Type</span>
                     <select class="field__input" [ngModel]="nodeDraft().type" (ngModelChange)="onNodeTypeChange($event)" name="nodeType">
-                      @for (opt of nodeTypeOptions; track opt.value) {
+                      @for (opt of nodeTypeOptions(); track opt.value) {
                         <option [ngValue]="opt.value">{{ opt.label }}</option>
                       }
                     </select>
+                    @if (usesSchemaTypes()) {
+                      <span class="field__hint text-caption">From this board's schema — add types on the Schema tab.</span>
+                    }
                   </label>
                   <label class="field">
                     <span class="field__label">Category</span>
@@ -355,6 +338,9 @@
                 <button type="submit" class="btn btn--primary">{{ editingNodeId() ? 'Update item' : 'Add item' }}</button>
                 @if (editingNodeId()) {
                   <button type="button" class="btn btn--ghost" (click)="startNewNode()">Cancel</button>
+                }
+                @if (canRemoveSelectedNode()) {
+                  <button type="button" class="btn btn--danger" (click)="removeSelectedNode()">Remove item</button>
                 }
               </div>
             </form>

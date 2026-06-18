@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ABOARD_DOCUMENT_VERSION } from '../models/aboard.models';
-import { BoardCurationService } from './board-curation.service';
+import { BoardCurationService, getNodeTypeOptions, NODE_TYPE_OPTIONS } from './board-curation.service';
 import { DocumentService } from './document.service';
 
 describe('BoardCurationService', () => {
@@ -88,5 +88,24 @@ describe('BoardCurationService', () => {
 
   it('rejects removing the root node', () => {
     expect(() => curation.removeNode('env-root')).toThrowError(/root/i);
+  });
+
+  it('uses schema types for the item type dropdown when a schema exists', () => {
+    curation.upsertSchemaType({
+      id: 'app',
+      label: 'Application',
+      shape: 'rounded-square',
+      color: '#007cc0',
+    });
+    curation.upsertSchemaType({
+      id: 'item-type',
+      label: 'Data type',
+      shape: 'circle',
+      color: '#e31f2f',
+    });
+
+    const options = getNodeTypeOptions(doc.currentDocument());
+    expect(options.map((o) => o.value)).toEqual(['app', 'item-type']);
+    expect(options).not.toEqual(NODE_TYPE_OPTIONS);
   });
 });

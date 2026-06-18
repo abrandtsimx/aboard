@@ -1,9 +1,13 @@
 @if (library.inExplorer()) {
   <div class="app-shell">
     <app-toolbar />
-    <div class="app-shell__body">
+    <div class="app-shell__body" [class.app-shell__body--curating]="editorUi.isOpen()">
       <app-search-panel />
-      <app-workspace />
+      @if (editorUi.isOpen()) {
+        <app-board-editor />
+      } @else {
+        <app-workspace />
+      }
     </div>
   </div>
 } @else {
@@ -26,5 +30,3 @@
     <button type="button" class="drop-error__dismiss" (click)="clearError()">Dismiss</button>
   </div>
 }
-
-<app-board-editor />

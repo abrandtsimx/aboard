@@ -7,6 +7,44 @@
   background: var(--color-instrument-grey);
   border-right: 1px solid rgba(9, 29, 60, 0.12);
   overflow: hidden;
+
+  &--curating {
+    background: var(--color-sterile-white);
+  }
+}
+
+.search__curate-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  border-bottom: 1px solid rgba(9, 29, 60, 0.1);
+  background: rgba(0, 124, 192, 0.08);
+}
+
+.search__curate-label {
+  color: var(--color-clinical-indigo);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.search__new-item {
+  border: 1px solid rgba(0, 124, 192, 0.35);
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.6rem;
+  background: var(--color-sterile-white);
+  color: var(--color-procedure-blue);
+  font-size: var(--text-caption-size);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  &--active {
+    background: var(--color-procedure-blue);
+    color: var(--color-sterile-white);
+  }
 }
 
 .search__field {
@@ -147,6 +185,11 @@
     background: rgba(0, 124, 192, 0.18);
     font-weight: 700;
   }
+}
+
+.search--curating .item--active {
+  background: rgba(0, 124, 192, 0.22);
+  box-shadow: inset 3px 0 0 var(--color-procedure-blue);
 }
 
 .item__marker {

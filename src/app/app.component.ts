@@ -6,6 +6,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { BoardEditorComponent } from './components/board-editor/board-editor.component';
 import { DocumentService } from './services/document.service';
 import { BoardLibraryService } from './services/board-library.service';
+import { BoardEditorUiService } from './services/board-editor-ui.service';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,7 @@ import { BoardLibraryService } from './services/board-library.service';
 export class AppComponent implements OnInit {
   private readonly doc = inject(DocumentService);
   protected readonly library = inject(BoardLibraryService);
+  protected readonly editorUi = inject(BoardEditorUiService);
   private readonly zone = inject(NgZone);
 
   protected readonly isDragging = signal(false);

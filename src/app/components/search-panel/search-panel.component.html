@@ -1,4 +1,18 @@
-<aside class="search">
+<aside class="search" [class.search--curating]="editorUi.curatingItems()">
+  @if (editorUi.curatingItems()) {
+    <div class="search__curate-bar">
+      <span class="search__curate-label text-caption">Curating items</span>
+      <button
+        type="button"
+        class="search__new-item"
+        [class.search__new-item--active]="isCuratingNewItem()"
+        (click)="editorUi.requestNewItem()"
+      >
+        New item
+      </button>
+    </div>
+  }
+
   <div class="search__field">
     <svg class="search__icon" viewBox="0 0 24 24" aria-hidden="true">
       <path

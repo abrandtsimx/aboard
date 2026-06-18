@@ -52,7 +52,12 @@ export interface SchemaTypeDraft {
   textColor: string;
 }
 
-export const NODE_TYPE_OPTIONS: { value: NodeType; label: string }[] = [
+export interface NodeTypeOption {
+  value: NodeType;
+  label: string;
+}
+
+export const NODE_TYPE_OPTIONS: NodeTypeOption[] = [
   { value: 'environment', label: 'Environment' },
   { value: 'app', label: 'Application' },
   { value: 'tool', label: 'Tool' },
@@ -62,6 +67,34 @@ export const NODE_TYPE_OPTIONS: { value: NodeType; label: string }[] = [
   { value: 'external', label: 'External tool' },
   { value: 'custom', label: 'Custom' },
 ];
+
+/** Schema-defined types when present; otherwise built-in defaults. */
+export function getNodeTypeOptions(
+  doc: AboardDocument,
+  currentType?: NodeType
+): NodeTypeOption[] {
+  const schemaTypes = doc.schema?.types;
+  if (schemaTypes?.length) {
+    const options = schemaTypes.map((t) => ({
+      value: t.id,
+      label: t.label ?? t.id,
+    }));
+    if (currentType && !options.some((o) => o.value === currentType)) {
+      options.push({ value: currentType, label: currentType });
+    }
+    return options;
+  }
+  return NODE_TYPE_OPTIONS;
+}
+
+export function defaultNodeTypeForDocument(doc: AboardDocument): NodeType {
+  const options = getNodeTypeOptions(doc);
+  for (const preferred of ['app', 'environment', 'item-type']) {
+    const match = options.find((o) => o.value === preferred);
+    if (match) return match.value;
+  }
+  return options[0]?.value ?? 'app';
+}
 
 export const NODE_CATEGORY_OPTIONS: { value: NodeCategory; label: string }[] = [
   { value: 'environment', label: 'Environment' },
@@ -316,12 +349,13 @@ export class BoardCurationService {
 
   emptyNodeDraft(parentId: string | null = null): NodeDraft {
     const doc = this.doc.currentDocument();
+    const type = defaultNodeTypeForDocument(doc);
     return {
       id: this.generateNodeId('node'),
       label: '',
       description: '',
-      type: 'app',
-      category: 'application',
+      type,
+      category: this.defaultCategoryForType(type),
       tags: [],
       parentId: parentId ?? doc.rootId,
       content: '',

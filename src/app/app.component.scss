@@ -30,6 +30,18 @@ app-workspace {
   overflow-y: auto;
 }
 
+app-board-editor {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.app-shell__body--curating app-search-panel {
+  border-right: 1px solid rgba(9, 29, 60, 0.1);
+}
+
 app-dashboard {
   display: flex;
   flex-direction: column;

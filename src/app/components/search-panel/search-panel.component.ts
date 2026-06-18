@@ -1,5 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { DocumentService } from '../../services/document.service';
+import { BoardEditorUiService } from '../../services/board-editor-ui.service';
 import { AboardNode, NodeCategory } from '../../models/aboard.models';
 import { getNodeCategory, categoryLabel } from '../../utils/category.util';
 
@@ -26,6 +27,7 @@ const CATEGORY_ORDER: NodeCategory[] = [
 })
 export class SearchPanelComponent {
   protected readonly doc = inject(DocumentService);
+  protected readonly editorUi = inject(BoardEditorUiService);
 
   protected readonly query = signal('');
   private readonly collapsed = signal<ReadonlySet<NodeCategory>>(new Set());
@@ -77,14 +79,25 @@ export class SearchPanelComponent {
   }
 
   protected select(node: AboardNode): void {
+    if (this.editorUi.curatingItems()) {
+      this.editorUi.selectNodeForEdit(node.id);
+      return;
+    }
     this.doc.navigateTo(node.id);
   }
 
   protected isActive(node: AboardNode): boolean {
+    if (this.editorUi.curatingItems()) {
+      return this.editorUi.editingNodeId() === node.id;
+    }
     if (this.doc.mode() === 'immersed') {
       return this.doc.immersedNode()?.id === node.id;
     }
     return this.doc.peekId() === node.id;
+  }
+
+  protected isCuratingNewItem(): boolean {
+    return this.editorUi.curatingItems() && this.editorUi.editingNodeId() === null;
   }
 
   protected onQuery(value: string): void {

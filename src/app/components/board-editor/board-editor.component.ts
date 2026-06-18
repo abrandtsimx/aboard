@@ -4,8 +4,8 @@ import { DocumentService } from '../../services/document.service';
 import {
   BoardCurationService,
   BoardTagDraft,
+  getNodeTypeOptions,
   NODE_CATEGORY_OPTIONS,
-  NODE_TYPE_OPTIONS,
   NodeDraft,
   RelationshipDraft,
   SchemaTypeDraft,
@@ -13,8 +13,7 @@ import {
 } from '../../services/board-curation.service';
 import { BoardEditorUiService, EditorTab } from '../../services/board-editor-ui.service';
 import { AboardNode, AboardRelationship, BoardTag, SchemaType } from '../../models/aboard.models';
-import { categoryLabel, getNodeCategory } from '../../utils/category.util';
-import { getNodeTagIds, tagLabel } from '../../utils/tag.util';
+import { tagLabel } from '../../utils/tag.util';
 
 @Component({
   selector: 'app-board-editor',
@@ -28,11 +27,11 @@ export class BoardEditorComponent {
   private readonly ui = inject(BoardEditorUiService);
 
   protected readonly isOpen = this.ui.isOpen;
-  protected readonly activeTab = signal<EditorTab>('board');
+  protected readonly activeTab = this.ui.activeTab;
+  protected readonly editingNodeId = this.ui.editingNodeId;
   protected readonly error = signal<string | null>(null);
 
   protected readonly boardTitle = signal('');
-  protected readonly editingNodeId = signal<string | null>(null);
   protected readonly editingRelId = signal<string | null>(null);
   protected readonly editingSchemaId = signal<string | null>(null);
   protected readonly editingTagId = signal<string | null>(null);
@@ -42,7 +41,10 @@ export class BoardEditorComponent {
   protected readonly schemaDraft = signal<SchemaTypeDraft>(this.curation.emptySchemaTypeDraft());
   protected readonly tagDraft = signal<BoardTagDraft>(this.curation.emptyBoardTagDraft());
 
-  protected readonly nodeTypeOptions = NODE_TYPE_OPTIONS;
+  protected readonly nodeTypeOptions = computed(() =>
+    getNodeTypeOptions(this.doc.currentDocument(), this.nodeDraft().type)
+  );
+  protected readonly usesSchemaTypes = computed(() => this.schemaTypes().length > 0);
   protected readonly categoryOptions = NODE_CATEGORY_OPTIONS;
   protected readonly shapeOptions = SHAPE_OPTIONS;
 
@@ -71,11 +73,32 @@ export class BoardEditorComponent {
       }
       this.editorWasOpen = open;
     });
+
+    effect(() => {
+      const id = this.ui.editingNodeId();
+      if (!this.ui.isOpen() || this.ui.activeTab() !== 'nodes') return;
+      if (id) {
+        const node = this.doc.findNode(id);
+        if (node) {
+          this.nodeDraft.set(this.curation.nodeToDraft(node));
+          this.error.set(null);
+        }
+      }
+    });
+
+    effect(() => {
+      this.ui.newItemNonce();
+      if (!this.ui.isOpen() || this.ui.activeTab() !== 'nodes') return;
+      if (this.ui.editingNodeId() !== null) return;
+      this.nodeDraft.set(this.curation.emptyNodeDraft());
+      this.error.set(null);
+    });
   }
 
   private syncOnOpen(): void {
     this.boardTitle.set(this.doc.currentDocument().title);
-    this.activeTab.set(this.ui.initialTab());
+    this.ui.activeTab.set(this.ui.initialTab());
+    this.ui.editingNodeId.set(null);
     this.error.set(null);
     this.resetNodeForm();
     this.resetRelForm();
@@ -93,7 +116,7 @@ export class BoardEditorComponent {
   }
 
   setTab(tab: EditorTab): void {
-    this.activeTab.set(tab);
+    this.ui.setTab(tab);
     this.error.set(null);
   }
 
@@ -145,15 +168,11 @@ export class BoardEditorComponent {
   }
 
   startNewNode(): void {
-    this.editingNodeId.set(null);
-    this.nodeDraft.set(this.curation.emptyNodeDraft());
-    this.error.set(null);
+    this.ui.requestNewItem();
   }
 
   editNode(node: AboardNode): void {
-    this.editingNodeId.set(node.id);
-    this.nodeDraft.set(this.curation.nodeToDraft(node));
-    this.error.set(null);
+    this.ui.selectNodeForEdit(node.id);
   }
 
   onNodeTypeChange(type: string): void {
@@ -186,6 +205,17 @@ export class BoardEditorComponent {
       this.curation.upsertNode(node);
       this.resetNodeForm();
     });
+  }
+
+  removeSelectedNode(): void {
+    const nodeId = this.ui.editingNodeId();
+    if (!nodeId) return;
+    this.removeNode(nodeId);
+  }
+
+  canRemoveSelectedNode(): boolean {
+    const nodeId = this.ui.editingNodeId();
+    return !!nodeId && nodeId !== this.doc.currentDocument().rootId;
   }
 
   removeNode(nodeId: string): void {
@@ -264,21 +294,8 @@ export class BoardEditorComponent {
     });
   }
 
-  nodeCategoryLabel(node: AboardNode): string {
-    return categoryLabel(getNodeCategory(node));
-  }
-
   nodeLabel(id: string): string {
     return this.doc.findNode(id)?.label ?? id;
-  }
-
-  nodeTagSummary(node: AboardNode): string {
-    const ids = getNodeTagIds(node);
-    if (ids.length === 0) return '';
-    const tags = this.boardTags();
-    return ids
-      .map((id) => tagLabel(tags.find((t) => t.id === id) ?? { id, label: id }))
-      .join(', ');
   }
 
   tagLabel = tagLabel;
@@ -300,7 +317,7 @@ export class BoardEditorComponent {
   }
 
   private resetNodeForm(): void {
-    this.editingNodeId.set(null);
+    this.ui.editingNodeId.set(null);
     this.nodeDraft.set(this.curation.emptyNodeDraft());
   }
 
