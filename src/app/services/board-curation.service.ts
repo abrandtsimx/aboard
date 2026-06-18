@@ -109,8 +109,11 @@ export const SHAPE_OPTIONS: { value: NodeShape; label: string }[] = [
   { value: 'circle', label: 'Circle' },
   { value: 'rounded-square', label: 'Rounded square' },
   { value: 'square', label: 'Square' },
-  { value: 'diamond', label: 'Diamond' },
+  { value: 'pill', label: 'Pill' },
+  { value: 'ellipse', label: 'Ellipse' },
   { value: 'hexagon', label: 'Hexagon' },
+  { value: 'octagon', label: 'Octagon' },
+  { value: 'diamond', label: 'Diamond' },
 ];
 
 @Injectable({ providedIn: 'root' })

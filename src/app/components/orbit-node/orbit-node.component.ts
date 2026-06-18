@@ -17,8 +17,11 @@ const SHAPE_FIT: Record<NodeShape, { w: number; h: number }> = {
   circle: { w: 0.6, h: 0.6 },
   'rounded-square': { w: 0.68, h: 0.68 },
   square: { w: 0.68, h: 0.68 },
+  pill: { w: 0.76, h: 0.52 },
+  ellipse: { w: 0.66, h: 0.58 },
   diamond: { w: 0.48, h: 0.48 },
   hexagon: { w: 0.64, h: 0.74 },
+  octagon: { w: 0.64, h: 0.64 },
 };
 
 // Typography model for the label (uppercase Lato Bold + 0.04em tracking).

@@ -37,7 +37,13 @@ export type NodeShape =
   | 'rounded-square'
   | 'square'
   | 'diamond'
-  | 'hexagon';
+  | 'hexagon'
+  /** Wide capsule — strong horizontal label space. */
+  | 'pill'
+  /** Horizontal oval — wider than a circle for short labels. */
+  | 'ellipse'
+  /** Cut-corner octagon — flat sides, readable center band. */
+  | 'octagon';
 
 /**
  * A board-defined node type: pairs a `type` key (referenced by `AboardNode.type`)

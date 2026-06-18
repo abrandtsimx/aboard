@@ -25,16 +25,14 @@ import {
   routedElbowPath,
   routedStraightPath,
   routedChannelPath,
+  routedCurvedPath,
   sourceRadialBend,
   targetRadialBend,
   wingAngles,
   minSeparationDeg,
-  resolveCollisions,
-  CircleBody,
-  angleDeg,
-  radius,
   snapAngle,
 } from '../../utils/layout.util';
+import { ForceBody, settleForceLayout, SettleOptions } from '../../utils/force-layout.util';
 import { categoryLabel, getNodeCategory } from '../../utils/category.util';
 import { defaultShapeForCategory, findSchemaType } from '../../utils/node-style.util';
 
@@ -67,6 +65,20 @@ interface GraphLink {
 }
 
 type LinkRouting = 'straight' | 'elbow-source' | 'elbow-target' | 'channel';
+
+/**
+ * A link before routing is finalized. Specs are collected first so parallel /
+ * reciprocal edges (same node pair) can be detected and bowed apart together.
+ */
+interface LinkSpec {
+  id: string;
+  a: GraphNode;
+  b: GraphNode;
+  variant: 'faint' | 'active';
+  label?: string;
+  center?: Pt;
+  routing?: LinkRouting;
+}
 
 interface GraphModel {
   nodes: GraphNode[];
@@ -138,6 +150,12 @@ export class WorkspaceComponent {
   protected readonly draggingNodeId = signal<string | null>(null);
   private readonly temporaryNodePositions = signal<Record<string, Pt>>({});
   private nodeDrag: NodeDragState | null = null;
+
+  // Memoizes the settled force layout so dragging a node (which only changes
+  // temporaryNodePositions) reuses the existing layout instead of re-running
+  // the simulation on every pointer move.
+  private layoutCacheKey = '';
+  private layoutCachePositions = new Map<string, Pt>();
 
   protected readonly graph = computed<GraphModel>(() => {
     const rect = this.rect();
@@ -367,6 +385,14 @@ export class WorkspaceComponent {
 
     const old = this.scale();
     const factor = event.deltaY < 0 ? 1.15 : 1 / 1.15;
+
+    // Zooming out past the minimum "backs out" of the focused item, mirroring
+    // the zoom-in-to-enter gesture and returning to where the user came from.
+    if (factor < 1 && this.doc.mode() === 'immersed' && old * factor < this.MIN_SCALE) {
+      this.zoomOutExit();
+      return;
+    }
+
     const next = clamp(old * factor, this.MIN_SCALE, this.MAX_SCALE);
 
     const p = this.pan();
@@ -379,6 +405,16 @@ export class WorkspaceComponent {
     if (factor > 1 && next >= this.ENTER_SCALE) {
       const target = this.nodeNearWorldPoint(worldX, worldY);
       if (target) this.activateByZoom(target);
+    }
+  }
+
+  /** Leave the focused item, returning to the previous view when possible. */
+  private zoomOutExit(): void {
+    if (this.doc.mode() !== 'immersed') return;
+    if (this.doc.canGoBack()) {
+      this.runTransition(() => this.doc.goBack());
+    } else {
+      this.runTransition(() => this.doc.exitImmersed());
     }
   }
 
@@ -570,48 +606,56 @@ export class WorkspaceComponent {
       }
     }
 
-    const links: GraphLink[] = [];
+    const specs: LinkSpec[] = [];
 
-    // app <-> app
+    // When a node is peeked, the hub anchors at its grid slot and everything
+    // else is settled by the force engine so nothing overlaps the hub or each
+    // other. Related apps form a halo ring; the rest hold their grid slots.
     if (peekId) {
       const hub = placed.get(peekId);
       if (hub) {
-        const bodies: { id: string; body: CircleBody }[] = [...placed.values()].map((gn) => ({
-          id: gn.id,
-          body: {
-            x: gn.x,
-            y: gn.y,
-            size: gn.size,
-            weight: gn.id === peekId ? Infinity : relatedIds.has(gn.id) ? 7 : 1,
-          },
-        }));
+        const center: Pt = { x: hub.x, y: hub.y };
         const hubGap = hub.size / 2 + appSize / 2 + 140;
+        const bodies: ForceBody[] = [];
         for (const gn of placed.values()) {
-          if (gn.id === peekId || (!relatedIds.has(gn.id) && gn.state !== 'satellite')) continue;
-          const dx = gn.x - hub.x;
-          const dy = gn.y - hub.y;
-          const d = Math.hypot(dx, dy) || 1;
-          if (d >= hubGap) continue;
-          const next = {
-            x: hub.x + (dx / d) * hubGap,
-            y: hub.y + (dy / d) * hubGap,
-          };
-          const body = bodies.find((b) => b.id === gn.id)?.body;
-          if (body) {
-            body.x = next.x;
-            body.y = next.y;
+          if (gn.id === peekId) {
+            bodies.push({ id: gn.id, x: gn.x, y: gn.y, radius: gn.size / 2, fixed: true });
+            continue;
+          }
+          if (relatedIds.has(gn.id)) {
+            const dx = gn.x - hub.x;
+            const dy = gn.y - hub.y;
+            const d = Math.hypot(dx, dy) || 1;
+            bodies.push({
+              id: gn.id,
+              x: hub.x + (dx / d) * hubGap,
+              y: hub.y + (dy / d) * hubGap,
+              radius: gn.size / 2,
+              targetRadius: hubGap,
+              radialStrength: 0.4,
+            });
+          } else {
+            const anchorStrength = gn.state === 'satellite' ? 0.35 : 0.6;
+            bodies.push({
+              id: gn.id,
+              x: gn.x,
+              y: gn.y,
+              radius: gn.size / 2,
+              anchor: { x: gn.x, y: gn.y },
+              anchorStrength,
+            });
           }
         }
-        resolveCollisions(
-          bodies.map((b) => b.body),
-          80,
-          22
+        this.settleGraph(
+          bodies,
+          { center, collidePadding: 10 },
+          this.layoutSignature('canvas', peekId, rect, bodies)
         );
-        for (const item of bodies) {
-          const gn = placed.get(item.id);
+        for (const body of bodies) {
+          const gn = placed.get(body.id);
           if (!gn || gn.id === peekId) continue;
-          gn.x = item.body.x;
-          gn.y = item.body.y;
+          gn.x = body.x ?? gn.x;
+          gn.y = body.y ?? gn.y;
         }
       }
     }
@@ -621,9 +665,13 @@ export class WorkspaceComponent {
       const b = placed.get(rel.targetId);
       if (!a || !b) continue;
       const active = !!peekId && (rel.sourceId === peekId || rel.targetId === peekId);
-      links.push(
-        this.makeLink(rel.id, a, b, active ? 'active' : 'faint', active ? rel.label : undefined)
-      );
+      specs.push({
+        id: rel.id,
+        a,
+        b,
+        variant: active ? 'active' : 'faint',
+        label: active ? rel.label : undefined,
+      });
     }
 
     // peek hub -> its data-type satellites only (deeper chains live in the
@@ -631,16 +679,18 @@ export class WorkspaceComponent {
     if (peekId) {
       const hub = placed.get(peekId)!;
       for (const sat of satellites) {
-      links.push(
-        this.makeLink(`hub-${sat.id}`, hub, sat, 'active', undefined, {
+        specs.push({
+          id: `hub-${sat.id}`,
+          a: hub,
+          b: sat,
+          variant: 'active',
           center: { x: hub.x, y: hub.y },
           routing: 'elbow-target',
-        })
-      );
+        });
       }
     }
 
-    return { nodes: [...placed.values()], links };
+    return { nodes: [...placed.values()], links: this.buildLinks(specs) };
   }
 
   // ---- immersed layout ----------------------------------------------------
@@ -731,7 +781,6 @@ export class WorkspaceComponent {
       interactive: false,
     };
     const nodes: GraphNode[] = [focusGn];
-    const links: GraphLink[] = [];
 
     // Group leaves by branch so each app's relationships occupy their own
     // angular sector instead of one overcrowded ring.
@@ -802,12 +851,10 @@ export class WorkspaceComponent {
     }
 
     const intermediates = new Map<number, GraphNode>();
-    const collisionBodies: { id: string; body: CircleBody }[] = [];
-
-    collisionBodies.push({
-      id: focus.id,
-      body: { x: center.x, y: center.y, size: focusSize, weight: Infinity },
-    });
+    const byId = new Map<string, GraphNode>([[focus.id, focusGn]]);
+    const bodies: ForceBody[] = [
+      { id: focus.id, x: center.x, y: center.y, radius: focusSize / 2, fixed: true },
+    ];
 
     rows.forEach((row, gi) => {
       if (row.kind !== 'branch') return;
@@ -825,13 +872,22 @@ export class WorkspaceComponent {
       };
       intermediates.set(gi, inter);
       nodes.push(inter);
-      collisionBodies.push({
+      byId.set(inter.id, inter);
+      bodies.push({
         id: inter.id,
-        body: { x: inter.x, y: inter.y, size: this.collisionSize(inter), weight: 12 },
+        x: inter.x,
+        y: inter.y,
+        radius: this.collisionSize(inter) / 2,
+        targetRadius: Ri,
+        radialStrength: 0.85,
       });
     });
 
+    // A node reachable through more than one relationship (e.g. a two-way
+    // relationship) must render as a single circle, not stacked duplicates, so
+    // place each target once and let every relationship draw its own arrow to it.
     leaves.forEach((leaf, i) => {
+      if (byId.has(leaf.target.id)) return;
       const slot = leafSlots.get(i) ?? { angle: -90, radius: maxRo };
       const p = polar(center, slot.radius, slot.angle);
       const gn: GraphNode = {
@@ -845,109 +901,58 @@ export class WorkspaceComponent {
         caption: showLinkLabels ? undefined : leaf.relLabel,
       };
       nodes.push(gn);
-      collisionBodies.push({
+      byId.set(gn.id, gn);
+      bodies.push({
         id: gn.id,
-        body: { x: gn.x, y: gn.y, size: this.collisionSize(gn), weight: 1 },
+        x: gn.x,
+        y: gn.y,
+        radius: this.collisionSize(gn) / 2,
+        targetRadius: Math.max(slot.radius, minRo),
+        radialStrength: 0.5,
       });
     });
 
-    resolveCollisions(
-      collisionBodies.map((c) => c.body),
-      140,
-      14
-    );
+    this.settleGraph(bodies, { center }, this.layoutSignature('immersed', focus.id, rect, bodies));
 
-    for (const entry of collisionBodies) {
-      if (entry.body.weight >= 1e8) continue;
-      const ang = snapAngle(angleDeg(center, entry.body));
-      if (entry.body.weight >= 12) {
-        const p = polar(center, Ri, ang);
-        entry.body.x = p.x;
-        entry.body.y = p.y;
-      } else {
-        const r = Math.max(radius(center, entry.body), minRo);
-        const p = polar(center, r, ang);
-        entry.body.x = p.x;
-        entry.body.y = p.y;
-      }
-    }
-
-    resolveCollisions(
-      collisionBodies.map((c) => c.body),
-      60,
-      14
-    );
-
-    for (const entry of collisionBodies) {
-      if (entry.body.weight >= 1e8) continue;
-      const ang = snapAngle(angleDeg(center, entry.body));
-      if (entry.body.weight >= 12) {
-        const p = polar(center, Ri, ang);
-        entry.body.x = p.x;
-        entry.body.y = p.y;
-      } else {
-        const r = Math.max(radius(center, entry.body), minRo);
-        const p = polar(center, r, ang);
-        entry.body.x = p.x;
-        entry.body.y = p.y;
-      }
-    }
-    resolveCollisions(
-      collisionBodies.map((c) => c.body),
-      80,
-      18
-    );
-    for (const gn of nodes) {
-      if (gn.state === 'focus') continue;
-      const hit = collisionBodies.find((c) => c.id === gn.id);
-      if (hit) {
-        gn.x = hit.body.x;
-        gn.y = hit.body.y;
-        if (gn.caption) gn.captionSide = this.captionSide(center, gn);
-      }
+    for (const body of bodies) {
+      const gn = byId.get(body.id);
+      if (!gn || gn.state === 'focus') continue;
+      gn.x = body.x ?? gn.x;
+      gn.y = body.y ?? gn.y;
+      if (gn.caption) gn.captionSide = this.captionSide(center, gn);
     }
 
     this.applyTemporaryNodePositions(nodes, center);
 
+    const specs: LinkSpec[] = [];
     rows.forEach((row, gi) => {
       if (row.kind !== 'branch') return;
       const inter = intermediates.get(gi);
       if (!inter) return;
-      links.push(
-        this.makeLink(
-          `e-${row.source.id}`,
-          focusGn,
-          inter,
-          'active',
-          showLinkLabels ? row.entryLabel : undefined,
-          { center, routing: 'straight' }
-        )
-      );
+      specs.push({
+        id: `e-${row.source.id}`,
+        a: focusGn,
+        b: inter,
+        variant: 'active',
+        label: showLinkLabels ? row.entryLabel : undefined,
+        center,
+        routing: 'straight',
+      });
     });
 
-    leaves.forEach((leaf, i) => {
-      const gn = nodes.find((n) => n.id === leaf.target.id)!;
+    leaves.forEach((leaf) => {
+      const gn = byId.get(leaf.target.id);
+      if (!gn) return;
       const label = showLinkLabels ? leaf.relLabel : undefined;
+      const hub = leaf.groupIdx >= 0 ? intermediates.get(leaf.groupIdx) ?? focusGn : focusGn;
       if (leaf.incoming) {
-        const to = leaf.groupIdx >= 0 ? intermediates.get(leaf.groupIdx)! : focusGn;
-        links.push(
-          this.makeLink(`c-${leaf.relId}`, gn, to, 'active', label, {
-            center,
-            routing: 'straight',
-          })
-        );
+        specs.push({ id: `c-${leaf.relId}`, a: gn, b: hub, variant: 'active', label, center, routing: 'straight' });
       } else {
-        const from = leaf.groupIdx >= 0 ? intermediates.get(leaf.groupIdx)! : focusGn;
-        links.push(
-          this.makeLink(`l-${leaf.relId}`, from, gn, 'active', label, {
-            center,
-            routing: 'straight',
-          })
-        );
+        specs.push({ id: `l-${leaf.relId}`, a: hub, b: gn, variant: 'active', label, center, routing: 'straight' });
       }
     });
 
-    return { nodes, links };
+    return { nodes, links: this.buildLinks(specs) };
   }
 
   // ---- helpers ------------------------------------------------------------
@@ -984,22 +989,64 @@ export class WorkspaceComponent {
     return dy < 0 ? 'top' : 'bottom';
   }
 
+  /**
+   * Turn link specs into rendered links, bowing parallel / reciprocal edges
+   * apart. Every edge between the same pair of nodes is gathered together and
+   * assigned its own lane offset (in a direction-independent frame) so a
+   * two-way relationship renders as two arcs on opposite sides — both arrows
+   * and both labels remain visible instead of stacking on one straight line.
+   */
+  private buildLinks(specs: LinkSpec[]): GraphLink[] {
+    const groups = new Map<string, LinkSpec[]>();
+    for (const spec of specs) {
+      const key = [spec.a.id, spec.b.id].sort().join('::');
+      const group = groups.get(key);
+      if (group) group.push(spec);
+      else groups.set(key, [spec]);
+    }
+
+    const result: GraphLink[] = [];
+    for (const group of groups.values()) {
+      const n = group.length;
+      const lane = Math.min(30, 18 + n * 2);
+      group.forEach((spec, i) => {
+        let offset = 0;
+        if (n > 1) {
+          // Lane in a canonical (id-sorted) frame so reciprocal edges bow to
+          // opposite physical sides regardless of their arrow direction.
+          const canonicalFirst = [spec.a.id, spec.b.id].sort()[0];
+          const sign = spec.a.id === canonicalFirst ? 1 : -1;
+          offset = (i - (n - 1) / 2) * lane * sign;
+        }
+        result.push(this.makeLink(spec.id, spec.a, spec.b, spec.variant, spec.label, {
+          center: spec.center,
+          routing: spec.routing,
+          curveOffset: offset,
+        }));
+      });
+    }
+    return result;
+  }
+
   private makeLink(
     id: string,
     a: GraphNode,
     b: GraphNode,
     variant: 'faint' | 'active',
     label?: string,
-    options?: { center?: Pt; routing?: LinkRouting }
+    options?: { center?: Pt; routing?: LinkRouting; curveOffset?: number }
   ): GraphLink {
     const startGap = a.size / 2 + 4;
     const endGap = b.size / 2 + (variant === 'active' ? 11 : 4);
     const from = { x: a.x, y: a.y };
     const to = { x: b.x, y: b.y };
     const routing = options?.routing ?? 'straight';
+    const curveOffset = options?.curveOffset ?? 0;
 
     let routed;
-    if (routing === 'straight' || !options?.center) {
+    if (Math.abs(curveOffset) > 0.5) {
+      routed = routedCurvedPath(from, to, startGap, endGap, curveOffset);
+    } else if (routing === 'straight' || !options?.center) {
       routed = routedStraightPath(from, to, startGap, endGap);
     } else if (routing === 'channel') {
       routed = routedChannelPath(from, to, options.center, startGap, endGap);
@@ -1011,7 +1058,12 @@ export class WorkspaceComponent {
       routed = routedElbowPath(from, to, bend, startGap, endGap);
     }
 
-    const labelPoint = this.positionLinkLabel(from, to, routed.labelX, routed.labelY, label);
+    // Curved edges already carry their label out to the arc apex; only nudge
+    // straight edges whose label would otherwise sit on the stroke.
+    const labelPoint =
+      Math.abs(curveOffset) > 0.5
+        ? { x: routed.labelX, y: routed.labelY }
+        : this.positionLinkLabel(from, to, routed.labelX, routed.labelY, label);
 
     return {
       id,
@@ -1021,6 +1073,43 @@ export class WorkspaceComponent {
       labelX: labelPoint.x,
       labelY: labelPoint.y,
     };
+  }
+
+  /**
+   * Settle bodies so none overlap, reusing the cached result when only
+   * transient state (e.g. a node drag) changed. Mutates each body's x/y.
+   */
+  private settleGraph(bodies: ForceBody[], options: SettleOptions, cacheKey: string): void {
+    if (cacheKey && cacheKey === this.layoutCacheKey) {
+      for (const body of bodies) {
+        const cached = this.layoutCachePositions.get(body.id);
+        if (cached) {
+          body.x = cached.x;
+          body.y = cached.y;
+        }
+      }
+      return;
+    }
+    settleForceLayout(bodies, options);
+    if (cacheKey) {
+      this.layoutCacheKey = cacheKey;
+      this.layoutCachePositions = new Map(
+        bodies.map((b) => [b.id, { x: b.x ?? 0, y: b.y ?? 0 }])
+      );
+    }
+  }
+
+  /** Structural fingerprint of a layout: stable across pans, drags and zooms. */
+  private layoutSignature(
+    mode: string,
+    focusId: string,
+    rect: Rect,
+    bodies: ForceBody[]
+  ): string {
+    const shape = bodies
+      .map((b) => `${b.id}:${Math.round(b.radius)}:${Math.round(b.targetRadius ?? -1)}`)
+      .join('|');
+    return `${mode}#${focusId}#${Math.round(rect.w)}x${Math.round(rect.h)}#${shape}`;
   }
 
   private positionLinkLabel(

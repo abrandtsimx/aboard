@@ -173,62 +173,47 @@ export function routedStraightPath(
   };
 }
 
+/**
+ * Quadratic arc bowed sideways from the straight chord by `offset` pixels.
+ * Used to separate parallel / reciprocal edges (a two-way relationship draws
+ * as two arcs bowing to opposite sides) so both arrows and both labels stay
+ * visible. The label anchor sits at the apex of the bow, off the chord.
+ */
+export function routedCurvedPath(
+  from: Pt,
+  to: Pt,
+  startGap: number,
+  endGap: number,
+  offset: number
+): RoutedPath {
+  const t = trimLine(from, to, startGap, endGap);
+  const start = { x: t.x1, y: t.y1 };
+  const end = { x: t.x2, y: t.y2 };
+  const mx = (start.x + end.x) / 2;
+  const my = (start.y + end.y) / 2;
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const len = Math.hypot(dx, dy) || 1;
+  // Unit normal to the chord; control point lives 2x out so the curve's apex
+  // (at t=0.5) lands ~offset away from the straight line.
+  const nx = -dy / len;
+  const ny = dx / len;
+  const cx = mx + nx * offset * 2;
+  const cy = my + ny * offset * 2;
+  const apexX = 0.25 * start.x + 0.5 * cx + 0.25 * end.x;
+  const apexY = 0.25 * start.y + 0.5 * cy + 0.25 * end.y;
+  return {
+    d: `M ${start.x} ${start.y} Q ${cx} ${cy} ${end.x} ${end.y}`,
+    labelX: apexX,
+    labelY: apexY,
+  };
+}
+
 /** Minimum half-angle (deg) needed between two nodes at a given radius. */
 export function minSeparationDeg(nodeSize: number, ringRadius: number, padding = 14): number {
   const chord = nodeSize + padding;
   const ratio = clamp(chord / (2 * Math.max(ringRadius, 1)), 0.01, 0.99);
   return (Math.asin(ratio) * 360) / Math.PI;
-}
-
-export interface CircleBody {
-  x: number;
-  y: number;
-  size: number;
-  /** Higher = harder to move; use Infinity for anchors. */
-  weight: number;
-}
-
-/** Iteratively separate overlapping circular nodes. */
-export function resolveCollisions(
-  nodes: CircleBody[],
-  maxIterations = 120,
-  padding = 12
-): void {
-  for (let iter = 0; iter < maxIterations; iter++) {
-    let moved = false;
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const a = nodes[i];
-        const b = nodes[j];
-        const dx = b.x - a.x;
-        const dy = b.y - a.y;
-        let dist = Math.hypot(dx, dy);
-        if (dist < 0.01) {
-          dist = 0.01;
-        }
-        const need = (a.size + b.size) / 2 + padding;
-        if (dist >= need) continue;
-
-        const overlap = need - dist;
-        const ux = dx / dist;
-        const uy = dy / dist;
-        const wa = a.weight >= 1e8 ? 1e8 : a.weight;
-        const wb = b.weight >= 1e8 ? 1e8 : b.weight;
-        const total = wa + wb;
-
-        if (a.weight < 1e8) {
-          a.x -= ux * overlap * (wb / total);
-          a.y -= uy * overlap * (wb / total);
-        }
-        if (b.weight < 1e8) {
-          b.x += ux * overlap * (wa / total);
-          b.y += uy * overlap * (wa / total);
-        }
-        moved = true;
-      }
-    }
-    if (!moved) break;
-  }
 }
 
 /**

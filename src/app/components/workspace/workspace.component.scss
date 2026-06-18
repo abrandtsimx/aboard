@@ -543,5 +543,21 @@
     &--hexagon {
       clip-path: polygon(22% 0, 78% 0, 100% 50%, 78% 100%, 22% 100%, 0 50%);
     }
+
+    &--pill {
+      width: 18px;
+      height: 10px;
+      border-radius: 999px;
+    }
+
+    &--ellipse {
+      width: 16px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    &--octagon {
+      clip-path: polygon(29% 0, 71% 0, 100% 29%, 100% 71%, 71% 100%, 29% 100%, 0 71%, 0 29%);
+    }
   }
 }

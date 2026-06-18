@@ -1,0 +1,638 @@
+{
+  "version": "1.0",
+  "title": "SimX Product Pods",
+  "rootId": "env-simx-pods",
+  "schema": {
+    "types": [
+      {
+        "id": "aspect",
+        "label": "Shared team / process",
+        "shape": "hexagon",
+        "color": "#0f2d5b"
+      },
+      {
+        "id": "environment",
+        "label": "Pod / Domain",
+        "shape": "rounded-square",
+        "color": "#091d3c"
+      },
+      {
+        "id": "pod-automod",
+        "label": "Autonomous Moderation",
+        "shape": "rounded-square",
+        "color": "#e31f2f"
+      },
+      {
+        "id": "pod-scenario",
+        "label": "Scenario Creation",
+        "shape": "rounded-square",
+        "color": "#ea580c"
+      },
+      {
+        "id": "pod-corefile",
+        "label": "CoreFile 2.0",
+        "shape": "rounded-square",
+        "color": "#ca8a04"
+      },
+      {
+        "id": "pod-unity",
+        "label": "Unity Platform",
+        "shape": "rounded-square",
+        "color": "#16a34a"
+      },
+      {
+        "id": "pod-web",
+        "label": "Web",
+        "shape": "rounded-square",
+        "color": "#0ea5e9"
+      },
+      {
+        "id": "pod-ops",
+        "label": "Platform Operations",
+        "shape": "rounded-square",
+        "color": "#1d4e8a"
+      },
+      {
+        "id": "pod-context",
+        "label": "Context",
+        "shape": "rounded-square",
+        "color": "#463858"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "id": "env-simx-pods",
+      "label": "SimX Product Pods",
+      "description": "Product organization by functional pod.",
+      "type": "environment",
+      "category": "environment",
+      "visibility": "internal",
+      "parentId": null,
+      "content": "## Overview\n\nSimX product engineering and content organized into functional pods, each with defined responsibilities, roles, and initiatives.\n\n### Cross-cutting roles\n\n| Role | Focus |\n|------|-------|\n| **Tech Lead** | Technical direction, quality, alignment with product goals |\n| **Product Manager** | End-to-end product discovery, prioritization, and delivery |\n| **Principal TPM** | Clarity and execution across complex technical initiatives (Kim) |\n\n### Shared capacity\n\nSome team members split time across pods — e.g. Jason (50% Unity Platform / 50% Context), Jim (50% Unity Platform / 50% Platform Ops), Nora (25% AutoMod / 75% Context)."
+    },
+    {
+      "id": "env-autonomous-moderation",
+      "label": "Autonomous Moderation Products",
+      "description": "AI Assistant and autonomous-ready simulation capabilities.",
+      "type": "pod-automod",
+      "category": "environment",
+      "visibility": "both",
+      "parentId": "env-simx-pods",
+      "content": "## Responsibilities\n\n- Launch AI Assistant to production\n- Expand functionality for autonomous-ready simulations (learner orientation, debrief reports)\n\n### Roles\n\n| Role | Person |\n|------|--------|\n| Product Manager | Tola |\n| Tech Lead | Brett |\n| Designer | Nora (25%) |\n| Unity Developer | Ryan |"
+    },
+    {
+      "id": "app-automod-technology",
+      "label": "AutoMod Technology",
+      "description": "Core autonomous moderation technology.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-autonomous-moderation",
+      "content": "## Owner\n\n**Brett** (Tech Lead)"
+    },
+    {
+      "id": "app-ai-assistant",
+      "label": "AI Assistant",
+      "description": "Production AI Assistant for simulations.",
+      "type": "app",
+      "category": "application",
+      "visibility": "both",
+      "parentId": "env-autonomous-moderation",
+      "content": "## Owner\n\n**Tola** (Product Manager)\n\nLaunch to production is a primary pod goal."
+    },
+    {
+      "id": "app-autonomous-debrief-reporting",
+      "label": "Autonomous-Ready Debrief Reporting",
+      "description": "Debrief reports for autonomous simulations.",
+      "type": "app",
+      "category": "application",
+      "visibility": "both",
+      "parentId": "env-autonomous-moderation",
+      "content": "## Owner\n\n**Tola**"
+    },
+    {
+      "id": "app-learner-orientation",
+      "label": "Autonomous-Ready Learner Orientation",
+      "description": "In-simulation learner orientation for autonomous mode.",
+      "type": "app",
+      "category": "application",
+      "visibility": "both",
+      "parentId": "env-autonomous-moderation",
+      "content": "## Owner\n\n**Tola**"
+    },
+    {
+      "id": "app-in-simulation-updates",
+      "label": "Autonomous-Ready In-Simulation Updates",
+      "description": "Live updates during autonomous simulations.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-autonomous-moderation",
+      "content": "## Owner\n\n**Brett**"
+    },
+    {
+      "id": "app-offline-mode",
+      "label": "Offline Mode",
+      "description": "Offline capability for autonomous simulations.",
+      "type": "app",
+      "category": "application",
+      "visibility": "both",
+      "parentId": "env-autonomous-moderation",
+      "content": "## Owner\n\n**Tola**"
+    },
+    {
+      "id": "env-scenario-creation",
+      "label": "Scenario Creation & Editing Tools",
+      "description": "Authoring tools for scenarios and environments.",
+      "type": "pod-scenario",
+      "category": "environment",
+      "visibility": "internal",
+      "parentId": "env-simx-pods",
+      "content": "## Responsibilities\n\n- Build and launch Scenario Editor\n- Continue Asset Manager data extraction and curation\n- Maintain Scenario Creator and Environment Authoring Tool\n\n### Roles\n\n| Role | Person |\n|------|--------|\n| Product Manager | Sarah |\n| Tech Lead | Alex |\n| Product Designer | Joy |\n| Web Developer | Tom W |"
+    },
+    {
+      "id": "app-scenario-editor",
+      "label": "Scenario Editor",
+      "description": "New scenario editing experience.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-scenario-creation",
+      "content": "## Owner\n\n**Sarah** — primary build-and-launch initiative for this pod."
+    },
+    {
+      "id": "app-scenario-creator",
+      "label": "Scenario Creator",
+      "description": "Existing scenario creation tool.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-scenario-creation",
+      "content": "## Owner\n\n**Sarah** — ongoing maintenance."
+    },
+    {
+      "id": "app-asset-manager",
+      "label": "Asset Manager",
+      "description": "Asset data extraction and curation.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-scenario-creation",
+      "content": "## Owner\n\n**Alex**"
+    },
+    {
+      "id": "app-environment-authoring-tool",
+      "label": "Environment Authoring Tool",
+      "description": "Tool for authoring simulation environments.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-scenario-creation",
+      "content": "## Owner\n\n**Alex**"
+    },
+    {
+      "id": "env-corefile",
+      "label": "CoreFile 2.0",
+      "description": "Modular, composable simulation core infrastructure.",
+      "type": "pod-corefile",
+      "category": "environment",
+      "visibility": "internal",
+      "parentId": "env-simx-pods",
+      "content": "## Responsibilities\n\n- Expand core authoring capabilities\n- Update simulation system infrastructure to be modular and composable for configuration outside of Unity\n\n### Roles\n\n| Role | Person |\n|------|--------|\n| Principal TPM | Kim |"
+    },
+    {
+      "id": "app-actionables-refactor",
+      "label": "Actionables Refactor",
+      "description": "Restructure actionables in the simulation core.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-corefile",
+      "content": "## Notes\n\nPart of CoreFile 2.0 modularization effort."
+    },
+    {
+      "id": "app-tool-procedure-restructure",
+      "label": "Tool & Procedure Restructure",
+      "description": "Restructure tools and procedures in the core.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-corefile"
+    },
+    {
+      "id": "app-animations",
+      "label": "Animations",
+      "description": "Core animation system updates.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-corefile",
+      "content": "## Owner\n\n**TBD**"
+    },
+    {
+      "id": "app-characters",
+      "label": "Characters",
+      "description": "Core character system updates.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-corefile",
+      "content": "## Owner\n\n**TBD**"
+    },
+    {
+      "id": "env-unity-platform",
+      "label": "Unity Platform",
+      "description": "Unity instrumentation, LMS integration, and security.",
+      "type": "pod-unity",
+      "category": "environment",
+      "visibility": "both",
+      "parentId": "env-simx-pods",
+      "content": "## Responsibilities\n\n- Expand Unity instrumentation for event publishing (performance and engagement tracking)\n- Build LMS integration endpoints\n\n### Roles\n\n| Role | Person |\n|------|--------|\n| Principal TPM | Kim |\n| Designer | TBD |\n| Tech Lead | Jason (50%) |\n| Unity Developer | Jim (50%) |"
+    },
+    {
+      "id": "app-lms-integration",
+      "label": "LMS Integration Endpoints",
+      "description": "Learning management system integration.",
+      "type": "app",
+      "category": "application",
+      "visibility": "both",
+      "parentId": "env-unity-platform"
+    },
+    {
+      "id": "app-instrumentation-logging",
+      "label": "Instrumentation & Logging",
+      "description": "Event publishing for performance and engagement.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-unity-platform"
+    },
+    {
+      "id": "app-unity-system-security",
+      "label": "Unity System Security",
+      "description": "Security hardening for the Unity platform.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-unity-platform",
+      "content": "## Owner\n\n**Jim**"
+    },
+    {
+      "id": "env-web",
+      "label": "Web",
+      "description": "Accounts, admin portal, and web accessibility.",
+      "type": "pod-web",
+      "category": "environment",
+      "visibility": "both",
+      "parentId": "env-simx-pods",
+      "content": "## Responsibilities\n\n- Implement role-based accounts\n- Refactor Admin Portal backend\n- Maintain WCAG 2.2 accessibility standards\n\n### Roles\n\n| Role | Person |\n|------|--------|\n| Principal TPM | Kim |\n| Designer | TBD |\n| Tech Lead | Christopher |\n| Web Developer | Ken Wu |"
+    },
+    {
+      "id": "app-user-accounts",
+      "label": "User Accounts",
+      "description": "Role-based account system.",
+      "type": "app",
+      "category": "application",
+      "visibility": "both",
+      "parentId": "env-web",
+      "content": "## Owner\n\n**Christopher**"
+    },
+    {
+      "id": "app-admin-portal",
+      "label": "Admin Portal",
+      "description": "Admin portal backend refactor.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-web",
+      "content": "## Owner\n\n**Christopher**"
+    },
+    {
+      "id": "app-web-accessibility",
+      "label": "Web Accessibility",
+      "description": "WCAG 2.2 compliance for web surfaces.",
+      "type": "app",
+      "category": "application",
+      "visibility": "both",
+      "parentId": "env-web",
+      "content": "## Owner\n\n**Christopher**"
+    },
+    {
+      "id": "env-platform-ops",
+      "label": "Platform — Operations",
+      "description": "Security, releases, deployments, and infrastructure.",
+      "type": "pod-ops",
+      "category": "environment",
+      "visibility": "internal",
+      "parentId": "env-simx-pods",
+      "content": "## Responsibilities\n\n- Support security initiatives\n- Release infrastructure and ongoing dev releases\n\n### Roles\n\n| Role | Person |\n|------|--------|\n| Principal TPM | Kim |\n| DevOps | TBD / Walt |\n| Unity Developer | Jim (50%) / Anthony |"
+    },
+    {
+      "id": "app-stable-release-infrastructure",
+      "label": "Stable Release & Infrastructure",
+      "description": "Reliable release pipeline and infrastructure.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-platform-ops",
+      "content": "## Owner\n\n**Kim**"
+    },
+    {
+      "id": "app-deployments",
+      "label": "Deployments",
+      "description": "Ongoing deployment operations.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-platform-ops",
+      "content": "## Owner\n\n**Kim**"
+    },
+    {
+      "id": "app-platform-security",
+      "label": "Security",
+      "description": "Platform-wide security initiatives.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-platform-ops",
+      "content": "## Owner\n\n**Kim**"
+    },
+    {
+      "id": "app-platform-accessibility",
+      "label": "Accessibility",
+      "description": "Platform accessibility coordination.",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-platform-ops",
+      "content": "## Owner\n\n**Kim**"
+    },
+    {
+      "id": "env-context",
+      "label": "Context",
+      "description": "Scenarios, curricula, and clinical content.",
+      "type": "pod-context",
+      "category": "environment",
+      "visibility": "both",
+      "parentId": "env-simx-pods",
+      "content": "## Responsibilities\n\n- Build scenarios and curricula\n- Make scenarios autonomous-ready\n- Create prebrief and debrief materials\n- Address bugs and case changes\n\n### Roles\n\n| Role | Person |\n|------|--------|\n| Head of Content | Tola → Kendal (Feb 2) |\n| Clinical Education Specialist | Lauren |\n| Clinical Education Managers | Nilesh, Daris, Jenn O, Sean |\n| Unity Developers | Jason (50%), Mike, Corbin, James Miller, Paul, Stephen Marshall |\n| Designers | Nora (75%), James Miller (VREPS), Esther (VROPS) |"
+    },
+    {
+      "id": "app-nursing-curriculum",
+      "label": "Nursing Curriculum",
+      "description": "Nursing scenario curriculum.",
+      "type": "app",
+      "category": "application",
+      "visibility": "both",
+      "parentId": "env-context",
+      "content": "## Owner\n\n**Nilesh** (Clinical Education Manager)"
+    },
+    {
+      "id": "app-tccc-curriculum",
+      "label": "TCCC Curriculum",
+      "description": "Tactical Combat Casualty Care curriculum.",
+      "type": "app",
+      "category": "application",
+      "visibility": "both",
+      "parentId": "env-context",
+      "content": "## Owner\n\n**Daris**"
+    },
+    {
+      "id": "app-snf-curriculum",
+      "label": "SNF Curriculum",
+      "description": "Skilled nursing facility curriculum.",
+      "type": "app",
+      "category": "application",
+      "visibility": "both",
+      "parentId": "env-context",
+      "content": "## Owner\n\n**Jenn O**"
+    },
+    {
+      "id": "app-ae-ccatt-curriculum",
+      "label": "AE / CCATT Curriculum",
+      "description": "Aeromedical evacuation and CCATT curriculum.",
+      "type": "app",
+      "category": "application",
+      "visibility": "both",
+      "parentId": "env-context",
+      "content": "## Owner\n\n**Sean**"
+    },
+    {
+      "id": "app-autonomous-ready-scenarios",
+      "label": "New Autonomous-Ready Scenarios",
+      "description": "Scenarios built for autonomous simulation mode.",
+      "type": "app",
+      "category": "application",
+      "visibility": "both",
+      "parentId": "env-context",
+      "content": "## Owner\n\n**Kendal**"
+    },
+    {
+      "id": "proc-bugs-case-changes",
+      "label": "Bugs & Case Changes",
+      "description": "Shared content bug fixes and case updates.",
+      "type": "aspect",
+      "category": "process",
+      "visibility": "internal",
+      "parentId": "env-context",
+      "content": "## Overview\n\nShared responsibility across the Context pod."
+    },
+    {
+      "id": "env-tba-projects",
+      "label": "TBA Projects",
+      "description": "Future initiatives not yet assigned to a pod.",
+      "type": "environment",
+      "category": "environment",
+      "visibility": "internal",
+      "parentId": "env-simx-pods",
+      "content": "## Overview\n\nProjects pending pod assignment and resourcing."
+    },
+    {
+      "id": "app-ai-scenario-authoring",
+      "label": "AI-Driven Scenario Authoring",
+      "description": "AI-assisted scenario creation (TBA).",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-tba-projects"
+    },
+    {
+      "id": "app-dtc-pilot",
+      "label": "DTC Pilot",
+      "description": "Direct-to-consumer pilot program (TBA).",
+      "type": "app",
+      "category": "application",
+      "visibility": "both",
+      "parentId": "env-tba-projects"
+    },
+    {
+      "id": "app-mixed-reality-rd",
+      "label": "Mixed Reality R&D",
+      "description": "Mixed reality research and development (TBA).",
+      "type": "app",
+      "category": "application",
+      "visibility": "internal",
+      "parentId": "env-tba-projects"
+    },
+    {
+      "id": "env-shared-teams",
+      "label": "Shared Teams",
+      "description": "Floating QA and Art teams supporting all pods.",
+      "type": "environment",
+      "category": "environment",
+      "visibility": "internal",
+      "parentId": "env-simx-pods",
+      "content": "## Overview\n\nCross-pod support functions that float across product areas."
+    },
+    {
+      "id": "team-qa",
+      "label": "QA",
+      "description": "Quality assurance and process improvement.",
+      "type": "aspect",
+      "category": "process",
+      "visibility": "internal",
+      "parentId": "env-shared-teams",
+      "content": "## Lead\n\n**Sri** — Senior Manager, QA & Process Improvement"
+    },
+    {
+      "id": "team-art",
+      "label": "Art",
+      "description": "Visual and 3D art production.",
+      "type": "aspect",
+      "category": "process",
+      "visibility": "internal",
+      "parentId": "env-shared-teams",
+      "content": "## Team\n\nDevon, Andrew, Anthony, Tyler, Dennis"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rel-context-autonomous-scenarios",
+      "sourceId": "env-context",
+      "targetId": "env-autonomous-moderation",
+      "type": "produces",
+      "label": "Produces autonomous-ready scenarios for"
+    },
+    {
+      "id": "rel-scenario-tools-context",
+      "sourceId": "env-scenario-creation",
+      "targetId": "env-context",
+      "type": "supports",
+      "label": "Authors tools used by"
+    },
+    {
+      "id": "rel-corefile-unity",
+      "sourceId": "env-corefile",
+      "targetId": "env-unity-platform",
+      "type": "depends-on",
+      "label": "Modular core consumed by"
+    },
+    {
+      "id": "rel-corefile-scenario",
+      "sourceId": "env-corefile",
+      "targetId": "env-scenario-creation",
+      "type": "depends-on",
+      "label": "Core capabilities enable"
+    },
+    {
+      "id": "rel-corefile-context",
+      "sourceId": "env-corefile",
+      "targetId": "env-context",
+      "type": "depends-on",
+      "label": "Core infrastructure supports"
+    },
+    {
+      "id": "rel-ops-all-release",
+      "sourceId": "env-platform-ops",
+      "targetId": "env-autonomous-moderation",
+      "type": "supports",
+      "label": "Releases & secures"
+    },
+    {
+      "id": "rel-ops-unity",
+      "sourceId": "env-platform-ops",
+      "targetId": "env-unity-platform",
+      "type": "supports",
+      "label": "Releases & secures"
+    },
+    {
+      "id": "rel-ops-web",
+      "sourceId": "env-platform-ops",
+      "targetId": "env-web",
+      "type": "supports",
+      "label": "Releases & secures"
+    },
+    {
+      "id": "rel-ops-scenario",
+      "sourceId": "env-platform-ops",
+      "targetId": "env-scenario-creation",
+      "type": "supports",
+      "label": "Releases & secures"
+    },
+    {
+      "id": "rel-ops-context",
+      "sourceId": "env-platform-ops",
+      "targetId": "env-context",
+      "type": "supports",
+      "label": "Releases & secures"
+    },
+    {
+      "id": "rel-unity-lms-web",
+      "sourceId": "app-lms-integration",
+      "targetId": "env-web",
+      "type": "depends-on",
+      "label": "Integrates with account layer in"
+    },
+    {
+      "id": "rel-autonomous-scenarios-initiative",
+      "sourceId": "app-autonomous-ready-scenarios",
+      "targetId": "app-ai-assistant",
+      "type": "feeds",
+      "label": "Builds content consumed by"
+    },
+    {
+      "id": "rel-scenario-editor-creator",
+      "sourceId": "app-scenario-editor",
+      "targetId": "app-scenario-creator",
+      "type": "depends-on",
+      "label": "Replaces / extends"
+    },
+    {
+      "id": "rel-qa-supports-pods",
+      "sourceId": "team-qa",
+      "targetId": "env-simx-pods",
+      "type": "supports",
+      "label": "Validates releases across",
+      "bidirectional": false
+    },
+    {
+      "id": "rel-art-supports-context",
+      "sourceId": "team-art",
+      "targetId": "env-context",
+      "type": "supports",
+      "label": "Produces assets for"
+    },
+    {
+      "id": "rel-kim-corefile",
+      "sourceId": "env-corefile",
+      "targetId": "env-platform-ops",
+      "type": "coordinates-with",
+      "label": "Kim coordinates execution with"
+    },
+    {
+      "id": "rel-kim-unity-web",
+      "sourceId": "env-unity-platform",
+      "targetId": "env-web",
+      "type": "coordinates-with",
+      "label": "Kim aligns platform delivery across"
+    },
+    {
+      "id": "rel-instrumentation-debrief",
+      "sourceId": "app-instrumentation-logging",
+      "targetId": "app-autonomous-debrief-reporting",
+      "type": "feeds",
+      "label": "Event data feeds"
+    }
+  ]
+}

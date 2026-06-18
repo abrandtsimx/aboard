@@ -74,6 +74,15 @@
   &--shape-hexagon {
     padding: 12% 17%;
   }
+  &--shape-pill {
+    padding: 14% 10%;
+  }
+  &--shape-ellipse {
+    padding: 17% 14%;
+  }
+  &--shape-octagon {
+    padding: 15%;
+  }
 
   // states
   &--peek .orbit__shape,

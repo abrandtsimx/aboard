@@ -1,0 +1,13 @@
+{
+  "name": "Aboard — SimX Orientation Explorer",
+  "short_name": "Aboard",
+  "description": "Explore relationships between SimX apps, tools, and systems",
+  "icons": [
+    { "src": "icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "icon-512.png", "type": "image/png", "sizes": "512x512" }
+  ],
+  "theme_color": "#1a7fc0",
+  "background_color": "#000000",
+  "display": "standalone",
+  "start_url": "."
+}
