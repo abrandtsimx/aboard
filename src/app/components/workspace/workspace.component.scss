@@ -149,6 +149,8 @@
   transform-origin: 0 0;
 }
 
+// The inspector reads as a solid light card on the canvas (white stage) and
+// flips to a translucent dark panel inside the immersed backdrop.
 .info-panel {
   position: absolute;
   top: 0;
@@ -156,23 +158,110 @@
   bottom: 0;
   width: min(380px, 34%);
   z-index: 5;
+  display: flex;
+  flex-direction: column;
   padding: 1.5rem 1.5rem 1.5rem 1.75rem;
   overflow-y: auto;
+  color: var(--color-midnight-scrub);
+  background: var(--color-sterile-white);
+  border-right: 1px solid rgba(9, 29, 60, 0.1);
+  box-shadow: 10px 0 26px rgba(9, 29, 60, 0.07);
+  cursor: default;
+
+  &__head {
+    flex-shrink: 0;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(9, 29, 60, 0.1);
+  }
+
+  &__eyebrow {
+    display: inline-block;
+    font-size: var(--text-caption-size);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-clinical-indigo);
+    opacity: 0.75;
+  }
+
+  &__title {
+    margin: 0.3rem 0 0;
+    font-size: 1.4rem;
+    line-height: 1.2;
+    color: var(--color-midnight-scrub);
+  }
+
+  &__desc {
+    margin: 0.4rem 0 0;
+    font-size: var(--text-copy-size);
+    line-height: 1.5;
+    color: rgba(9, 29, 60, 0.62);
+  }
+
+  &__links {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.85rem;
+  }
+
+  &__body {
+    flex: 1;
+  }
+}
+
+.info-panel__links .brandlink {
+  background: rgba(9, 29, 60, 0.06);
+  border: 1px solid rgba(9, 29, 60, 0.12);
+
+  &:hover {
+    background: rgba(9, 29, 60, 0.12);
+  }
+}
+
+.stage--immersed .info-panel {
   color: var(--color-sterile-white);
   background: linear-gradient(
     100deg,
-    rgba(0, 0, 0, 0.34) 0%,
-    rgba(0, 0, 0, 0.18) 80%,
+    rgba(0, 0, 0, 0.42) 0%,
+    rgba(0, 0, 0, 0.22) 80%,
     rgba(0, 0, 0, 0) 100%
   );
+  border-right: none;
+  box-shadow: none;
   -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
-  cursor: default;
+
+  .info-panel__head {
+    border-bottom-color: rgba(255, 255, 255, 0.18);
+  }
+
+  .info-panel__eyebrow {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .info-panel__title {
+    color: var(--color-sterile-white);
+  }
+
+  .info-panel__desc {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .info-panel__links .brandlink {
+    background: rgba(0, 0, 0, 0.33);
+    border-color: transparent;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.5);
+    }
+  }
 }
 
 .markdown {
   font-size: var(--text-copy-size);
   line-height: 1.6;
+  color: rgba(9, 29, 60, 0.78);
 
   :first-child {
     margin-top: 0;
@@ -181,7 +270,7 @@
   h1,
   h2,
   h3 {
-    color: var(--color-sterile-white);
+    color: var(--color-midnight-scrub);
     line-height: 1.25;
     margin: 1.25rem 0 0.5rem;
   }
@@ -200,14 +289,12 @@
 
   p {
     margin: 0 0 0.75rem;
-    color: rgba(255, 255, 255, 0.82);
   }
 
   ul,
   ol {
     margin: 0 0 0.75rem;
     padding-left: 1.2rem;
-    color: rgba(255, 255, 255, 0.82);
   }
 
   li {
@@ -215,25 +302,75 @@
   }
 
   a {
-    color: #7cc4ff;
+    color: var(--color-procedure-blue);
     text-decoration: underline;
   }
 
+  // In-board item references rendered from `{id}` tokens.
+  a[href^="#aboard-node:"] {
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 0.02em 0.34em;
+    border-radius: var(--radius-sm);
+    background: rgba(0, 124, 192, 0.12);
+    color: var(--color-procedure-blue);
+    transition: background 120ms ease;
+    white-space: nowrap;
+
+    &:hover {
+      background: rgba(0, 124, 192, 0.22);
+    }
+  }
+
   code {
-    background: rgba(255, 255, 255, 0.14);
+    background: rgba(9, 29, 60, 0.08);
     padding: 0.1rem 0.35rem;
     border-radius: var(--radius-sm);
     font-size: 0.85em;
   }
 
   strong {
-    color: var(--color-sterile-white);
+    color: var(--color-midnight-scrub);
   }
 
   blockquote {
     margin: 0 0 0.75rem;
     padding-left: 0.85rem;
-    border-left: 3px solid rgba(255, 255, 255, 0.3);
+    border-left: 3px solid rgba(9, 29, 60, 0.2);
+    color: rgba(9, 29, 60, 0.6);
+  }
+}
+
+.stage--immersed .markdown {
+  color: rgba(255, 255, 255, 0.82);
+
+  h1,
+  h2,
+  h3,
+  strong {
+    color: var(--color-sterile-white);
+  }
+
+  a {
+    color: #7cc4ff;
+  }
+
+  a[href^="#aboard-node:"] {
+    background: rgba(124, 196, 255, 0.18);
+    color: #acd6ff;
+
+    &:hover {
+      background: rgba(124, 196, 255, 0.3);
+    }
+  }
+
+  code {
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  blockquote {
+    border-left-color: rgba(255, 255, 255, 0.3);
     color: rgba(255, 255, 255, 0.7);
   }
 }
@@ -316,6 +453,14 @@
   pointer-events: none;
   z-index: 1;
   overflow: visible;
+
+  &--under {
+    z-index: 1;
+  }
+
+  &--over {
+    z-index: 3;
+  }
 }
 
 .stage__labels {
@@ -334,10 +479,10 @@
 
   &--faint {
     stroke: var(--color-clinical-indigo);
-    stroke-width: 1.5;
-    stroke-dasharray: 4 7;
+    stroke-width: 1.75;
+    stroke-dasharray: 5 5;
     stroke-linecap: round;
-    opacity: 0.14;
+    opacity: 0.4;
   }
 
   &--active {
@@ -347,10 +492,56 @@
     stroke-linejoin: round;
     opacity: 0.9;
   }
+
+  // Reference arrows: faint dashed connectors for incoming rows when the focused
+  // node is mentioned in another relationship's label (not the link's target).
+  &--reference {
+    stroke: var(--color-procedure-blue);
+    stroke-width: 1.75;
+    stroke-dasharray: 2 5;
+    stroke-linecap: round;
+    opacity: 0.6;
+  }
 }
 
 .stage--peek .stage__link--faint {
-  opacity: 0.07;
+  opacity: 0.15;
+}
+
+.stage--peek .stage__link--reference {
+  opacity: 0.45;
+}
+
+.stage--immersed .stage__link--reference {
+  stroke: rgba(150, 196, 236, 0.8);
+}
+
+.stage__arrowhead--faint {
+  fill: var(--color-procedure-blue);
+}
+
+.stage--immersed .stage__arrowhead--faint {
+  fill: rgba(150, 196, 236, 0.85);
+}
+
+.stage__peek-veil {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  background: rgba(9, 29, 60, 0.38);
+  transition: opacity 280ms ease;
+}
+
+.stage--immersed .stage__peek-veil {
+  background: rgba(9, 29, 60, 0.48);
+}
+
+.stage--peek .stage__labels {
+  z-index: 6;
+}
+
+.stage--immersed.stage--peek #arrow-active-top path {
+  fill: rgba(255, 255, 255, 0.85);
 }
 
 .stage--immersed .stage__link--active {
@@ -378,10 +569,21 @@
   stroke-linejoin: round;
 }
 
+.stage--peek .stage__link-label {
+  stroke: var(--color-sterile-white);
+  stroke-width: 5.5px;
+}
+
 .stage--immersed .stage__link-label {
   fill: var(--color-sterile-white);
   stroke: rgba(9, 29, 60, 0.55);
   stroke-width: 3px;
+}
+
+.stage--immersed.stage--peek .stage__link-label {
+  fill: var(--color-sterile-white);
+  stroke: rgba(9, 29, 60, 0.92);
+  stroke-width: 5px;
 }
 
 // ---- nodes ----------------------------------------------------------------
@@ -399,9 +601,21 @@
   }
 
   &--dragging {
-    z-index: 4;
+    z-index: 6;
     cursor: grabbing;
     transition: none;
+  }
+
+  &--peek-bg {
+    z-index: 1;
+  }
+
+  &--peek-context {
+    z-index: 4;
+  }
+
+  &--peek-target {
+    z-index: 5;
   }
 }
 
@@ -446,6 +660,11 @@
     right: calc(100% + 0.6rem);
     transform: translateY(-50%);
   }
+}
+
+.stage--peek .graph-node__caption {
+  paint-order: stroke fill;
+  -webkit-text-stroke: 0.4px rgba(9, 29, 60, 0.75);
 }
 
 // ---- empty / hint ---------------------------------------------------------

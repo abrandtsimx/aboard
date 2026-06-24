@@ -6,32 +6,92 @@
     aria-hidden="true"
     [style.fill]="fillColor()"
   >
-    @switch (shape()) {
-      @case ('circle') {
-        <ellipse cx="50" cy="50" rx="49" ry="49" />
-      }
-      @case ('square') {
-        <rect x="1" y="1" width="98" height="98" rx="3" ry="3" />
-      }
-      @case ('diamond') {
-        <polygon points="50,1 99,50 50,99 1,50" />
-      }
-      @case ('hexagon') {
-        <polygon points="22,2 78,2 99,50 78,98 22,98 1,50" />
-      }
-      @case ('pill') {
-        <rect x="6" y="28" width="88" height="44" rx="22" ry="22" />
-      }
-      @case ('ellipse') {
-        <ellipse cx="50" cy="50" rx="45" ry="36" />
-      }
-      @case ('octagon') {
-        <polygon points="29,3 71,3 97,29 97,71 71,97 29,97 3,71 3,29" />
-      }
-      @default {
-        <rect x="1" y="1" width="98" height="98" rx="20" ry="20" />
-      }
+    @if (showCollectionStack()) {
+      <g class="orbit__stack orbit__stack--back" transform="translate(0,-25) scale(0.93)">
+        @switch (shape()) {
+          @case ('circle') {
+            <ellipse cx="50" cy="50" rx="49" ry="49" />
+          }
+          @case ('square') {
+            <rect x="1" y="1" width="98" height="98" rx="3" ry="3" />
+          }
+          @case ('diamond') {
+            <polygon points="50,1 99,50 50,99 1,50" />
+          }
+          @case ('hexagon') {
+            <polygon points="22,2 78,2 99,50 78,98 22,98 1,50" />
+          }
+          @case ('pill') {
+            <rect x="6" y="28" width="88" height="44" rx="22" ry="22" />
+          }
+          @case ('ellipse') {
+            <ellipse cx="50" cy="50" rx="45" ry="36" />
+          }
+          @case ('octagon') {
+            <polygon points="29,3 71,3 97,29 97,71 71,97 29,97 3,71 3,29" />
+          }
+          @default {
+            <rect x="1" y="1" width="98" height="98" rx="20" ry="20" />
+          }
+        }
+      </g>
+      <g class="orbit__stack orbit__stack--mid" transform="translate(0,-12.5) scale(0.965)">
+        @switch (shape()) {
+          @case ('circle') {
+            <ellipse cx="50" cy="50" rx="49" ry="49" />
+          }
+          @case ('square') {
+            <rect x="1" y="1" width="98" height="98" rx="3" ry="3" />
+          }
+          @case ('diamond') {
+            <polygon points="50,1 99,50 50,99 1,50" />
+          }
+          @case ('hexagon') {
+            <polygon points="22,2 78,2 99,50 78,98 22,98 1,50" />
+          }
+          @case ('pill') {
+            <rect x="6" y="28" width="88" height="44" rx="22" ry="22" />
+          }
+          @case ('ellipse') {
+            <ellipse cx="50" cy="50" rx="45" ry="36" />
+          }
+          @case ('octagon') {
+            <polygon points="29,3 71,3 97,29 97,71 71,97 29,97 3,71 3,29" />
+          }
+          @default {
+            <rect x="1" y="1" width="98" height="98" rx="20" ry="20" />
+          }
+        }
+      </g>
     }
+    <g class="orbit__face">
+      @switch (shape()) {
+        @case ('circle') {
+          <ellipse cx="50" cy="50" rx="49" ry="49" />
+        }
+        @case ('square') {
+          <rect x="1" y="1" width="98" height="98" rx="3" ry="3" />
+        }
+        @case ('diamond') {
+          <polygon points="50,1 99,50 50,99 1,50" />
+        }
+        @case ('hexagon') {
+          <polygon points="22,2 78,2 99,50 78,98 22,98 1,50" />
+        }
+        @case ('pill') {
+          <rect x="6" y="28" width="88" height="44" rx="22" ry="22" />
+        }
+        @case ('ellipse') {
+          <ellipse cx="50" cy="50" rx="45" ry="36" />
+        }
+        @case ('octagon') {
+          <polygon points="29,3 71,3 97,29 97,71 71,97 29,97 3,71 3,29" />
+        }
+        @default {
+          <rect x="1" y="1" width="98" height="98" rx="20" ry="20" />
+        }
+      }
+    </g>
   </svg>
 
   <span class="orbit__content" [style.color]="textColor()">

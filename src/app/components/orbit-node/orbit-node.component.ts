@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component, input, output, inject, computed } from '@angular/core';
 import { AboardNode, NodeShape } from '../../models/aboard.models';
 import { DocumentService } from '../../services/document.service';
-import { resolveNodeStyle } from '../../utils/node-style.util';
+import { resolveNodeStyle, nodeAllowsCollection } from '../../utils/node-style.util';
 
 // Fraction of the node's pixel box that is actually usable for the label, per
 // shape. These mirror the per-shape CSS padding (the visual buffer between the
@@ -77,6 +77,12 @@ export class OrbitNodeComponent {
     this.doc.getChildren(this.node().id).length
   );
 
+  protected readonly showCollectionStack = computed(() => {
+    const node = this.node();
+    if (!node.isCollection) return false;
+    return nodeAllowsCollection(node, this.doc.schema());
+  });
+
   protected readonly showDetails = computed(() => this.state() === 'peek');
 
   // Modulate the label font so it always fits inside the shape's usable area
@@ -118,6 +124,7 @@ export class OrbitNodeComponent {
       [`orbit--${this.state()}`]: true,
       'orbit--static': !this.interactive(),
       'orbit--tagged-application': cat === 'application' && !!this.style().fill,
+      'orbit--collection': this.showCollectionStack(),
     };
   }
 

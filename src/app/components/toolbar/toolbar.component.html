@@ -1,7 +1,11 @@
 <header class="toolbar">
   <div class="toolbar__brand">
     <span class="toolbar__logo">Aboard</span>
-    <span class="toolbar__subtitle text-caption">SimX orientation explorer</span>
+    @if (appMode.isShareView()) {
+      <span class="toolbar__badge text-caption">View only</span>
+    } @else {
+      <span class="toolbar__subtitle text-caption">SimX orientation explorer</span>
+    }
   </div>
 
   <div class="toolbar__history">
@@ -27,21 +31,50 @@
     </button>
   </div>
 
-  <div class="toolbar__spacer"></div>
-
-  <div class="toolbar__actions">
-    <button type="button" class="btn btn--secondary" (click)="goToDashboard()">All boards</button>
-    <button type="button" class="btn btn--secondary" (click)="editorUi.open()">Curate</button>
-    <select class="btn btn--secondary toolbar__examples" (change)="loadExample($event)" aria-label="Load example dataset">
-      <option value="" selected>Load example…</option>
-      @for (example of examples; track example.path) {
-        <option [value]="example.path">{{ example.label }}</option>
+  @if (doc.hierarchyCrumbs().length > 0) {
+    <nav class="toolbar__breadcrumbs" aria-label="Hierarchy">
+      @for (crumb of doc.hierarchyCrumbs(); track crumb.id; let last = $last) {
+        <button
+          type="button"
+          class="breadcrumb"
+          [class.breadcrumb--active]="last"
+          [disabled]="last"
+          (click)="doc.navigateTo(crumb.id)"
+        >
+          {{ doc.nodeLabel(crumb) }}
+        </button>
+        @if (!last) {
+          <span class="breadcrumb__sep" aria-hidden="true">›</span>
+        }
       }
-    </select>
-    <label class="btn btn--secondary">
-      Import
-      <input type="file" accept=".board,.json,application/json" hidden (change)="onImport($event)" />
-    </label>
-    <button class="btn btn--primary" (click)="onExport()">Export</button>
-  </div>
+    </nav>
+  } @else {
+    <div class="toolbar__spacer"></div>
+  }
+
+  @if (!appMode.isShareView()) {
+    <div class="toolbar__actions">
+      <button type="button" class="btn btn--secondary" (click)="goToDashboard()">All boards</button>
+      <button type="button" class="btn btn--secondary" (click)="editorUi.open()">Curate</button>
+      <button
+        type="button"
+        class="btn btn--secondary"
+        (click)="onShare()"
+        [class.btn--copied]="shareCopied() !== false"
+      >
+        {{ shareCopied() === 'link' ? 'Link copied' : shareCopied() === 'file' ? 'Share file downloaded' : 'Share' }}
+      </button>
+      <select class="btn btn--secondary toolbar__examples" (change)="loadExample($event)" aria-label="Load example dataset">
+        <option value="" selected>Load example…</option>
+        @for (example of examples; track example.path) {
+          <option [value]="example.path">{{ example.label }}</option>
+        }
+      </select>
+      <label class="btn btn--secondary">
+        Import
+        <input type="file" accept=".board,.json,application/json" hidden (change)="onImport($event)" />
+      </label>
+      <button class="btn btn--primary" (click)="onExport()">Export</button>
+    </div>
+  }
 </header>

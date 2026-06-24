@@ -1,6 +1,7 @@
 export type NodeCategory =
   | 'application'
   | 'data-type'
+  | 'container'
   | 'infrastructure'
   | 'process'
   | 'environment'
@@ -60,6 +61,8 @@ export interface SchemaType {
   color: string;
   /** Label/text color (defaults to white). */
   textColor?: string;
+  /** When false, nodes of this type cannot be marked as collections. */
+  allowsCollection?: boolean;
 }
 
 export interface AboardSchema {
@@ -71,8 +74,6 @@ export interface AboardNode {
   label: string;
   description?: string;
   type: NodeType;
-  /** Semantic category for styling and immersed layout (defaults from type if omitted) */
-  category?: NodeCategory;
   /** @deprecated Use `tags` — kept for imported legacy boards. */
   visibility?: Visibility;
   /** References `AboardDocument.tags` ids. */
@@ -84,6 +85,16 @@ export interface AboardNode {
   links?: NodeLinks;
   /** Long-form markdown shown on the item's zoomed-in (immersed) page */
   content?: string;
+  /**
+   * When true, this item appears on the board landing Map View (root level).
+   * Legacy boards without any `isRoot` flags fall back to top-level container children.
+   */
+  isRoot?: boolean;
+  /**
+   * When true, renders as a stacked collection on the map. Requires the node's
+   * schema type to allow collections (see `SchemaType.allowsCollection`).
+   */
+  isCollection?: boolean;
   metadata?: Record<string, string | number | boolean>;
 }
 

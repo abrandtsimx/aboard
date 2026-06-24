@@ -1,9 +1,11 @@
-import { Component, inject, NgZone } from '@angular/core';
+import { Component, inject, NgZone, signal } from '@angular/core';
 import { DocumentService } from '../../services/document.service';
 import { BoardLibraryService } from '../../services/board-library.service';
 import { BoardEditorUiService } from '../../services/board-editor-ui.service';
+import { AppModeService } from '../../services/app-mode.service';
 import { EXAMPLE_BOARDS } from '../../data/example-boards';
 import { publicAssetUrl } from '../../utils/public-asset.util';
+import { buildShareUrl, downloadShareHtml, isShareUrlTooLarge } from '../../utils/share-link.util';
 
 @Component({
   selector: 'app-toolbar',
@@ -15,8 +17,12 @@ export class ToolbarComponent {
   protected readonly doc = inject(DocumentService);
   protected readonly library = inject(BoardLibraryService);
   protected readonly editorUi = inject(BoardEditorUiService);
+  protected readonly appMode = inject(AppModeService);
   protected readonly examples = EXAMPLE_BOARDS;
   private readonly zone = inject(NgZone);
+
+  protected readonly shareCopied = signal<'link' | 'file' | false>(false);
+  private shareCopiedTimer: ReturnType<typeof setTimeout> | null = null;
 
   protected goToDashboard(): void {
     this.library.refreshActive(this.doc.currentDocument());
@@ -79,6 +85,31 @@ export class ToolbarComponent {
     anchor.download = `${this.slugify(this.doc.currentDocument().title)}.board`;
     anchor.click();
     URL.revokeObjectURL(url);
+  }
+
+  protected async onShare(): Promise<void> {
+    const doc = this.doc.currentDocument();
+    const json = JSON.stringify(doc);
+    const url = await buildShareUrl(json);
+
+    if (!isShareUrlTooLarge(url)) {
+      try {
+        await navigator.clipboard.writeText(url);
+        this.flashShareCopied('link');
+      } catch {
+        window.prompt('Copy this view-only link:', url);
+      }
+      return;
+    }
+
+    downloadShareHtml(doc.title, json);
+    this.flashShareCopied('file');
+  }
+
+  private flashShareCopied(kind: 'link' | 'file'): void {
+    this.shareCopied.set(kind);
+    if (this.shareCopiedTimer) clearTimeout(this.shareCopiedTimer);
+    this.shareCopiedTimer = setTimeout(() => this.shareCopied.set(false), 3000);
   }
 
   private slugify(text: string): string {

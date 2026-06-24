@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+﻿import { TestBed } from '@angular/core/testing';
 import {
   DEFAULT_BOARD_TAGS,
   getNodeTags,
@@ -54,7 +54,6 @@ describe('tag.util', () => {
           id: 'app-a',
           label: 'App',
           type: 'app',
-          category: 'application',
           tags: ['internal'],
           parentId: 'root',
         },

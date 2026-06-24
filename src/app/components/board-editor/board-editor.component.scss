@@ -340,6 +340,72 @@
   letter-spacing: 0.04em;
 }
 
+.collapse-group {
+  margin-bottom: 0.85rem;
+  border: 1px solid rgba(9, 29, 60, 0.1);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.55);
+  overflow: hidden;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.collapse-group__header {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: none;
+  background: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+  text-align: left;
+  color: var(--color-midnight-scrub);
+  transition: background 120ms;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.95);
+  }
+}
+
+.collapse-group__caret {
+  font-size: 0.72rem;
+  color: rgba(9, 29, 60, 0.5);
+  transition: transform 150ms ease;
+  transform: rotate(0deg);
+
+  &--open {
+    transform: rotate(90deg);
+  }
+}
+
+.collapse-group__title {
+  flex: 1;
+  font-size: var(--text-copy-size);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.collapse-group__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.85rem 0.95rem 1rem;
+  border-top: 1px solid rgba(9, 29, 60, 0.08);
+
+  .field-group:last-of-type {
+    margin-bottom: 0;
+  }
+
+  > .field:last-child,
+  > .subform__grid:last-child {
+    margin-bottom: 0;
+  }
+}
+
 .subform__grid {
   display: grid;
   gap: 1rem;
@@ -364,6 +430,13 @@
     padding-bottom: 0.5rem;
     background: linear-gradient(to top, var(--color-instrument-grey) 75%, transparent);
   }
+}
+
+.subform__id {
+  margin: 0.65rem 0 0;
+  color: rgba(9, 29, 60, 0.42);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  letter-spacing: 0.02em;
 }
 
 .field-group {
@@ -414,6 +487,17 @@
       height: 1rem;
       accent-color: var(--color-procedure-blue);
     }
+  }
+}
+
+.field__id-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0.45rem;
+
+  .field__input {
+    flex: 1;
+    min-width: 0;
   }
 }
 
@@ -596,6 +680,62 @@
       background: #c91a28;
     }
   }
+
+  &--compact {
+    min-height: 2.25rem;
+    padding: 0.5rem 0.65rem;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+}
+
+.editor-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(9, 29, 60, 0.45);
+}
+
+.editor-modal {
+  width: min(100%, 26rem);
+  padding: 1.25rem 1.35rem;
+  border-radius: var(--radius-lg);
+  background: var(--color-sterile-white);
+  box-shadow: 0 16px 48px rgba(9, 29, 60, 0.28);
+}
+
+.editor-modal__title {
+  margin: 0 0 0.65rem;
+  color: var(--color-midnight-scrub);
+  font-size: var(--text-headline-copy-size);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.editor-modal__warning {
+  margin: 0 0 1rem;
+  color: rgba(9, 29, 60, 0.72);
+  font-size: var(--text-copy-size);
+  line-height: 1.45;
+}
+
+.editor-modal__error {
+  margin: 0.65rem 0 0;
+  color: var(--color-vital-red);
+  font-size: var(--text-copy-size);
+  line-height: 1.4;
+}
+
+.editor-modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1.15rem;
 }
 
 @media (max-width: 520px) {

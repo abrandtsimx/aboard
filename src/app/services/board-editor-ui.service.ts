@@ -1,9 +1,12 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
+import { AppModeService } from './app-mode.service';
 
 export type EditorTab = 'board' | 'schema' | 'nodes' | 'relationships';
 
 @Injectable({ providedIn: 'root' })
 export class BoardEditorUiService {
+  private readonly appMode = inject(AppModeService);
+
   readonly isOpen = signal(false);
   readonly initialTab = signal<EditorTab>('board');
   readonly activeTab = signal<EditorTab>('board');
@@ -15,6 +18,7 @@ export class BoardEditorUiService {
   readonly curatingItems = computed(() => this.isOpen() && this.activeTab() === 'nodes');
 
   open(tab: EditorTab = 'board'): void {
+    if (this.appMode.readOnly()) return;
     this.initialTab.set(tab);
     this.activeTab.set(tab);
     this.editingNodeId.set(null);

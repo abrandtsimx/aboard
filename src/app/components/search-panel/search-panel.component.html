@@ -34,20 +34,31 @@
   </div>
 
   <div class="search__results">
-    @for (group of groups(); track group.category) {
+    <button
+      type="button"
+      class="search__home"
+      [class.search__home--active]="isRootActive()"
+      (click)="goHome()"
+      [title]="boardTitle()"
+    >
+      <span class="search__home-icon" aria-hidden="true">⌂</span>
+      <span class="search__home-label">{{ boardTitle() }}</span>
+    </button>
+
+    @for (group of groups(); track group.typeKey) {
       <section class="group">
         <button
           type="button"
           class="group__header"
-          (click)="toggle(group.category)"
-          [attr.aria-expanded]="!isCollapsed(group.category)"
+          (click)="toggle(group.typeKey)"
+          [attr.aria-expanded]="!isCollapsed(group.typeKey)"
         >
-          <span class="group__caret" [class.group__caret--open]="!isCollapsed(group.category)">▸</span>
+          <span class="group__caret" [class.group__caret--open]="!isCollapsed(group.typeKey)">▸</span>
           <span class="group__title">{{ group.label }}</span>
           <span class="group__count">{{ group.nodes.length }}</span>
         </button>
 
-        @if (!isCollapsed(group.category)) {
+        @if (!isCollapsed(group.typeKey)) {
           <ul class="group__list">
             @for (node of group.nodes; track node.id) {
               <li>
@@ -58,7 +69,11 @@
                   (click)="select(node)"
                   [title]="node.description || node.label"
                 >
-                  <span class="item__marker" [class]="'item__marker--' + group.category"></span>
+                  <span
+                    class="item__marker"
+                    [class]="markerClass(group.typeKey)"
+                    [style.background]="markerColor(node) ?? null"
+                  ></span>
                   <span class="item__label">{{ node.label }}</span>
                 </button>
               </li>
@@ -68,7 +83,7 @@
       </section>
     }
 
-    @if (totalCount() === 0) {
+    @if (totalCount() === 0 && query()) {
       <p class="search__empty">No items match “{{ query() }}”.</p>
     }
   </div>

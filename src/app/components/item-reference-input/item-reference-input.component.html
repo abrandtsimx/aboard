@@ -1,0 +1,48 @@
+<div class="item-ref-input">
+  @if (multiline()) {
+    <textarea
+      #field
+      class="item-ref-input__field field__input field__input--area"
+      [attr.name]="name() || null"
+      [rows]="rows()"
+      [placeholder]="placeholder()"
+      [value]="value()"
+      (input)="onInput($event)"
+      (keydown)="onKeydown($event)"
+      (blur)="onBlur()"
+    ></textarea>
+  } @else {
+    <input
+      #field
+      type="text"
+      class="item-ref-input__field field__input"
+      [attr.name]="name() || null"
+      [placeholder]="placeholder()"
+      [value]="value()"
+      (input)="onInput($event)"
+      (keydown)="onKeydown($event)"
+      (blur)="onBlur()"
+    />
+  }
+
+  @if (menuOpen()) {
+    <ul class="item-ref-input__menu" role="listbox" aria-label="Link to item">
+      @if (candidates().length === 0) {
+        <li class="item-ref-input__empty" role="presentation">No matching items</li>
+      } @else {
+        @for (item of candidates(); track item.id; let i = $index) {
+          <li
+            role="option"
+            class="item-ref-input__option"
+            [class.item-ref-input__option--active]="highlightIndex() === i"
+            [attr.aria-selected]="highlightIndex() === i"
+            (mousedown)="selectCandidate(item, $event)"
+          >
+            <span class="item-ref-input__label">{{ item.label }}</span>
+            <span class="item-ref-input__id text-caption">{{ item.id }}</span>
+          </li>
+        }
+      }
+    </ul>
+  }
+</div>

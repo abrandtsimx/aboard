@@ -159,7 +159,8 @@
       "category": "application",
       "visibility": "internal",
       "parentId": "env-scenario-creation",
-      "content": "## Owner\n\n**Sarah** — primary build-and-launch initiative for this pod."
+      "isRoot": true,
+      "content": "## Owner\n\n**Sarah** — primary build-and-launch initiative for this pod.\n\nCreates **Mutations** data stored in AWS; no direct link to the SimX Client — both connect through Mutations on the Map View."
     },
     {
       "id": "app-scenario-creator",
@@ -306,7 +307,8 @@
       "category": "application",
       "visibility": "internal",
       "parentId": "env-web",
-      "content": "## Owner\n\n**Christopher**"
+      "isRoot": true,
+      "content": "## Owner\n\n**Christopher**\n\nRetrieves **Mutations** via API and manages **Scenarios** stored in Postgres."
     },
     {
       "id": "app-web-accessibility",
@@ -317,6 +319,57 @@
       "visibility": "both",
       "parentId": "env-web",
       "content": "## Owner\n\n**Christopher**"
+    },
+    {
+      "id": "app-simx-client",
+      "label": "SimX Client",
+      "description": "Unity client runtime — no direct relationship to Mutations on the map.",
+      "type": "app",
+      "category": "application",
+      "visibility": "both",
+      "parentId": "env-unity-platform",
+      "isRoot": true,
+      "content": "## Overview\n\nLearner-facing client. Shown on the Map View as an independent root item without a faint link to Admin Portal or Scenario Editor."
+    },
+    {
+      "id": "dtype-mutations",
+      "label": "Mutations",
+      "description": "Scenario mutation payloads — shared non-root connector on the Map View.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "app-scenario-editor",
+      "content": "## Flow\n\nCreated by Scenario Editor, stored in AWS S3, retrieved by Admin Portal API."
+    },
+    {
+      "id": "svc-aws-s3",
+      "label": "AWS S3",
+      "description": "Object storage for mutation payloads.",
+      "type": "system",
+      "category": "infrastructure",
+      "visibility": "internal",
+      "parentId": "env-platform-ops"
+    },
+    {
+      "id": "svc-postgres",
+      "label": "Postgres",
+      "description": "Scenario database — collection of scenario records.",
+      "type": "system",
+      "category": "infrastructure",
+      "visibility": "internal",
+      "parentId": "env-platform-ops",
+      "isRoot": true,
+      "isCollection": true,
+      "content": "## Overview\n\nCollection of **Scenario** records. Admin Portal manages scenarios here."
+    },
+    {
+      "id": "dtype-scenario",
+      "label": "Scenario",
+      "description": "Scenario record stored in Postgres.",
+      "type": "item-type",
+      "category": "data-type",
+      "visibility": "internal",
+      "parentId": "svc-postgres"
     },
     {
       "id": "env-platform-ops",
@@ -633,6 +686,41 @@
       "targetId": "app-autonomous-debrief-reporting",
       "type": "feeds",
       "label": "Event data feeds"
+    },
+    {
+      "id": "rel-editor-creates-mutations",
+      "sourceId": "app-scenario-editor",
+      "targetId": "dtype-mutations",
+      "type": "creates",
+      "label": "Creates"
+    },
+    {
+      "id": "rel-mutations-aws",
+      "sourceId": "dtype-mutations",
+      "targetId": "svc-aws-s3",
+      "type": "stores-in",
+      "label": "Stored in AWS"
+    },
+    {
+      "id": "rel-portal-reads-mutations",
+      "sourceId": "app-admin-portal",
+      "targetId": "dtype-mutations",
+      "type": "reads",
+      "label": "Retrieved via API"
+    },
+    {
+      "id": "rel-portal-postgres",
+      "sourceId": "app-admin-portal",
+      "targetId": "svc-postgres",
+      "type": "manages",
+      "label": "Manages scenarios in"
+    },
+    {
+      "id": "rel-postgres-scenarios",
+      "sourceId": "svc-postgres",
+      "targetId": "dtype-scenario",
+      "type": "contains",
+      "label": "Collection of"
     }
   ]
 }

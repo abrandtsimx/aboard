@@ -35,7 +35,7 @@
         "jira": "https://simx.atlassian.net/jira/software/projects/CLIENT/boards/1",
         "confluence": "https://simx.atlassian.net/wiki/spaces/CLIENT/overview"
       },
-      "content": "## Overview\n\nThe VR training client runs learner-facing simulations and connects to backend services for session state and published content.\n\n### Responsibilities\n\n- Retrieves available scenarios and mutations\n- Connects to live session infrastructure\n- Presents customer-facing training experiences"
+      "content": "## Overview\n\nThe SimX Client is the customer-facing VR application. It retrieves {dtype-scenario-mutation} data published by the {app-admin-portal}, and connects to the {app-session-server} during live multiplayer sessions.\n\n### Notes\n\nAny highlighted item above is a live reference — click it to jump straight to that item's page."
     },
     {
       "id": "app-session-server",
@@ -235,7 +235,7 @@
       "sourceId": "app-simx-client",
       "targetId": "app-admin-portal",
       "type": "retrieves-from",
-      "label": "Retrieves mutations and cases from"
+      "label": "Retrieves {dtype-scenario-mutation} from {app-admin-portal}"
     },
     {
       "id": "rel-creator-editor",

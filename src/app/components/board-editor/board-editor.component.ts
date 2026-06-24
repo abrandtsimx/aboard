@@ -1,11 +1,11 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ItemReferenceInputComponent } from '../item-reference-input/item-reference-input.component';
 import { DocumentService } from '../../services/document.service';
 import {
   BoardCurationService,
   BoardTagDraft,
   getNodeTypeOptions,
-  NODE_CATEGORY_OPTIONS,
   NodeDraft,
   RelationshipDraft,
   SchemaTypeDraft,
@@ -14,10 +14,13 @@ import {
 import { BoardEditorUiService, EditorTab } from '../../services/board-editor-ui.service';
 import { AboardNode, AboardRelationship, BoardTag, SchemaType } from '../../models/aboard.models';
 import { tagLabel } from '../../utils/tag.util';
+import { nodeAllowsCollection } from '../../utils/node-style.util';
+
+type NodeFormSection = 'item-data' | 'content';
 
 @Component({
   selector: 'app-board-editor',
-  imports: [FormsModule],
+  imports: [FormsModule, ItemReferenceInputComponent],
   templateUrl: './board-editor.component.html',
   styleUrl: './board-editor.component.scss',
 })
@@ -41,11 +44,16 @@ export class BoardEditorComponent {
   protected readonly schemaDraft = signal<SchemaTypeDraft>(this.curation.emptySchemaTypeDraft());
   protected readonly tagDraft = signal<BoardTagDraft>(this.curation.emptyBoardTagDraft());
 
+  private readonly nodeSectionCollapsed = signal<ReadonlySet<NodeFormSection>>(new Set());
+
+  protected readonly renameIdModalOpen = signal(false);
+  protected readonly renameIdDraft = signal('');
+  protected readonly renameIdError = signal<string | null>(null);
+
   protected readonly nodeTypeOptions = computed(() =>
     getNodeTypeOptions(this.doc.currentDocument(), this.nodeDraft().type)
   );
   protected readonly usesSchemaTypes = computed(() => this.schemaTypes().length > 0);
-  protected readonly categoryOptions = NODE_CATEGORY_OPTIONS;
   protected readonly shapeOptions = SHAPE_OPTIONS;
 
   protected readonly nodes = computed(() => this.doc.currentDocument().nodes);
@@ -55,12 +63,26 @@ export class BoardEditorComponent {
 
   protected readonly parentOptions = computed(() => {
     const editingId = this.editingNodeId();
-    return this.nodes().filter((n) => n.id !== editingId);
+    const rootId = this.doc.currentDocument().rootId;
+    return this.nodes().filter((n) => n.id !== editingId && n.id !== rootId);
   });
 
+  protected readonly nodeIdManuallyEdited = signal(false);
+
   protected readonly showTagPicker = computed(() => {
-    const category = this.nodeDraft().category;
-    return category === 'application' || category === 'data-type';
+    const type = this.nodeDraft().type;
+    return type === 'app' || type === 'tool' || type === 'item-type';
+  });
+
+  protected readonly nodeAllowsCollectionDraft = computed(() => {
+    const draft = this.nodeDraft();
+    const probe: AboardNode = {
+      id: draft.id || 'draft',
+      label: draft.label || 'Draft',
+      type: draft.type,
+      parentId: draft.parentId,
+    };
+    return nodeAllowsCollection(probe, this.doc.schema());
   });
 
   private editorWasOpen = false;
@@ -81,6 +103,7 @@ export class BoardEditorComponent {
         const node = this.doc.findNode(id);
         if (node) {
           this.nodeDraft.set(this.curation.nodeToDraft(node));
+          this.nodeIdManuallyEdited.set(true);
           this.error.set(null);
         }
       }
@@ -91,6 +114,7 @@ export class BoardEditorComponent {
       if (!this.ui.isOpen() || this.ui.activeTab() !== 'nodes') return;
       if (this.ui.editingNodeId() !== null) return;
       this.nodeDraft.set(this.curation.emptyNodeDraft());
+      this.nodeIdManuallyEdited.set(false);
       this.error.set(null);
     });
   }
@@ -176,11 +200,20 @@ export class BoardEditorComponent {
   }
 
   onNodeTypeChange(type: string): void {
-    this.nodeDraft.update((d) => ({
-      ...d,
-      type,
-      category: this.curation.defaultCategoryForType(type),
-    }));
+    this.patchNodeDraft({ type });
+  }
+
+  onNodeLabelInput(label: string): void {
+    if (!this.editingNodeId() && !this.nodeIdManuallyEdited()) {
+      this.patchNodeDraft({ label, id: this.curation.generateNodeId(label) });
+    } else {
+      this.patchNodeDraft({ label });
+    }
+  }
+
+  onNodeIdInput(id: string): void {
+    this.nodeIdManuallyEdited.set(true);
+    this.patchNodeDraft({ id });
   }
 
   toggleNodeTag(tagId: string): void {
@@ -213,9 +246,23 @@ export class BoardEditorComponent {
     this.removeNode(nodeId);
   }
 
+  duplicateSelectedNode(): void {
+    const nodeId = this.ui.editingNodeId();
+    if (!nodeId) return;
+    this.run(() => {
+      const copy = this.curation.duplicateNode(nodeId);
+      this.ui.selectNodeForEdit(copy.id);
+      this.error.set(null);
+    });
+  }
+
   canRemoveSelectedNode(): boolean {
     const nodeId = this.ui.editingNodeId();
     return !!nodeId && nodeId !== this.doc.currentDocument().rootId;
+  }
+
+  canDuplicateSelectedNode(): boolean {
+    return this.canRemoveSelectedNode();
   }
 
   removeNode(nodeId: string): void {
@@ -304,6 +351,48 @@ export class BoardEditorComponent {
     this.nodeDraft.update((d) => ({ ...d, ...partial }));
   }
 
+  protected isNodeSectionCollapsed(section: NodeFormSection): boolean {
+    return this.nodeSectionCollapsed().has(section);
+  }
+
+  protected toggleNodeSection(section: NodeFormSection): void {
+    const next = new Set(this.nodeSectionCollapsed());
+    if (next.has(section)) next.delete(section);
+    else next.add(section);
+    this.nodeSectionCollapsed.set(next);
+  }
+
+  protected openRenameIdModal(): void {
+    const currentId = this.editingNodeId();
+    if (!currentId) return;
+    this.renameIdDraft.set('');
+    this.renameIdError.set(null);
+    this.renameIdModalOpen.set(true);
+  }
+
+  protected closeRenameIdModal(): void {
+    this.renameIdModalOpen.set(false);
+    this.renameIdDraft.set('');
+    this.renameIdError.set(null);
+  }
+
+  protected confirmRenameId(): void {
+    const currentId = this.editingNodeId();
+    if (!currentId) return;
+
+    try {
+      const newId = this.renameIdDraft().trim();
+      this.curation.renameNodeId(currentId, newId);
+      this.ui.selectNodeForEdit(newId);
+      this.nodeDraft.update((d) => ({ ...d, id: newId }));
+      this.nodeIdManuallyEdited.set(true);
+      this.closeRenameIdModal();
+      this.error.set(null);
+    } catch (e) {
+      this.renameIdError.set((e as Error).message);
+    }
+  }
+
   patchRelDraft(partial: Partial<RelationshipDraft>): void {
     this.relDraft.update((d) => ({ ...d, ...partial }));
   }
@@ -318,6 +407,7 @@ export class BoardEditorComponent {
 
   private resetNodeForm(): void {
     this.ui.editingNodeId.set(null);
+    this.nodeIdManuallyEdited.set(false);
     this.nodeDraft.set(this.curation.emptyNodeDraft());
   }
 

@@ -1,23 +1,12 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { DocumentService } from '../../services/document.service';
 import { BoardEditorUiService } from '../../services/board-editor-ui.service';
-import { AboardNode, NodeCategory } from '../../models/aboard.models';
-import { getNodeCategory, categoryLabel } from '../../utils/category.util';
-
-interface SearchGroup {
-  category: NodeCategory;
-  label: string;
-  nodes: AboardNode[];
-}
-
-const CATEGORY_ORDER: NodeCategory[] = [
-  'environment',
-  'application',
-  'data-type',
-  'infrastructure',
-  'external-tool',
-  'process',
-];
+import { AboardNode } from '../../models/aboard.models';
+import {
+  buildSidebarGroups,
+  sidebarMarkerColor,
+  SidebarGroup,
+} from '../../utils/sidebar-groups.util';
 
 @Component({
   selector: 'app-search-panel',
@@ -30,52 +19,57 @@ export class SearchPanelComponent {
   protected readonly editorUi = inject(BoardEditorUiService);
 
   protected readonly query = signal('');
-  private readonly collapsed = signal<ReadonlySet<NodeCategory>>(new Set());
+  private readonly collapsed = signal<ReadonlySet<string>>(new Set());
 
-  protected readonly groups = computed<SearchGroup[]>(() => {
+  protected readonly boardTitle = computed(() => this.doc.currentDocument().title);
+
+  protected readonly groups = computed<SidebarGroup[]>(() => {
     const q = this.query().trim().toLowerCase();
-    const nodes = this.doc.currentDocument().nodes;
+    const doc = this.doc.currentDocument();
+    const nodes = doc.nodes;
     const matches = q
       ? nodes.filter(
           (n) =>
-            n.label.toLowerCase().includes(q) ||
-            (n.description ?? '').toLowerCase().includes(q)
+            n.id !== doc.rootId &&
+            (n.label.toLowerCase().includes(q) ||
+              (n.description ?? '').toLowerCase().includes(q))
         )
       : nodes;
 
-    const byCategory = new Map<NodeCategory, AboardNode[]>();
-    for (const node of matches) {
-      const cat = getNodeCategory(node);
-      const list = byCategory.get(cat) ?? [];
-      list.push(node);
-      byCategory.set(cat, list);
-    }
-
-    const result: SearchGroup[] = [];
-    for (const cat of CATEGORY_ORDER) {
-      const list = byCategory.get(cat);
-      if (!list?.length) continue;
-      list.sort((a, b) => a.label.localeCompare(b.label));
-      result.push({ category: cat, label: categoryLabel(cat), nodes: list });
-    }
-    return result;
+    return buildSidebarGroups(doc, matches);
   });
 
   protected readonly totalCount = computed(() =>
     this.groups().reduce((sum, g) => sum + g.nodes.length, 0)
   );
 
-  protected isCollapsed(category: NodeCategory): boolean {
-    // While searching, keep every group open so results are always visible.
+  protected isCollapsed(typeKey: string): boolean {
     if (this.query().trim()) return false;
-    return this.collapsed().has(category);
+    return this.collapsed().has(typeKey);
   }
 
-  protected toggle(category: NodeCategory): void {
+  protected toggle(typeKey: string): void {
     const next = new Set(this.collapsed());
-    if (next.has(category)) next.delete(category);
-    else next.add(category);
+    if (next.has(typeKey)) next.delete(typeKey);
+    else next.add(typeKey);
     this.collapsed.set(next);
+  }
+
+  protected goHome(): void {
+    if (this.editorUi.isOpen()) {
+      this.editorUi.setTab('board');
+      return;
+    }
+    this.doc.navigateTo(this.doc.currentDocument().rootId);
+  }
+
+  protected isRootActive(): boolean {
+    if (this.editorUi.isOpen()) {
+      return this.editorUi.activeTab() === 'board';
+    }
+    return (
+      this.doc.atMapRoot() && !this.doc.peekId() && this.doc.mode() === 'canvas'
+    );
   }
 
   protected select(node: AboardNode): void {
@@ -98,6 +92,14 @@ export class SearchPanelComponent {
 
   protected isCuratingNewItem(): boolean {
     return this.editorUi.curatingItems() && this.editorUi.editingNodeId() === null;
+  }
+
+  protected markerColor(node: AboardNode): string | null {
+    return sidebarMarkerColor(node, this.doc.currentDocument());
+  }
+
+  protected markerClass(typeKey: string): string {
+    return `item__marker--${typeKey.replace(/[^a-z0-9-]/gi, '-')}`;
   }
 
   protected onQuery(value: string): void {

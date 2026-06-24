@@ -20,7 +20,7 @@
         }
       </div>
       <div class="topbar__links">
-        @if (immersed.links?.jira) {
+        @if (!hasInfoPanel() && immersed.links?.jira) {
           <a
             class="brandlink"
             [href]="immersed.links!.jira"
@@ -37,7 +37,7 @@
             </svg>
           </a>
         }
-        @if (immersed.links?.confluence) {
+        @if (!hasInfoPanel() && immersed.links?.confluence) {
           <a
             class="brandlink"
             [href]="immersed.links!.confluence"
@@ -54,7 +54,7 @@
             </svg>
           </a>
         }
-        @if (!immersed.links?.jira && !immersed.links?.confluence) {
+        @if (hasInfoPanel() || (!immersed.links?.jira && !immersed.links?.confluence)) {
           <span class="topbar__spacer"></span>
         }
       </div>
@@ -83,17 +83,17 @@
     class="stage"
     [style]="doc.mode() === 'immersed' ? immersedBackgroundStyle() : null"
     [class.stage--immersed]="doc.mode() === 'immersed'"
-    [class.stage--peek]="doc.mode() === 'canvas' && !!doc.peekId()"
+    [class.stage--peek]="(doc.mode() === 'canvas' && !!doc.peekId()) || (doc.mode() === 'immersed' && !!doc.immersedPreviewNodeId())"
     [class.stage--panning]="panning()"
     (click)="onStageBackgroundClick()"
     (wheel)="onWheel($event)"
     (pointerdown)="onPointerDown($event)"
     (pointermove)="onPointerMove($event)"
-    (pointerup)="onPointerUp()"
-    (pointerleave)="onPointerUp()"
+    (pointerup)="onPointerUp($event)"
+    (pointerleave)="onPointerUp($event)"
   >
     <div class="stage__viewport" [style.transform]="viewportTransform()">
-      <svg class="stage__links" aria-hidden="true">
+      <svg class="stage__links" [class.stage__links--under]="isOverviewPeek()" aria-hidden="true">
         <defs>
           <marker
             id="arrow-active"
@@ -106,32 +106,80 @@
           >
             <path d="M 0 0 L 10 5 L 0 10 z" />
           </marker>
+          <marker
+            id="arrow-faint"
+            viewBox="0 0 10 10"
+            refX="8"
+            refY="5"
+            markerWidth="6.5"
+            markerHeight="6.5"
+            orient="auto-start-reverse"
+          >
+            <path class="stage__arrowhead--faint" d="M 0 0 L 10 5 L 0 10 z" />
+          </marker>
         </defs>
 
         @for (link of graph().links; track link.id) {
-          <path
-            class="stage__link"
-            [class.stage__link--faint]="link.variant === 'faint'"
-            [class.stage__link--active]="link.variant === 'active'"
-            [attr.d]="link.path"
-            fill="none"
-            [attr.marker-end]="link.variant === 'active' ? 'url(#arrow-active)' : null"
-          />
+          @if (!isOverviewPeek() || link.variant === 'faint') {
+            <path
+              class="stage__link"
+              [class.stage__link--faint]="link.variant === 'faint'"
+              [class.stage__link--active]="link.variant === 'active'"
+              [class.stage__link--reference]="link.reference"
+              [attr.d]="link.path"
+              fill="none"
+              [attr.marker-start]="link.markerStart ? 'url(#arrow-active)' : null"
+              [attr.marker-end]="markerEndUrl(link)"
+            />
+          }
         }
       </svg>
+
+      @if (isOverviewPeek()) {
+        <div class="stage__peek-veil" [style]="peekVeilStyle()" aria-hidden="true"></div>
+      }
+
+      @if (isOverviewPeek()) {
+        <svg class="stage__links stage__links--over" aria-hidden="true">
+          <defs>
+            <marker
+              id="arrow-active-top"
+              viewBox="0 0 10 10"
+              refX="8"
+              refY="5"
+              markerWidth="7"
+              markerHeight="7"
+              orient="auto-start-reverse"
+            >
+              <path d="M 0 0 L 10 5 L 0 10 z" />
+            </marker>
+          </defs>
+          @for (link of graph().links; track link.id) {
+            @if (link.variant === 'active') {
+              <path
+                class="stage__link stage__link--active"
+                [attr.d]="link.path"
+                fill="none"
+                [attr.marker-start]="link.markerStart ? 'url(#arrow-active-top)' : null"
+                [attr.marker-end]="link.markerEnd !== false ? 'url(#arrow-active-top)' : null"
+              />
+            }
+          }
+        </svg>
+      }
 
       @for (gn of graph().nodes; track gn.id) {
         <div
           class="graph-node"
           [class.graph-node--draggable]="doc.mode() === 'immersed'"
           [class.graph-node--dragging]="draggingNodeId() === gn.id"
+          [class.graph-node--peek-target]="gn.state === 'peek'"
+          [class.graph-node--peek-context]="isOverviewPeek() && gn.state !== 'dimmed' && gn.state !== 'default'"
+          [class.graph-node--peek-bg]="isOverviewPeek() && gn.state === 'dimmed'"
           [style.left.px]="gn.x"
           [style.top.px]="gn.y"
           [style.width.px]="gn.size"
           (pointerdown)="onGraphNodePointerDown($event, gn)"
-          (pointermove)="onGraphNodePointerMove($event)"
-          (pointerup)="onGraphNodePointerUp($event, gn)"
-          (pointercancel)="onGraphNodePointerCancel($event)"
         >
           <app-orbit-node
             [node]="gn.node"
@@ -161,18 +209,74 @@
               {{ link.label }}
             </text>
           }
+          @if (link.reverseLabel) {
+            <text
+              class="stage__link-label"
+              [attr.x]="link.reverseLabelX"
+              [attr.y]="link.reverseLabelY"
+              text-anchor="middle"
+              dominant-baseline="central"
+            >
+              {{ link.reverseLabel }}
+            </text>
+          }
         }
       </svg>
     </div>
 
-    @if (hasInfoPanel()) {
+    @if (hasInfoPanel() && inspectedNode(); as node) {
       <aside
         class="info-panel"
         (click)="$event.stopPropagation()"
         (pointerdown)="$event.stopPropagation()"
         (wheel)="$event.stopPropagation()"
       >
-        <div class="info-panel__body markdown" [innerHTML]="immersedContentHtml()"></div>
+        <div class="info-panel__head">
+          <span class="info-panel__eyebrow">{{ inspectedCategoryLabel() }}</span>
+          <h2 class="info-panel__title">{{ node.label }}</h2>
+          @if (node.description) {
+            <p class="info-panel__desc">{{ node.description }}</p>
+          }
+          @if (node.links?.jira || node.links?.confluence) {
+            <div class="info-panel__links">
+              @if (node.links?.jira) {
+                <a
+                  class="brandlink"
+                  [href]="node.links!.jira"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Open in Jira"
+                  aria-label="Open in Jira"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      fill="#2684FF"
+                      d="M11.571 11.513H0a5.218 5.218 0 0 0 5.232 5.215h2.13v2.057A5.215 5.215 0 0 0 12.575 24V12.518a1.005 1.005 0 0 0-1.005-1.005zm5.723-5.756H5.736a5.215 5.215 0 0 0 5.215 5.214h2.129v2.058a5.218 5.218 0 0 0 5.215 5.214V6.758a1.001 1.001 0 0 0-1.001-1.001zM23.013 0H11.455a5.215 5.215 0 0 0 5.215 5.215h2.129v2.057A5.215 5.215 0 0 0 24 12.483V1.005A1.001 1.001 0 0 0 23.013 0z"
+                    />
+                  </svg>
+                </a>
+              }
+              @if (node.links?.confluence) {
+                <a
+                  class="brandlink"
+                  [href]="node.links!.confluence"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Open in Confluence"
+                  aria-label="Open in Confluence"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      fill="#1868DB"
+                      d="M.87 18.257c-.248.382-.53.875-.763 1.245a.764.764 0 0 0 .255 1.04l4.965 3.054a.764.764 0 0 0 1.058-.26c.199-.332.454-.763.733-1.221 1.967-3.247 3.945-2.853 7.508-1.146l4.957 2.337a.764.764 0 0 0 1.028-.382l2.364-5.346a.764.764 0 0 0-.382-1.004c-1.046-.49-3.126-1.471-4.998-2.372C10.911 10.97 5.224 11.185.87 18.257zM23.131 5.743c.249-.405.531-.875.764-1.246a.764.764 0 0 0-.256-1.04L18.675.404a.764.764 0 0 0-1.058.26c-.199.332-.454.763-.733 1.221-1.967 3.247-3.945 2.853-7.508 1.146L4.42.694a.764.764 0 0 0-1.028.382L1.028 6.422a.764.764 0 0 0 .382 1.004c1.046.49 3.126 1.471 4.998 2.372 6.643 3.193 12.33 2.978 16.723-4.055z"
+                    />
+                  </svg>
+                </a>
+              }
+            </div>
+          }
+        </div>
+        <div class="info-panel__body markdown" [innerHTML]="inspectorHtml()" (click)="onMarkdownClick($event)"></div>
       </aside>
     }
 
@@ -201,6 +305,19 @@
           </button>
         } @else {
           {{ peek.label }} has no nested view
+        }
+      </div>
+    }
+
+    @if (doc.mode() === 'immersed' && doc.immersedPreviewNode(); as preview) {
+      <div class="stage__hint text-caption" (click)="$event.stopPropagation()">
+        @if (doc.hasChildren(preview.id) || doc.canNavigateTo(preview)) {
+          Open detail view
+          <button type="button" class="stage__hint-btn" (click)="confirmImmersedPreview(preview.id)">
+            {{ preview.label }} →
+          </button>
+        } @else {
+          {{ preview.label }} has no nested view
         }
       </div>
     }

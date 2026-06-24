@@ -29,6 +29,16 @@ export function findSchemaType(
   return schema.types.find((t) => t.id === node.type) ?? null;
 }
 
+/** Whether the node's type permits the `isCollection` flag. */
+export function nodeAllowsCollection(
+  node: AboardNode,
+  schema: AboardSchema | null | undefined
+): boolean {
+  const def = findSchemaType(node, schema);
+  if (def && def.allowsCollection === false) return false;
+  return true;
+}
+
 /**
  * Resolve how a node should look. A matching schema type wins; otherwise we fall
  * back to the built-in category styling (shape here, fill via CSS classes).

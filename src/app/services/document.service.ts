@@ -7,9 +7,16 @@ import {
 } from '../models/aboard.models';
 import { normalizeDocumentTags } from '../utils/tag.util';
 import { SAMPLE_DOCUMENT } from '../data/sample-document';
-import { getNodeCategory, isNavigableCategory } from '../utils/category.util';
+import { getNodeCategory, isDetailSatelliteCategory, isNavigableCategory } from '../utils/category.util';
+import { extractReferenceIds, resolveReferencesToText } from '../utils/item-reference.util';
 import { isCreationRelationship } from '../utils/relationship.util';
+import { computeMapViewLinks, documentUsesRootFlags, MapViewLink } from '../utils/map-view.util';
 
+/**
+ * View modes (user-facing names in parentheses):
+ * - `canvas` — Map View at root; Inspection View when a node is peeked
+ * - `immersed` — Focused View (detail panel + full relationship graph)
+ */
 export type ViewMode = 'canvas' | 'immersed';
 
 interface NavLocation {
@@ -29,6 +36,8 @@ export interface ImmersedOutboundRow {
   relationship: AboardRelationship;
   target: AboardNode;
   incoming?: boolean;
+  /** True when this row is derived from a `{id}` mention in a relationship label. */
+  reference?: boolean;
 }
 
 export interface ImmersedBranchRow {
@@ -51,12 +60,16 @@ export class DocumentService {
   private readonly focusPath = signal<string[]>([]);
   private readonly navTrail = signal<string[]>([]);
   private readonly peekNodeId = signal<string | null>(null);
+  /** Inspection highlight within Focused View before navigating to a related item. */
+  private readonly immersedPreviewId = signal<string | null>(null);
   private readonly viewMode = signal<ViewMode>('canvas');
 
   readonly currentDocument = this.document.asReadonly();
   readonly schema = computed(() => this.document().schema ?? null);
   readonly focusPathIds = this.focusPath.asReadonly();
+  readonly navTrailIds = this.navTrail.asReadonly();
   readonly peekId = this.peekNodeId.asReadonly();
+  readonly immersedPreviewNodeId = this.immersedPreviewId.asReadonly();
   readonly mode = this.viewMode.asReadonly();
 
   private history: NavLocation[] = [{ focusPath: [], viewMode: 'canvas', trail: [] }];
@@ -81,19 +94,57 @@ export class DocumentService {
 
   readonly visibleNodes = computed(() => this.canvasNodes());
 
-  /** Top-level canvas shows applications only; data types appear as peek satellites */
+  readonly atMapRoot = computed(() => this.focusPath().length === 0);
+
+  readonly usesRootItems = computed(() => documentUsesRootFlags(this.document().nodes));
+
+  /**
+   * Map View nodes: at the board landing, items flagged `isRoot`; otherwise
+   * non-data-type children of the focused container (legacy behavior when no
+   * root flags exist).
+   */
   readonly canvasNodes = computed(() => {
+    const doc = this.document();
     const focused = this.focusedNode();
     if (!focused) return [];
+
+    if (this.atMapRoot() && this.usesRootItems()) {
+      return doc.nodes.filter((n) => n.isRoot === true && n.id !== doc.rootId);
+    }
+
     return this.getChildren(focused.id).filter(
-      (n) => getNodeCategory(n) !== 'data-type'
+      (n) => !isDetailSatelliteCategory(getNodeCategory(n))
     );
+  });
+
+  /** Faint Map View links between root-level items (direct or via shared neighbor). */
+  readonly mapViewLinks = computed((): MapViewLink[] => {
+    if (!this.atMapRoot() || !this.usesRootItems() || this.viewMode() !== 'canvas') {
+      return [];
+    }
+    return computeMapViewLinks(this.canvasNodes(), this.document().relationships);
   });
 
   readonly peekSatellites = computed(() => {
     const peekId = this.peekNodeId();
     if (!peekId || this.viewMode() !== 'canvas') return [];
-    return this.getChildren(peekId);
+    const seen = new Set<string>();
+    const satellites: AboardNode[] = [];
+    for (const child of this.getChildren(peekId)) {
+      seen.add(child.id);
+      satellites.push(child);
+    }
+    // Inspection View: surface related data types even when not hierarchical children.
+    for (const rel of this.document().relationships) {
+      const otherId = rel.sourceId === peekId ? rel.targetId : rel.targetId === peekId ? rel.sourceId : null;
+      if (!otherId || seen.has(otherId)) continue;
+      const node = this.findNode(otherId);
+      if (node && getNodeCategory(node) === 'data-type') {
+        seen.add(otherId);
+        satellites.push(node);
+      }
+    }
+    return satellites;
   });
 
   readonly breadcrumbTrail = computed(() => {
@@ -113,6 +164,27 @@ export class DocumentService {
     return id ? this.findNode(id) : null;
   });
 
+  /**
+   * Explicit parent → child hierarchy from the root down to the node currently
+   * in view (immersed node, else peeked node, else the focused container).
+   * Powers the toolbar breadcrumbs so the level you're at is always visible.
+   */
+  readonly hierarchyCrumbs = computed((): AboardNode[] => {
+    const current =
+      this.immersedNode() ?? this.peekNode() ?? this.focusedNode() ?? null;
+    if (!current) return [];
+    const chain: AboardNode[] = [];
+    let node: AboardNode | undefined = current;
+    const seen = new Set<string>();
+    while (node && !seen.has(node.id)) {
+      seen.add(node.id);
+      chain.unshift(node);
+      if (!node.parentId || this.isStructuralRootNode(node.parentId)) break;
+      node = this.findNode(node.parentId);
+    }
+    return chain;
+  });
+
   readonly canvasRelationships = computed(() => {
     const visibleIds = new Set(this.canvasNodes().map((n) => n.id));
     return this.document().relationships.filter(
@@ -120,10 +192,25 @@ export class DocumentService {
     );
   });
 
+  /** True when Map View uses computed faint links instead of all canvas relationships. */
+  readonly usesMapViewLinkRules = computed(
+    () => this.atMapRoot() && this.usesRootItems() && !this.peekNodeId()
+  );
+
   readonly peekRelationships = computed(() => {
     const id = this.peekNodeId();
     if (!id) return [];
     return this.getRelationshipsFor(id);
+  });
+
+  readonly immersedPreviewNode = computed(() => {
+    const id = this.immersedPreviewId();
+    return id ? this.findNode(id) : null;
+  });
+
+  /** Center of the immersed graph: preview target when set, else the current page. */
+  readonly immersedViewNode = computed(() => {
+    return this.immersedPreviewNode() ?? this.immersedNode() ?? null;
   });
 
   readonly immersedRows = computed((): ImmersedRow[] => {
@@ -138,7 +225,7 @@ export class DocumentService {
     for (const rel of rels) {
       if (rel.sourceId !== focused.id) continue;
       const target = this.findNode(rel.targetId);
-      if (!target || childIds.has(target.id)) continue;
+      if (!target || childIds.has(target.id) || this.isStructuralRootNode(target.id)) continue;
       rows.push({ kind: 'outbound', relationship: rel, target });
     }
 
@@ -146,7 +233,7 @@ export class DocumentService {
       if (rel.targetId !== focused.id) continue;
       if (isCreationRelationship(rel) && getNodeCategory(focused) === 'data-type') continue;
       const source = this.findNode(rel.sourceId);
-      if (!source || childIds.has(source.id)) continue;
+      if (!source || childIds.has(source.id) || this.isStructuralRootNode(source.id)) continue;
       rows.push({ kind: 'outbound', relationship: rel, target: source, incoming: true });
     }
 
@@ -157,14 +244,14 @@ export class DocumentService {
       for (const rel of rels) {
         if (rel.sourceId !== child.id) continue;
         const target = this.findNode(rel.targetId);
-        if (!target || target.id === focused.id) continue;
+        if (!target || target.id === focused.id || this.isStructuralRootNode(target.id)) continue;
         branches.push({ relationship: rel, target });
       }
 
       for (const rel of rels) {
         if (rel.targetId !== child.id) continue;
         const source = this.findNode(rel.sourceId);
-        if (!source || source.id === focused.id) continue;
+        if (!source || source.id === focused.id || this.isStructuralRootNode(source.id)) continue;
         branches.push({ relationship: rel, target: source, incoming: true });
       }
 
@@ -177,10 +264,24 @@ export class DocumentService {
         });
       } else if (entryRel) {
         rows.push({ kind: 'outbound', relationship: entryRel, target: child });
+      } else {
+        rows.push({
+          kind: 'outbound',
+          relationship: {
+            id: `hierarchy-${focused.id}-${child.id}`,
+            sourceId: focused.id,
+            targetId: child.id,
+            type: 'contains',
+            label: 'Contains',
+          },
+          target: child,
+        });
       }
     }
 
-    return rows;
+    this.appendReferenceRows(focused, rows, rels);
+
+    return this.appendFocusedContextRows(focused, rows, rels, childIds);
   });
 
   /**
@@ -198,7 +299,9 @@ export class DocumentService {
       if (rel.targetId !== focused.id) continue;
       if (!isCreationRelationship(rel)) continue;
       const source = this.findNode(rel.sourceId);
-      if (source) creators.push({ source, relationship: rel });
+      if (source && !this.isStructuralRootNode(source.id)) {
+        creators.push({ source, relationship: rel });
+      }
     }
     return creators;
   });
@@ -220,6 +323,17 @@ export class DocumentService {
     return this.document().nodes.find((n) => n.id === id);
   }
 
+  /** The board root node is structural — never show it in explorer graphs or sidebars. */
+  isStructuralRootNode(id: string): boolean {
+    return id === this.document().rootId;
+  }
+
+  /** Display label for UI chrome — root uses the board title. */
+  nodeLabel(node: AboardNode): string {
+    const doc = this.document();
+    return node.id === doc.rootId ? doc.title : node.label;
+  }
+
   getChildren(nodeId: string): AboardNode[] {
     return this.document().nodes.filter((n) => n.parentId === nodeId);
   }
@@ -236,9 +350,20 @@ export class DocumentService {
 
   peekNodeById(id: string | null): void {
     this.peekNodeId.set(id);
-    if (this.viewMode() === 'immersed' && id) {
-      this.viewMode.set('canvas');
+  }
+
+  setImmersedPreview(nodeId: string | null): void {
+    if (!nodeId) {
+      this.immersedPreviewId.set(null);
+      return;
     }
+    const node = this.findNode(nodeId);
+    if (!node || !this.canNavigateTo(node)) return;
+    this.immersedPreviewId.set(nodeId);
+  }
+
+  clearImmersedPreview(): void {
+    this.immersedPreviewId.set(null);
   }
 
   immerse(nodeId: string): void {
@@ -247,6 +372,7 @@ export class DocumentService {
 
     const path = this.buildPathTo(nodeId);
     const trail = this.extendTrail(nodeId);
+    this.immersedPreviewId.set(null);
     this.focusPath.set(path);
     this.navTrail.set(trail);
     this.peekNodeId.set(nodeId);
@@ -276,6 +402,7 @@ export class DocumentService {
     // child peeked, so end the trail at that child — keeping the journey that
     // led here rather than collapsing to the hierarchical container path.
     const trail = this.extendTrail(boundaryChild?.id ?? null);
+    this.immersedPreviewId.set(null);
     this.focusPath.set(containerPath);
     this.navTrail.set(trail);
     this.viewMode.set('canvas');
@@ -285,8 +412,13 @@ export class DocumentService {
 
   private isCanvasContainer(node: AboardNode): boolean {
     if (node.id === this.document().rootId) return true;
+    // Aspects (process) and data types are detail satellites surfaced inside the
+    // immersed page, so a node whose only children are those should open as an
+    // immersed page centred on itself — not drill into a near-empty child
+    // canvas. Only app-level children (apps, infrastructure, environments,
+    // external tools) make a node a true drill-in canvas container.
     return this.getChildren(node.id).some(
-      (child) => getNodeCategory(child) !== 'data-type'
+      (child) => !isDetailSatelliteCategory(getNodeCategory(child))
     );
   }
 
@@ -338,6 +470,7 @@ export class DocumentService {
   navigateToImmersed(nodeId: string): void {
     const path = this.buildPathTo(nodeId);
     const trail = this.extendTrail(nodeId);
+    this.immersedPreviewId.set(null);
     this.focusPath.set(path);
     this.navTrail.set(trail);
     this.peekNodeId.set(nodeId);
@@ -355,6 +488,57 @@ export class DocumentService {
     if (!this.canGoForward()) return;
     this.historyIndex.update((i) => i + 1);
     this.applyLocation(this.history[this.historyIndex()]);
+  }
+
+  /**
+   * Step back one node along the breadcrumb journey (nav trail), restoring the
+   * previous view without climbing the parent hierarchy.
+   */
+  stepBackInTrail(): boolean {
+    const trail = [...this.navTrail()];
+    if (trail.length === 0) return false;
+
+    trail.pop();
+    const previousId = trail[trail.length - 1] ?? null;
+    this.immersedPreviewId.set(null);
+    this.navTrail.set(trail);
+
+    if (!previousId) {
+      this.focusPath.set([]);
+      this.viewMode.set('canvas');
+      this.peekNodeId.set(null);
+      this.record({ focusPath: [], viewMode: 'canvas', trail: [] });
+      return true;
+    }
+
+    const previous = this.findNode(previousId);
+    if (!previous) return false;
+
+    const path = this.buildPathTo(previousId);
+    this.focusPath.set(path);
+
+    if (this.isCanvasContainer(previous)) {
+      this.viewMode.set('canvas');
+      this.peekNodeId.set(null);
+      this.record({ focusPath: path, viewMode: 'canvas', trail });
+    } else {
+      this.viewMode.set('immersed');
+      this.peekNodeId.set(previousId);
+      this.record({ focusPath: path, viewMode: 'immersed', trail });
+    }
+    return true;
+  }
+
+  /** After stepping back, highlight the node the user zoomed out of. */
+  focusAfterTrailStepBack(exitingNodeId: string): void {
+    if (this.viewMode() === 'canvas') {
+      this.peekNodeById(exitingNodeId);
+      return;
+    }
+    const pageId = this.immersedNodeId();
+    if (pageId && exitingNodeId !== pageId) {
+      this.setImmersedPreview(exitingNodeId);
+    }
   }
 
   /**
@@ -390,6 +574,7 @@ export class DocumentService {
   }
 
   private applyLocation(loc: NavLocation): void {
+    this.immersedPreviewId.set(null);
     this.focusPath.set([...loc.focusPath]);
     this.navTrail.set([...loc.trail]);
     this.viewMode.set(loc.viewMode);
@@ -406,6 +591,23 @@ export class DocumentService {
     this.document.set(next);
   }
 
+  /** Keep navigation state in sync after a node id rename during curation. */
+  remapNodeIdReferences(oldId: string, newId: string): void {
+    const remap = (id: string) => (id === oldId ? newId : id);
+    const remapList = (ids: string[]) => ids.map(remap);
+
+    this.focusPath.update((path) => remapList(path));
+    this.navTrail.update((trail) => remapList(trail));
+    this.peekNodeId.update((id) => (id ? remap(id) : id));
+    this.immersedPreviewId.update((id) => (id ? remap(id) : id));
+
+    this.history = this.history.map((loc) => ({
+      focusPath: remapList(loc.focusPath),
+      viewMode: loc.viewMode,
+      trail: remapList(loc.trail),
+    }));
+  }
+
   loadDocument(doc: AboardDocument): void {
     const next = structuredClone(doc);
     this.normalizeDocument(next);
@@ -413,6 +615,7 @@ export class DocumentService {
     this.focusPath.set([]);
     this.navTrail.set([]);
     this.peekNodeId.set(null);
+    this.immersedPreviewId.set(null);
     this.viewMode.set('canvas');
     this.history = [{ focusPath: [], viewMode: 'canvas', trail: [] }];
     this.historyIndex.set(0);
@@ -462,5 +665,163 @@ export class DocumentService {
     this.validateDocument(doc);
     if (!doc.relationships) doc.relationships = [];
     normalizeDocumentTags(doc);
+  }
+
+  /** Ensure Focused View always surfaces parent context and direct relationships. */
+  private appendFocusedContextRows(
+    focused: AboardNode,
+    rows: ImmersedRow[],
+    rels: AboardRelationship[],
+    childIds: Set<string>
+  ): ImmersedRow[] {
+    const seen = this.collectImmersedRowNodeIds(rows);
+    const next = [...rows];
+
+    if (focused.parentId && !this.isStructuralRootNode(focused.parentId)) {
+      const parent = this.findNode(focused.parentId);
+      if (parent && !seen.has(parent.id)) {
+        const hierarchyRel = rels.find(
+          (r) =>
+            (r.sourceId === parent.id && r.targetId === focused.id) ||
+            (r.sourceId === focused.id && r.targetId === parent.id)
+        );
+        const parentBranches: ImmersedBranchRow['branches'] = [];
+
+        for (const rel of rels) {
+          if (rel.sourceId === parent.id && rel.targetId !== focused.id && !childIds.has(rel.targetId)) {
+            const target = this.findNode(rel.targetId);
+            if (target && !seen.has(target.id) && !this.isStructuralRootNode(target.id)) {
+              parentBranches.push({ relationship: rel, target });
+            }
+          }
+          if (rel.targetId === parent.id && rel.sourceId !== focused.id && !childIds.has(rel.sourceId)) {
+            const source = this.findNode(rel.sourceId);
+            if (source && !seen.has(source.id) && !this.isStructuralRootNode(source.id)) {
+              parentBranches.push({ relationship: rel, target: source, incoming: true });
+            }
+          }
+        }
+
+        if (parentBranches.length > 0) {
+          next.unshift({
+            kind: 'branch',
+            source: parent,
+            entryLabel: hierarchyRel?.label ?? 'Part of',
+            branches: parentBranches,
+          });
+          for (const branch of parentBranches) seen.add(branch.target.id);
+        } else {
+          next.unshift({
+            kind: 'outbound',
+            relationship:
+              hierarchyRel ?? {
+                id: `hierarchy-${focused.id}-${parent.id}`,
+                sourceId: focused.id,
+                targetId: parent.id,
+                type: 'contained-in',
+                label: 'Part of',
+              },
+            target: parent,
+            incoming: true,
+          });
+        }
+        seen.add(parent.id);
+      }
+    }
+
+    return next;
+  }
+
+  /**
+   * When the focused node is mentioned by `{id}` in a relationship label (but is
+   * not that relationship's source or target), surface the relationship source as
+   * a faint incoming reference row. Label mentions never spawn extra outbound
+   * arrows from the source — the link always connects source to target; references
+   * appear only in the resolved arrow label.
+   */
+  private appendReferenceRows(
+    focused: AboardNode,
+    rows: ImmersedRow[],
+    rels: AboardRelationship[]
+  ): void {
+    const present = this.collectImmersedRowNodeIds(rows);
+    present.add(focused.id);
+    const isKnown = (id: string) => !!this.findNode(id);
+
+    for (const rel of rels) {
+      if (!rel.label) continue;
+      const refIds = extractReferenceIds(rel.label, isKnown);
+      if (refIds.length === 0) continue;
+
+      if (refIds.includes(focused.id) && rel.sourceId !== focused.id) {
+        if (present.has(rel.sourceId)) continue;
+        const source = this.findNode(rel.sourceId);
+        if (!source || this.isStructuralRootNode(source.id)) continue;
+        rows.push({
+          kind: 'outbound',
+          relationship: rel,
+          target: source,
+          incoming: true,
+          reference: true,
+        });
+        present.add(rel.sourceId);
+      }
+    }
+
+    // Items mentioned in labels on relationships where the focused node is the target.
+    for (const { node, relationship } of this.labelReferencedNeighbors(focused.id)) {
+      if (present.has(node.id)) continue;
+      rows.push({
+        kind: 'outbound',
+        relationship,
+        target: node,
+        incoming: true,
+        reference: true,
+      });
+      present.add(node.id);
+    }
+  }
+
+  /** Resolve `{id}` mentions in a label/string to the referenced item labels. */
+  resolveReferenceText(text: string | undefined | null): string {
+    return resolveReferencesToText(text, (id) => this.findNode(id)?.label);
+  }
+
+  /**
+   * Items mentioned via `{id}` in relationship labels where `nodeId` is the
+   * relationship target — surfaced as dotted reference links in inspection /
+   * focused views (e.g. "Runs in conjunction with {session-server}").
+   */
+  labelReferencedNeighbors(
+    nodeId: string
+  ): { node: AboardNode; relationship: AboardRelationship }[] {
+    const isKnown = (id: string) => !!this.findNode(id) && !this.isStructuralRootNode(id);
+    const results: { node: AboardNode; relationship: AboardRelationship }[] = [];
+    const seen = new Set<string>();
+
+    for (const rel of this.document().relationships) {
+      if (rel.targetId !== nodeId || !rel.label) continue;
+      for (const refId of extractReferenceIds(rel.label, isKnown)) {
+        if (refId === nodeId || refId === rel.sourceId || refId === rel.targetId) continue;
+        if (seen.has(refId)) continue;
+        const node = this.findNode(refId);
+        if (!node) continue;
+        seen.add(refId);
+        results.push({ node, relationship: rel });
+      }
+    }
+    return results;
+  }
+
+  private collectImmersedRowNodeIds(rows: ImmersedRow[]): Set<string> {
+    const seen = new Set<string>();
+    for (const row of rows) {
+      if (row.kind === 'outbound') seen.add(row.target.id);
+      if (row.kind === 'branch') {
+        seen.add(row.source.id);
+        for (const branch of row.branches) seen.add(branch.target.id);
+      }
+    }
+    return seen;
   }
 }

@@ -37,6 +37,11 @@
     transition: stroke 200ms ease, stroke-width 200ms ease, filter 200ms ease;
   }
 
+  &__stack {
+    opacity: 0.72;
+    pointer-events: none;
+  }
+
   // Built-in category fills (used when the board defines no schema type). When a
   // schema type matches, the SVG's inline `fill` overrides these.
   &--cat-data-type .orbit__shape {
@@ -85,7 +90,12 @@
   }
 
   // states
-  &--peek .orbit__shape,
+  &--peek .orbit__shape {
+    stroke: rgba(0, 124, 192, 0.92);
+    stroke-width: 4;
+    filter: drop-shadow(0 8px 22px rgba(9, 29, 60, 0.32));
+  }
+
   &--focus .orbit__shape {
     stroke: rgba(255, 255, 255, 0.9);
     stroke-width: 4;
@@ -112,8 +122,8 @@
   }
 
   &--dimmed {
-    opacity: 0.32;
-    filter: saturate(0.55);
+    opacity: 0.45;
+    filter: saturate(0.6);
   }
 
   &--static {

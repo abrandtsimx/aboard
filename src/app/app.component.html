@@ -1,4 +1,6 @@
-@if (library.inExplorer()) {
+<router-outlet class="route-host" aria-hidden="true" />
+
+@if (inExplorer) {
   <div class="app-shell">
     <app-toolbar />
     <div class="app-shell__body" [class.app-shell__body--curating]="editorUi.isOpen()">
@@ -10,16 +12,68 @@
       }
     </div>
   </div>
+} @else if (shareLoading()) {
+  <div class="share-status">
+    <div class="share-status__card">
+      <p class="share-status__title">Opening shared board</p>
+      <p class="share-status__msg">Loading view-only board…</p>
+    </div>
+  </div>
+} @else if (shareLanding()) {
+  <div class="share-landing">
+    <div class="share-landing__card">
+      <p class="share-landing__logo">Aboard</p>
+      <p class="share-landing__title">View a shared board</p>
+      <p class="share-landing__hint">
+        Open a <strong>.aboard.html</strong> share file, or drop a <strong>.board</strong> file here.
+      </p>
+      <label class="share-landing__btn">
+        Choose file
+        <input
+          type="file"
+          accept=".board,.json,.html,.aboard.html,application/json,text/html"
+          hidden
+          (change)="onShareFileSelected($event)"
+        />
+      </label>
+      <p class="share-landing__url text-caption">
+        Viewer link: <code>{{ shareViewerUrl }}</code>
+      </p>
+    </div>
+  </div>
+} @else if (shareError()) {
+  <div class="share-status">
+    <div class="share-status__card">
+      <p class="share-status__title">Couldn't open shared board</p>
+      <p class="share-status__msg">{{ shareError() }}</p>
+      @if (shareAwaitingBoard) {
+        <label class="share-landing__btn share-status__action">
+          Choose .board file
+          <input
+            type="file"
+            accept=".board,.json,.html,.aboard.html,application/json,text/html"
+            hidden
+            (change)="onShareFileSelected($event)"
+          />
+        </label>
+      }
+    </div>
+  </div>
 } @else {
   <app-dashboard />
 }
 
-@if (isDragging()) {
+@if (isDragging() && !(appMode.isShareView() && shareBoardLoaded())) {
   <div class="drop-overlay">
     <div class="drop-overlay__card">
       <span class="drop-overlay__icon" aria-hidden="true">⤓</span>
-      <p class="drop-overlay__title">Drop your .board file</p>
-      <p class="drop-overlay__hint">Release anywhere to add it to your library</p>
+      @if (appMode.isShareView()) {
+        <p class="drop-overlay__title">Drop board file to view</p>
+        <p class="drop-overlay__hint">Release a .board or .aboard.html file</p>
+      } @else {
+        <p class="drop-overlay__title">Drop your .board file</p>
+        <p class="drop-overlay__hint">Release anywhere to add it to your library</p>
+      }
     </div>
   </div>
 }

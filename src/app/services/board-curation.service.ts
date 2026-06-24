@@ -6,24 +6,25 @@ import {
   AboardSchema,
   ABOARD_DOCUMENT_VERSION,
   BoardTag,
-  NodeCategory,
   NodeShape,
   NodeType,
   SchemaType,
 } from '../models/aboard.models';
-import { getNodeCategory } from '../utils/category.util';
 import { DEFAULT_BOARD_TAGS, getNodeTagIds, slugifyTagId } from '../utils/tag.util';
+import { replaceReferenceIdInText } from '../utils/item-reference.util';
 import { DocumentService } from './document.service';
 import { BoardLibraryService } from './board-library.service';
+import { AppModeService } from './app-mode.service';
 
 export interface NodeDraft {
   id: string;
   label: string;
   description: string;
   type: NodeType;
-  category: NodeCategory;
   tags: string[];
   parentId: string | null;
+  isRoot: boolean;
+  isCollection: boolean;
   content: string;
   jiraLink: string;
   confluenceLink: string;
@@ -50,6 +51,7 @@ export interface SchemaTypeDraft {
   shape: NodeShape;
   color: string;
   textColor: string;
+  allowsCollection: boolean;
 }
 
 export interface NodeTypeOption {
@@ -96,15 +98,6 @@ export function defaultNodeTypeForDocument(doc: AboardDocument): NodeType {
   return options[0]?.value ?? 'app';
 }
 
-export const NODE_CATEGORY_OPTIONS: { value: NodeCategory; label: string }[] = [
-  { value: 'environment', label: 'Environment' },
-  { value: 'application', label: 'Application' },
-  { value: 'data-type', label: 'Data type' },
-  { value: 'infrastructure', label: 'Infrastructure' },
-  { value: 'external-tool', label: 'External tool' },
-  { value: 'process', label: 'Process' },
-];
-
 export const SHAPE_OPTIONS: { value: NodeShape; label: string }[] = [
   { value: 'circle', label: 'Circle' },
   { value: 'rounded-square', label: 'Rounded square' },
@@ -120,6 +113,7 @@ export const SHAPE_OPTIONS: { value: NodeShape; label: string }[] = [
 export class BoardCurationService {
   private readonly doc = inject(DocumentService);
   private readonly library = inject(BoardLibraryService);
+  private readonly appMode = inject(AppModeService);
 
   /** Create a blank board with a single root environment node. */
   createBlankBoard(title = 'Untitled board'): AboardDocument {
@@ -134,7 +128,6 @@ export class BoardCurationService {
           id: rootId,
           label: title,
           type: 'environment',
-          category: 'environment',
           parentId: null,
         },
       ],
@@ -152,6 +145,8 @@ export class BoardCurationService {
     if (!trimmed) throw new Error('Board title is required');
     this.mutate((d) => {
       d.title = trimmed;
+      const root = d.nodes.find((n) => n.id === d.rootId);
+      if (root) root.label = trimmed;
     });
   }
 
@@ -232,6 +227,71 @@ export class BoardCurationService {
     });
   }
 
+  /** Copy an item's fields with a new id and label; children and links are not copied. */
+  duplicateNode(sourceId: string): AboardNode {
+    const doc = this.doc.currentDocument();
+    if (sourceId === doc.rootId) {
+      throw new Error('Cannot duplicate the root node');
+    }
+    const source = doc.nodes.find((n) => n.id === sourceId);
+    if (!source) throw new Error(`Node not found: ${sourceId}`);
+
+    const label = `${source.label} copy`;
+    const copy: AboardNode = {
+      id: this.generateNodeId(label),
+      label,
+      type: source.type,
+      parentId: source.parentId,
+    };
+    if (source.description) copy.description = source.description;
+    if (source.tags?.length) copy.tags = [...source.tags];
+    if (source.isRoot) copy.isRoot = true;
+    if (source.isCollection) copy.isCollection = true;
+    if (source.content) copy.content = source.content;
+    if (source.links) copy.links = structuredClone(source.links);
+
+    this.upsertNode(copy);
+    return copy;
+  }
+
+  /** Rename a node id and rewrite every reference across the board document. */
+  renameNodeId(currentId: string, nextId: string): void {
+    const trimmed = nextId.trim();
+    if (!trimmed) throw new Error('Node id is required');
+    if (/\s/.test(trimmed)) throw new Error('Node id cannot contain spaces');
+    if (trimmed === currentId) throw new Error('New id must differ from the current id');
+    if (!this.isNodeIdAvailable(trimmed)) {
+      throw new Error(`Node id "${trimmed}" is already in use`);
+    }
+
+    const doc = this.doc.currentDocument();
+    if (!doc.nodes.some((n) => n.id === currentId)) {
+      throw new Error(`Node not found: ${currentId}`);
+    }
+
+    this.mutate((d) => {
+      if (d.rootId === currentId) d.rootId = trimmed;
+      for (const node of d.nodes) {
+        if (node.id === currentId) node.id = trimmed;
+        if (node.parentId === currentId) node.parentId = trimmed;
+        if (node.description) {
+          node.description = replaceReferenceIdInText(node.description, currentId, trimmed);
+        }
+        if (node.content) {
+          node.content = replaceReferenceIdInText(node.content, currentId, trimmed);
+        }
+      }
+      for (const rel of d.relationships) {
+        if (rel.sourceId === currentId) rel.sourceId = trimmed;
+        if (rel.targetId === currentId) rel.targetId = trimmed;
+        if (rel.label) {
+          rel.label = replaceReferenceIdInText(rel.label, currentId, trimmed);
+        }
+      }
+    });
+    this.doc.remapNodeIdReferences(currentId, trimmed);
+  }
+
   upsertRelationship(rel: AboardRelationship): void {
     this.assertRelationship(rel, this.doc.currentDocument());
     this.mutate((d) => {
@@ -249,14 +309,17 @@ export class BoardCurationService {
   }
 
   nodeToDraft(node: AboardNode): NodeDraft {
+    const doc = this.doc.currentDocument();
     return {
       id: node.id,
       label: node.label,
       description: node.description ?? '',
       type: node.type,
-      category: getNodeCategory(node),
       tags: getNodeTagIds(node),
-      parentId: node.parentId,
+      parentId:
+        node.id === doc.rootId || node.parentId === doc.rootId ? null : node.parentId,
+      isRoot: node.isRoot === true,
+      isCollection: node.isCollection === true,
       content: node.content ?? '',
       jiraLink: node.links?.jira ?? '',
       confluenceLink: node.links?.confluence ?? '',
@@ -264,14 +327,17 @@ export class BoardCurationService {
   }
 
   draftToNode(draft: NodeDraft): AboardNode {
+    const doc = this.doc.currentDocument();
+    const id = draft.id.trim();
     const node: AboardNode = {
-      id: draft.id.trim(),
+      id,
       label: draft.label.trim(),
       type: draft.type,
-      category: draft.category,
-      parentId: draft.parentId,
+      parentId: id === doc.rootId ? null : (draft.parentId ?? doc.rootId),
     };
     if (draft.tags.length > 0) node.tags = [...draft.tags];
+    if (draft.isRoot) node.isRoot = true;
+    if (draft.isCollection) node.isCollection = true;
     const desc = draft.description.trim();
     if (desc) node.description = desc;
     const content = draft.content.trim();
@@ -317,6 +383,7 @@ export class BoardCurationService {
       shape: type.shape,
       color: type.color,
       textColor: type.textColor ?? '#ffffff',
+      allowsCollection: type.allowsCollection !== false,
     };
   }
 
@@ -330,24 +397,8 @@ export class BoardCurationService {
     if (label) type.label = label;
     const textColor = draft.textColor.trim();
     if (textColor && textColor !== '#ffffff') type.textColor = textColor;
+    if (!draft.allowsCollection) type.allowsCollection = false;
     return type;
-  }
-
-  defaultCategoryForType(type: NodeType): NodeCategory {
-    switch (type) {
-      case 'environment':
-        return 'environment';
-      case 'item-type':
-        return 'data-type';
-      case 'system':
-        return 'infrastructure';
-      case 'aspect':
-        return 'process';
-      case 'external':
-        return 'external-tool';
-      default:
-        return 'application';
-    }
   }
 
   emptyNodeDraft(parentId: string | null = null): NodeDraft {
@@ -358,9 +409,10 @@ export class BoardCurationService {
       label: '',
       description: '',
       type,
-      category: this.defaultCategoryForType(type),
       tags: [],
-      parentId: parentId ?? doc.rootId,
+      parentId: parentId === doc.rootId ? null : parentId,
+      isRoot: false,
+      isCollection: false,
       content: '',
       jiraLink: '',
       confluenceLink: '',
@@ -429,6 +481,7 @@ export class BoardCurationService {
       shape: 'rounded-square',
       color: '#091d3c',
       textColor: '#ffffff',
+      allowsCollection: true,
     };
   }
 
@@ -482,6 +535,7 @@ export class BoardCurationService {
   }
 
   private mutate(mutator: (doc: AboardDocument) => void): void {
+    if (this.appMode.readOnly()) return;
     this.doc.mutateDocument(mutator);
     this.persistIfOpen();
   }

@@ -226,6 +226,16 @@
                     </label>
                   </div>
                 </label>
+                <label class="field field--checkbox">
+                  <input
+                    type="checkbox"
+                    class="field__checkbox"
+                    [ngModel]="schemaDraft().allowsCollection"
+                    (ngModelChange)="patchSchemaDraft({ allowsCollection: $event })"
+                    name="schemaAllowsCollection"
+                  />
+                  <span class="field__label">Allow collection stacks on the map</span>
+                </label>
               </div>
               <div class="subform__actions">
                 <button type="submit" class="btn btn--primary">{{ editingSchemaId() ? 'Update type' : 'Add type' }}</button>
@@ -249,103 +259,186 @@
             <form class="subform" (submit)="$event.preventDefault(); saveNode()">
               <h4 class="subform__title">{{ editingNodeId() ? 'Edit item' : 'New item' }}</h4>
 
-              <fieldset class="field-group">
-                <legend class="field-group__legend text-caption">Identity</legend>
-                <div class="subform__grid subform__grid--2">
-                  <label class="field">
-                    <span class="field__label">Label</span>
-                    <input type="text" class="field__input" [ngModel]="nodeDraft().label" (ngModelChange)="patchNodeDraft({ label: $event })" name="nodeLabel" placeholder="Scenario Editor" />
-                  </label>
-                  <label class="field">
-                    <span class="field__label">Id</span>
-                    <input type="text" class="field__input" [ngModel]="nodeDraft().id" (ngModelChange)="patchNodeDraft({ id: $event })" name="nodeId" [disabled]="!!editingNodeId()" />
-                  </label>
-                </div>
-              </fieldset>
+              <section class="collapse-group">
+                <button
+                  type="button"
+                  class="collapse-group__header"
+                  (click)="toggleNodeSection('item-data')"
+                  [attr.aria-expanded]="!isNodeSectionCollapsed('item-data')"
+                >
+                  <span
+                    class="collapse-group__caret"
+                    [class.collapse-group__caret--open]="!isNodeSectionCollapsed('item-data')"
+                    aria-hidden="true"
+                  >▸</span>
+                  <span class="collapse-group__title">Item data</span>
+                </button>
 
-              <fieldset class="field-group">
-                <legend class="field-group__legend text-caption">Classification</legend>
-                <div class="subform__grid subform__grid--2">
-                  <label class="field">
-                    <span class="field__label">Type</span>
-                    <select class="field__input" [ngModel]="nodeDraft().type" (ngModelChange)="onNodeTypeChange($event)" name="nodeType">
-                      @for (opt of nodeTypeOptions(); track opt.value) {
-                        <option [ngValue]="opt.value">{{ opt.label }}</option>
-                      }
-                    </select>
-                    @if (usesSchemaTypes()) {
-                      <span class="field__hint text-caption">From this board's schema — add types on the Schema tab.</span>
-                    }
-                  </label>
-                  <label class="field">
-                    <span class="field__label">Category</span>
-                    <select class="field__input" [ngModel]="nodeDraft().category" (ngModelChange)="patchNodeDraft({ category: $event })" name="nodeCategory">
-                      @for (opt of categoryOptions; track opt.value) {
-                        <option [ngValue]="opt.value">{{ opt.label }}</option>
-                      }
-                    </select>
-                  </label>
-                  <label class="field field--full">
-                    <span class="field__label">Parent</span>
-                    <select class="field__input" [ngModel]="nodeDraft().parentId" (ngModelChange)="patchNodeDraft({ parentId: $event })" name="nodeParent">
-                      <option [ngValue]="null">None (root only)</option>
-                      @for (parent of parentOptions(); track parent.id) {
-                        <option [ngValue]="parent.id">{{ parent.label }} ({{ parent.id }})</option>
-                      }
-                    </select>
-                  </label>
-                </div>
+                @if (!isNodeSectionCollapsed('item-data')) {
+                  <div class="collapse-group__body">
+                    <fieldset class="field-group">
+                      <legend class="field-group__legend text-caption">Identity</legend>
+                      <div class="subform__grid subform__grid--2">
+                        <label class="field">
+                          <span class="field__label">Label</span>
+                          <input type="text" class="field__input" [ngModel]="nodeDraft().label" (ngModelChange)="onNodeLabelInput($event)" name="nodeLabel" placeholder="Scenario Editor" />
+                        </label>
+                        <div class="field">
+                          <span class="field__label">Id</span>
+                          <div class="field__id-row">
+                            <input
+                              type="text"
+                              class="field__input"
+                              [ngModel]="nodeDraft().id"
+                              (ngModelChange)="onNodeIdInput($event)"
+                              name="nodeId"
+                              [disabled]="!!editingNodeId()"
+                            />
+                            @if (editingNodeId()) {
+                              <button type="button" class="btn btn--ghost btn--compact" (click)="openRenameIdModal()">
+                                Rename…
+                              </button>
+                            }
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
 
-                @if (showTagPicker()) {
-                  <div class="tag-picker">
-                    <span class="field__label">Tags</span>
-                    @if (boardTags().length === 0) {
-                      <p class="field__hint text-caption">Define tags on the Board tab first.</p>
-                    } @else {
-                      <div class="tag-picker__chips">
-                        @for (tag of boardTags(); track tag.id) {
-                          <button
-                            type="button"
-                            class="tag-chip"
-                            [class.tag-chip--selected]="isNodeTagSelected(tag.id)"
-                            [style.--tag-color]="tag.color ?? '#463858'"
-                            (click)="toggleNodeTag(tag.id)"
-                          >
-                            {{ tagLabel(tag) }}
-                          </button>
+                    <fieldset class="field-group">
+                      <legend class="field-group__legend text-caption">Classification</legend>
+                      <div class="subform__grid subform__grid--2">
+                        <label class="field">
+                          <span class="field__label">Type</span>
+                          <select class="field__input" [ngModel]="nodeDraft().type" (ngModelChange)="onNodeTypeChange($event)" name="nodeType">
+                            @for (opt of nodeTypeOptions(); track opt.value) {
+                              <option [ngValue]="opt.value">{{ opt.label }}</option>
+                            }
+                          </select>
+                          @if (usesSchemaTypes()) {
+                            <span class="field__hint text-caption">From this board's schema — add types on the Schema tab.</span>
+                          }
+                        </label>
+                        <label class="field field--full">
+                          <span class="field__label">Parent</span>
+                          <select class="field__input" [ngModel]="nodeDraft().parentId" (ngModelChange)="patchNodeDraft({ parentId: $event })" name="nodeParent">
+                            <option [ngValue]="null">None (root only)</option>
+                            @for (parent of parentOptions(); track parent.id) {
+                              <option [ngValue]="parent.id">{{ parent.label }} ({{ parent.id }})</option>
+                            }
+                          </select>
+                        </label>
+                        <label class="field field--checkbox field--full">
+                          <input
+                            type="checkbox"
+                            class="field__checkbox"
+                            [ngModel]="nodeDraft().isRoot"
+                            (ngModelChange)="patchNodeDraft({ isRoot: $event })"
+                            name="nodeIsRoot"
+                          />
+                          <span class="field__label">Show on Map View (root landing)</span>
+                          <span class="field__hint text-caption">Independent items on the board home page, linked by faint lines.</span>
+                        </label>
+                        @if (nodeAllowsCollectionDraft()) {
+                          <label class="field field--checkbox field--full">
+                            <input
+                              type="checkbox"
+                              class="field__checkbox"
+                              [ngModel]="nodeDraft().isCollection"
+                              (ngModelChange)="patchNodeDraft({ isCollection: $event })"
+                              name="nodeIsCollection"
+                            />
+                            <span class="field__label">Collection (stacked shape on map)</span>
+                          </label>
                         }
                       </div>
-                      <span class="field__hint text-caption">First selected tag drives accent color on the canvas.</span>
-                    }
+
+                      @if (showTagPicker()) {
+                        <div class="tag-picker">
+                          <span class="field__label">Tags</span>
+                          @if (boardTags().length === 0) {
+                            <p class="field__hint text-caption">Define tags on the Board tab first.</p>
+                          } @else {
+                            <div class="tag-picker__chips">
+                              @for (tag of boardTags(); track tag.id) {
+                                <button
+                                  type="button"
+                                  class="tag-chip"
+                                  [class.tag-chip--selected]="isNodeTagSelected(tag.id)"
+                                  [style.--tag-color]="tag.color ?? '#463858'"
+                                  (click)="toggleNodeTag(tag.id)"
+                                >
+                                  {{ tagLabel(tag) }}
+                                </button>
+                              }
+                            </div>
+                            <span class="field__hint text-caption">First selected tag drives accent color on the canvas.</span>
+                          }
+                        </div>
+                      }
+                    </fieldset>
                   </div>
                 }
-              </fieldset>
+              </section>
 
-              <fieldset class="field-group">
-                <legend class="field-group__legend text-caption">Content</legend>
-                <label class="field">
-                  <span class="field__label">Description</span>
-                  <input type="text" class="field__input" [ngModel]="nodeDraft().description" (ngModelChange)="patchNodeDraft({ description: $event })" name="nodeDescription" placeholder="One-line summary" />
-                </label>
-                <label class="field">
-                  <span class="field__label">Markdown</span>
-                  <textarea class="field__input field__input--area" rows="5" [ngModel]="nodeDraft().content" (ngModelChange)="patchNodeDraft({ content: $event })" name="nodeContent" placeholder="Overview, responsibilities, notes…"></textarea>
-                </label>
-                <div class="subform__grid subform__grid--2">
-                  <label class="field">
-                    <span class="field__label">Jira</span>
-                    <input type="url" class="field__input" [ngModel]="nodeDraft().jiraLink" (ngModelChange)="patchNodeDraft({ jiraLink: $event })" name="nodeJira" placeholder="https://…" />
-                  </label>
-                  <label class="field">
-                    <span class="field__label">Confluence</span>
-                    <input type="url" class="field__input" [ngModel]="nodeDraft().confluenceLink" (ngModelChange)="patchNodeDraft({ confluenceLink: $event })" name="nodeConfluence" placeholder="https://…" />
-                  </label>
-                </div>
-              </fieldset>
+              <section class="collapse-group">
+                <button
+                  type="button"
+                  class="collapse-group__header"
+                  (click)="toggleNodeSection('content')"
+                  [attr.aria-expanded]="!isNodeSectionCollapsed('content')"
+                >
+                  <span
+                    class="collapse-group__caret"
+                    [class.collapse-group__caret--open]="!isNodeSectionCollapsed('content')"
+                    aria-hidden="true"
+                  >▸</span>
+                  <span class="collapse-group__title">Content</span>
+                </button>
+
+                @if (!isNodeSectionCollapsed('content')) {
+                  <div class="collapse-group__body">
+                    <label class="field">
+                      <span class="field__label">Description</span>
+                      <app-item-reference-input
+                        [value]="nodeDraft().description"
+                        (valueChange)="patchNodeDraft({ description: $event })"
+                        [nodes]="nodes()"
+                        [excludeNodeId]="editingNodeId() ?? undefined"
+                        name="nodeDescription"
+                        placeholder="One-line summary — type @ to link items"
+                      />
+                    </label>
+                    <label class="field">
+                      <span class="field__label">Markdown</span>
+                      <app-item-reference-input
+                        [value]="nodeDraft().content"
+                        (valueChange)="patchNodeDraft({ content: $event })"
+                        [nodes]="nodes()"
+                        [excludeNodeId]="editingNodeId() ?? undefined"
+                        [multiline]="true"
+                        [rows]="5"
+                        name="nodeContent"
+                        placeholder="Overview, responsibilities, notes… Type @ to link other items."
+                      />
+                    </label>
+                    <div class="subform__grid subform__grid--2">
+                      <label class="field">
+                        <span class="field__label">Jira</span>
+                        <input type="url" class="field__input" [ngModel]="nodeDraft().jiraLink" (ngModelChange)="patchNodeDraft({ jiraLink: $event })" name="nodeJira" placeholder="https://…" />
+                      </label>
+                      <label class="field">
+                        <span class="field__label">Confluence</span>
+                        <input type="url" class="field__input" [ngModel]="nodeDraft().confluenceLink" (ngModelChange)="patchNodeDraft({ confluenceLink: $event })" name="nodeConfluence" placeholder="https://…" />
+                      </label>
+                    </div>
+                  </div>
+                }
+              </section>
 
               <div class="subform__actions subform__actions--sticky">
                 <button type="submit" class="btn btn--primary">{{ editingNodeId() ? 'Update item' : 'Add item' }}</button>
                 @if (editingNodeId()) {
+                  <button type="button" class="btn btn--ghost" (click)="duplicateSelectedNode()">Duplicate</button>
                   <button type="button" class="btn btn--ghost" (click)="startNewNode()">Cancel</button>
                 }
                 @if (canRemoveSelectedNode()) {
@@ -361,7 +454,7 @@
             <div class="panel__toolbar">
               <div>
                 <h3 class="panel__heading text-headline-copy">Relationships</h3>
-                <p class="panel__hint">Arrows between items. Use creation verbs (Creates, Builds…) for factory highlights.</p>
+                <p class="panel__hint">Arrows between items. Type <strong>&#64;</strong> in labels to link other items. Use creation verbs (Creates, Builds…) for factory highlights.</p>
               </div>
               <button type="button" class="btn btn--ghost" (click)="startNewRelationship()">New link</button>
             </div>
@@ -403,21 +496,25 @@
                 </label>
                 <label class="field">
                   <span class="field__label">Arrow label</span>
-                  <input type="text" class="field__input" [ngModel]="relDraft().label" (ngModelChange)="patchRelDraft({ label: $event })" name="relLabel" placeholder="Creates" />
+                  <app-item-reference-input
+                    [value]="relDraft().label"
+                    (valueChange)="patchRelDraft({ label: $event })"
+                    [nodes]="nodes()"
+                    name="relLabel"
+                    placeholder="Creates, or type @ to link items"
+                  />
+                  <span class="field__hint text-caption">Type &#64; to pick an item — references appear in the arrow label.</span>
                 </label>
                 <label class="field">
                   <span class="field__label">Type slug</span>
                   <input type="text" class="field__input" [ngModel]="relDraft().type" (ngModelChange)="patchRelDraft({ type: $event })" name="relType" placeholder="creates" />
-                </label>
-                <label class="field">
-                  <span class="field__label">Id</span>
-                  <input type="text" class="field__input" [ngModel]="relDraft().id" (ngModelChange)="patchRelDraft({ id: $event })" name="relId" [disabled]="!!editingRelId()" />
                 </label>
                 <label class="field field--checkbox">
                   <input type="checkbox" [ngModel]="relDraft().bidirectional" (ngModelChange)="patchRelDraft({ bidirectional: $event })" name="relBidirectional" />
                   <span>Bidirectional arrow</span>
                 </label>
               </div>
+              <p class="subform__id text-caption">{{ relDraft().id }}</p>
               <div class="subform__actions">
                 <button type="submit" class="btn btn--primary">{{ editingRelId() ? 'Update link' : 'Add link' }}</button>
                 @if (editingRelId()) {
@@ -430,4 +527,42 @@
       }
     </div>
   </aside>
+
+  @if (renameIdModalOpen()) {
+    <div class="editor-modal-backdrop" (click)="closeRenameIdModal()">
+      <div
+        class="editor-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="rename-id-title"
+        (click)="$event.stopPropagation()"
+      >
+        <h3 id="rename-id-title" class="editor-modal__title">Rename item id</h3>
+        <p class="editor-modal__warning">
+          This replaces every reference to <strong>{{ nodeDraft().id }}</strong> across the board
+          — parent links, relationships, inline &#64; links in text, and the root id when applicable.
+          This cannot be undone from the editor.
+        </p>
+        <label class="field">
+          <span class="field__label">New id</span>
+          <input
+            type="text"
+            class="field__input"
+            [ngModel]="renameIdDraft()"
+            (ngModelChange)="renameIdDraft.set($event)"
+            name="renameNodeId"
+            placeholder="e.g. simx-images"
+            (keydown.enter)="$event.preventDefault(); confirmRenameId()"
+          />
+        </label>
+        @if (renameIdError()) {
+          <p class="editor-modal__error" role="alert">{{ renameIdError() }}</p>
+        }
+        <div class="editor-modal__actions">
+          <button type="button" class="btn btn--primary" (click)="confirmRenameId()">Rename id</button>
+          <button type="button" class="btn btn--ghost" (click)="closeRenameIdModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  }
 }

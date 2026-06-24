@@ -27,6 +27,19 @@
   margin-top: 2px;
 }
 
+.toolbar__badge {
+  display: inline-flex;
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 0.1rem 0.45rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .toolbar__history {
   display: flex;
   gap: 0.25rem;
@@ -155,5 +168,9 @@
     &:hover {
       background: rgba(255, 255, 255, 0.2);
     }
+  }
+
+  &--copied {
+    background: rgba(255, 255, 255, 0.24);
   }
 }
